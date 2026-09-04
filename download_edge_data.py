@@ -70,29 +70,40 @@ def download_13_band_scene():
     }
     """
 
-    req = SentinelHubRequest(
-        evalscript=evalscript,
-        input_data=[
-            SentinelHubRequest.input_data(
-                data_collection=sentinel2_l1c,
-                time_interval=("2024-07-01", "2024-07-31"),
-                mosaicking_order=MosaickingOrder.MOST_RECENT,  # Get a cloudy scene
-            )
-        ],
-        responses=[SentinelHubRequest.output_response("default", MimeType.TIFF)],
-        bbox=bbox,
-        size=(512, 512),
-        config=config,
-    )
+    # Download a batch of images to simulate a larger edge dataset
+    time_intervals = [
+        ("2024-01-01", "2024-01-31"), # January
+        ("2024-04-01", "2024-04-30"), # April
+        ("2024-07-01", "2024-07-31"), # July (Monsoon)
+        ("2024-10-01", "2024-10-31"), # October
+    ]
 
-    print("[DOWNLOAD] Provisioning 13-band Sentinel-2 L1C image over Delhi (July 2024)...")
-    data = req.get_data()
-    img_data = data[0].astype(np.uint16)
+    for start_date, end_date in time_intervals:
+        req = SentinelHubRequest(
+            evalscript=evalscript,
+            input_data=[
+                SentinelHubRequest.input_data(
+                    data_collection=sentinel2_l1c,
+                    time_interval=(start_date, end_date),
+                    mosaicking_order=MosaickingOrder.MOST_RECENT,
+                )
+            ],
+            responses=[SentinelHubRequest.output_response("default", MimeType.TIFF)],
+            bbox=bbox,
+            size=(512, 512),
+            config=config,
+        )
 
-    tif_path = os.path.join(RAW_DIR, "delhi_cloudy_13band.tif")
-    tifffile.imwrite(tif_path, img_data)
-    print(f"[SUCCESS] Saved 13-band TIF file to {tif_path}")
-    print("This file acts as our offline 'USB drive' dataset for local_ingest.py.")
+        month_name = start_date.split("-")[1]
+        print(f"[DOWNLOAD] Provisioning 13-band Sentinel-2 L1C image over Delhi for 2024-{month_name}...")
+        data = req.get_data()
+        img_data = data[0].astype(np.uint16)
+
+        tif_path = os.path.join(RAW_DIR, f"delhi_13band_2024_{month_name}.tif")
+        tifffile.imwrite(tif_path, img_data)
+        print(f"  -> [SUCCESS] Saved 13-band TIF to {tif_path}")
+
+    print("\nAll batch files downloaded. The local_ingest.py edge script will process all of them.")
 
 
 if __name__ == "__main__":
