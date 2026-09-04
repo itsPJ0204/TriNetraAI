@@ -1,0 +1,15 @@
+{
+  "total_pixels": 262144,
+  "valid_pixels": 257976,
+  "valid_pct": 98.41,
+  "cloud_pixels": 24,
+  "cloud_pct": 0.01,
+  "snow_pixels": 0,
+  "snow_pct": 0.0,
+  "shadow_pixels": 0,
+  "shadow_pct": 0.0,
+  "nodata_pixels": 0,
+  "nodata_pct": 0.0,
+  "year": "2024",
+  "tif_path": "D:\\trinetraAI\\sih_dataset\\year_1\\default.tif"
+}

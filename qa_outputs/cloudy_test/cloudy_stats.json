@@ -1,0 +1,13 @@
+{
+  "total_pixels": 262144,
+  "valid_pixels": 82497,
+  "valid_pct": 31.47,
+  "cloud_pixels": 171937,
+  "cloud_pct": 65.59,
+  "snow_pixels": 0,
+  "snow_pct": 0.0,
+  "shadow_pixels": 0,
+  "shadow_pct": 0.0,
+  "nodata_pixels": 0,
+  "nodata_pct": 0.0
+}
