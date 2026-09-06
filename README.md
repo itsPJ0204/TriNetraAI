@@ -1,21 +1,26 @@
-# Satellite Image Semantic Search
+# TriNetraAI
 
-This project supports semantic search over satellite imagery: a user describes a scene in natural language, and the system retrieves satellite-image tiles that are visually and semantically similar to that description.
+TriNetraAI is an offline satellite image search and change detection project.
 
-## Role 2: Semantic AI
+## Semantic AI
 
-Role 2 is responsible for the Semantic AI module. This includes preparing image tiles for embedding, using RemoteCLIP to create image and text embeddings, and using Qdrant to store and compare those vectors.
+The Semantic AI module is responsible for searching satellite tiles using natural language.
+
+For example:
+- `"buildings near a river"`
+- `"urban area"`
+- `"green area near water"`
+
+It uses RemoteCLIP for image/text embeddings and Qdrant for vector search.
 
 ---
 
-## Quickstart & Developer Setup (For Role 3 / Team Members)
+## Setup
 
-Follow these steps to set up and run the Semantic AI module locally from a fresh clone:
-
-### 1. Create and Activate a Python Virtual Environment
+### 1. Create a virtual environment:
 
 ```bash
-# Windows (PowerShell)
+# Windows
 python -m venv venv
 .\venv\Scripts\Activate.ps1
 
@@ -24,15 +29,15 @@ python3 -m venv venv
 source venv/bin/activate
 ```
 
-### 2. Install Dependencies
+### 2. Install dependencies:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 3. Obtain & Place the RemoteCLIP Model Checkpoint
+### 3. Download the RemoteCLIP checkpoint:
 
-The project uses the official **RemoteCLIP ViT-B-32** model weights. Ensure the checkpoint file `RemoteCLIP-ViT-B-32.pt` is placed in:
+Place the RemoteCLIP ViT-B-32 model checkpoint file here:
 
 ```text
 models/remoteclip/RemoteCLIP-ViT-B-32.pt
@@ -40,51 +45,53 @@ models/remoteclip/RemoteCLIP-ViT-B-32.pt
 
 *(Note: Model checkpoints are excluded from Git via `.gitignore` to keep repository size lean).*
 
-### 4. Start Local Qdrant Vector Database
-
-Start Qdrant using Docker:
+### 4. Start Qdrant using Docker:
 
 ```bash
-docker run -d -p 6333:6333 -p 6334:6334 -v qdrant_storage:/qdrant/storage --name qdrant qdrant/qdrant
+docker run -d -p 6333:6333 -p 6334:6334 \
+  -v qdrant_storage:/qdrant/storage --name qdrant qdrant/qdrant
 ```
 
-Verify Qdrant is running by checking `http://localhost:6333/dashboard` or `curl http://localhost:6333`.
+---
 
-### 5. Generate Embeddings & Index Tiles (If Starting Fresh)
+## Run
 
-If the Qdrant collection has not been indexed yet:
+### Generate embeddings:
 
 ```bash
-# Generate image embeddings from GeoTIFF tiles
 python -m scripts.generate_embeddings
+```
 
-# Index tile vectors and geospatial metadata into Qdrant
+### Index them in Qdrant:
+
+```bash
 python -m scripts.index_embeddings
 ```
 
-### 6. Run Full Test Suite
+### Run tests:
 
 ```bash
 python -m pytest
 ```
 
-### 7. Import & Use in Role 3 (FastAPI / Application Layer)
+### Search via CLI:
 
-Role 3 can import and consume the semantic search engine directly:
+```bash
+python -m scripts.search "buildings near a river"
+```
+
+---
+
+## Using Semantic AI from Python
 
 ```python
 from semantic_search import search, SearchResult
 
 # 1. Unconstrained natural-language semantic search
-results: list[SearchResult] = search("buildings near a river", top_k=5)
+results = search("buildings near a river", top_k=5)
 
-for r in results:
-    print(f"Tile: {r.tile_name} | Score: {r.score:.4f}")
-    print(f"  Path: {r.image_path}")
-    print(f"  CRS: {r.crs}")
-    print(f"  Bounds: {r.bounds}")
-    print(f"  Dimensions: {r.width}x{r.height}")
-    print(f"  Acquisition Date: {r.date}")
+for result in results:
+    print(result.tile_name, result.score)
 
 # 2. Semantic search with 2D geographic bounding-box filtering
 bbox = {"left": 88.345, "bottom": 22.572, "right": 88.360, "top": 22.585}
@@ -95,6 +102,7 @@ payload = [item.to_dict() for item in results]
 ```
 
 ---
+
 
 ## Planned architecture
 
