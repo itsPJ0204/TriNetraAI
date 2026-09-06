@@ -1,0 +1,84 @@
+==================================================================================
+             SEMANTIC AI RETRIEVAL QUALITY EVALUATION REPORT
+==================================================================================
+Dataset Size         : 4 satellite tiles (tile_1.tif through tile_4.tif)
+Total Benchmark Sets : 15 queries (7 Baseline + 8 Multi-Concept Complex)
+Evaluation Reference : data/evaluation/ground_truth.json (Human Visual Annotations)
+----------------------------------------------------------------------------------
+
+==================================================================================
+1. AGGREGATE RETRIEVAL METRICS (SINGLE-QUERY BASELINE)
+==================================================================================
+Metric                    All (15 Queries)     Baseline (7)       Complex (8)       
+----------------------------------------------------------------------------------
+Hit@1                     0.8667               1.0000             0.7500            
+Hit@3                     1.0000               1.0000             1.0000            
+Hit@4                     1.0000               1.0000             1.0000            
+----------------------------------------------------------------------------------
+Precision@1               0.8667               1.0000             0.7500            
+Precision@3               0.7333               0.7619             0.7083            
+Precision@4               0.6833               0.7500             0.6250            
+----------------------------------------------------------------------------------
+Recall@1                  0.3667               0.4167             0.3229            
+Recall@3                  0.8556               0.7976             0.9062            
+Recall@4                  1.0000               1.0000             1.0000            
+----------------------------------------------------------------------------------
+MRR                       0.9333               1.0000             0.8750            
+==================================================================================
+
+==================================================================================
+2. PER-QUERY RETRIEVAL BREAKDOWN
+==================================================================================
+Query                          GT Relevant        Top-1 Retr   P@1    R@1    P@3    R@3    MRR   
+----------------------------------------------------------------------------------
+river                          tile_1.tif         tile_1.tif   1.00   1.00   0.33   1.00   1.00  
+water                          tile_1.tif,tile_4.tif tile_1.tif   1.00   0.50   0.67   1.00   1.00  
+road                           tile_1.tif,tile_2.tif,tile_3.tif,tile_4.tif tile_4.tif   1.00   0.25   1.00   0.75   1.00  
+buildings                      tile_1.tif,tile_2.tif,tile_3.tif,tile_4.tif tile_3.tif   1.00   0.25   1.00   0.75   1.00  
+urban area                     tile_1.tif,tile_2.tif,tile_3.tif,tile_4.tif tile_3.tif   1.00   0.25   1.00   0.75   1.00  
+vegetation                     tile_2.tif,tile_3.tif,tile_4.tif tile_3.tif   1.00   0.33   0.67   0.67   1.00  
+green area                     tile_2.tif,tile_3.tif,tile_4.tif tile_4.tif   1.00   0.33   0.67   0.67   1.00  
+urban areas near water         tile_1.tif,tile_4.tif tile_1.tif   1.00   0.50   0.67   1.00   1.00  
+buildings near a river         tile_1.tif         tile_1.tif   1.00   1.00   0.33   1.00   1.00  
+roads through green areas      tile_2.tif,tile_3.tif,tile_4.tif tile_4.tif   1.00   0.33   1.00   1.00   1.00  
+water surrounded by vegetation tile_4.tif         tile_1.tif   0.00   0.00   0.33   1.00   0.50  
+urban area with roads          tile_1.tif,tile_2.tif,tile_3.tif,tile_4.tif tile_3.tif   1.00   0.25   1.00   0.75   1.00  
+buildings and roads            tile_1.tif,tile_2.tif,tile_3.tif,tile_4.tif tile_3.tif   1.00   0.25   1.00   0.75   1.00  
+green area near water          tile_4.tif         tile_1.tif   0.00   0.00   0.33   1.00   0.50  
+dense urban area               tile_1.tif,tile_2.tif,tile_3.tif,tile_4.tif tile_3.tif   1.00   0.25   1.00   0.75   1.00  
+
+==================================================================================
+3. SINGLE QUERY VS PROMPT ENSEMBLE COMPARISON (ALL 15 QUERIES)
+==================================================================================
+Metric                    Single Baseline    Prompt Ensemble    Delta (Ens - Sing)
+----------------------------------------------------------------------------------
+Mean Hit@1                0.8667             0.8667             +0.0000           
+Mean Hit@3                1.0000             1.0000             +0.0000           
+Mean Hit@4                1.0000             1.0000             +0.0000           
+----------------------------------------------------------------------------------
+Mean Precision@1          0.8667             0.8667             +0.0000           
+Mean Precision@3          0.7333             0.7556             +0.0222           
+Mean Precision@4          0.6833             0.6833             +0.0000           
+----------------------------------------------------------------------------------
+Mean Recall@1             0.3667             0.3667             +0.0000           
+Mean Recall@3             0.8556             0.8778             +0.0222           
+Mean Recall@4             1.0000             1.0000             +0.0000           
+----------------------------------------------------------------------------------
+MRR                       0.9333             0.9333             +0.0000           
+==================================================================================
+
+==================================================================================
+4. INTERPRETATION & METHODOLOGICAL LIMITATIONS
+==================================================================================
+- Benchmark Dataset Scale: The index contains exactly 4 satellite tiles.
+  Because the candidate pool is very small (N=4), metrics like Hit@4 and Recall@4
+  will naturally approach 1.0 whenever relevant items are present in the collection.
+- Top-1 Precision & MRR: High Top-1 precision and MRR indicate that the model
+  consistently ranks a human-verified relevant tile in the first position across
+  common single-concept and multi-concept satellite domain queries.
+- Ensemble Comparison: Prompt ensembling produced identical top-1 tile retrieval
+  for 14 of 15 queries (93.3% rank stability), yielding equivalent aggregate MRR.
+- Statistical Note: These quantitative metrics establish a verified prototype baseline.
+  They should not be interpreted as large-scale statistical validation without a
+  larger and more geographically diverse tile corpus.
+==================================================================================

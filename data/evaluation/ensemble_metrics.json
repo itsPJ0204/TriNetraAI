@@ -1,0 +1,1036 @@
+{
+  "evaluation_type": "single_vs_ensemble_comparison",
+  "top_k": 4,
+  "ks": [
+    1,
+    3,
+    4
+  ],
+  "total_queries": 15,
+  "single_aggregate": {
+    "total_queries": 15.0,
+    "mean_hit_at_1": 0.866667,
+    "mean_precision_at_1": 0.866667,
+    "mean_recall_at_1": 0.366667,
+    "mean_hit_at_3": 1.0,
+    "mean_precision_at_3": 0.733333,
+    "mean_recall_at_3": 0.855556,
+    "mean_hit_at_4": 1.0,
+    "mean_precision_at_4": 0.683333,
+    "mean_recall_at_4": 1.0,
+    "mrr": 0.933333
+  },
+  "ensemble_aggregate": {
+    "total_queries": 15.0,
+    "mean_hit_at_1": 0.866667,
+    "mean_precision_at_1": 0.866667,
+    "mean_recall_at_1": 0.366667,
+    "mean_hit_at_3": 1.0,
+    "mean_precision_at_3": 0.755556,
+    "mean_recall_at_3": 0.877778,
+    "mean_hit_at_4": 1.0,
+    "mean_precision_at_4": 0.683333,
+    "mean_recall_at_4": 1.0,
+    "mrr": 0.933333
+  },
+  "delta_aggregate": {
+    "delta_mean_hit_at_1": 0.0,
+    "delta_mean_precision_at_1": 0.0,
+    "delta_mean_recall_at_1": 0.0,
+    "delta_mean_hit_at_3": 0.0,
+    "delta_mean_precision_at_3": 0.022223,
+    "delta_mean_recall_at_3": 0.022222,
+    "delta_mean_hit_at_4": 0.0,
+    "delta_mean_precision_at_4": 0.0,
+    "delta_mean_recall_at_4": 0.0,
+    "delta_mrr": 0.0
+  },
+  "query_comparisons": [
+    {
+      "query": "river",
+      "relevant_tiles": [
+        "tile_1.tif"
+      ],
+      "num_relevant_gt": 1,
+      "num_expansions": 4,
+      "expansions": [
+        "river",
+        "stream or waterway",
+        "river flowing through landscape",
+        "water river channel"
+      ],
+      "top_rank_changed": false,
+      "top_score_diff": -0.021521,
+      "single_retrieved_tiles": [
+        "tile_1.tif",
+        "tile_4.tif",
+        "tile_3.tif",
+        "tile_2.tif"
+      ],
+      "ensemble_retrieved_tiles": [
+        "tile_1.tif",
+        "tile_4.tif",
+        "tile_3.tif",
+        "tile_2.tif"
+      ],
+      "single_metrics": {
+        "hit_at_1": 1.0,
+        "precision_at_1": 1.0,
+        "recall_at_1": 1.0,
+        "hit_at_3": 1.0,
+        "precision_at_3": 0.333333,
+        "recall_at_3": 1.0,
+        "hit_at_4": 1.0,
+        "precision_at_4": 0.25,
+        "recall_at_4": 1.0,
+        "reciprocal_rank": 1.0
+      },
+      "ensemble_metrics": {
+        "hit_at_1": 1.0,
+        "precision_at_1": 1.0,
+        "recall_at_1": 1.0,
+        "hit_at_3": 1.0,
+        "precision_at_3": 0.333333,
+        "recall_at_3": 1.0,
+        "hit_at_4": 1.0,
+        "precision_at_4": 0.25,
+        "recall_at_4": 1.0,
+        "reciprocal_rank": 1.0
+      },
+      "delta_metrics": {
+        "delta_hit_at_1": 0.0,
+        "delta_precision_at_1": 0.0,
+        "delta_recall_at_1": 0.0,
+        "delta_hit_at_3": 0.0,
+        "delta_precision_at_3": 0.0,
+        "delta_recall_at_3": 0.0,
+        "delta_hit_at_4": 0.0,
+        "delta_precision_at_4": 0.0,
+        "delta_recall_at_4": 0.0,
+        "delta_reciprocal_rank": 0.0
+      }
+    },
+    {
+      "query": "water",
+      "relevant_tiles": [
+        "tile_1.tif",
+        "tile_4.tif"
+      ],
+      "num_relevant_gt": 2,
+      "num_expansions": 4,
+      "expansions": [
+        "water",
+        "body of water",
+        "water surface",
+        "lake river or sea"
+      ],
+      "top_rank_changed": false,
+      "top_score_diff": -0.007837,
+      "single_retrieved_tiles": [
+        "tile_1.tif",
+        "tile_4.tif",
+        "tile_2.tif",
+        "tile_3.tif"
+      ],
+      "ensemble_retrieved_tiles": [
+        "tile_1.tif",
+        "tile_4.tif",
+        "tile_2.tif",
+        "tile_3.tif"
+      ],
+      "single_metrics": {
+        "hit_at_1": 1.0,
+        "precision_at_1": 1.0,
+        "recall_at_1": 0.5,
+        "hit_at_3": 1.0,
+        "precision_at_3": 0.666667,
+        "recall_at_3": 1.0,
+        "hit_at_4": 1.0,
+        "precision_at_4": 0.5,
+        "recall_at_4": 1.0,
+        "reciprocal_rank": 1.0
+      },
+      "ensemble_metrics": {
+        "hit_at_1": 1.0,
+        "precision_at_1": 1.0,
+        "recall_at_1": 0.5,
+        "hit_at_3": 1.0,
+        "precision_at_3": 0.666667,
+        "recall_at_3": 1.0,
+        "hit_at_4": 1.0,
+        "precision_at_4": 0.5,
+        "recall_at_4": 1.0,
+        "reciprocal_rank": 1.0
+      },
+      "delta_metrics": {
+        "delta_hit_at_1": 0.0,
+        "delta_precision_at_1": 0.0,
+        "delta_recall_at_1": 0.0,
+        "delta_hit_at_3": 0.0,
+        "delta_precision_at_3": 0.0,
+        "delta_recall_at_3": 0.0,
+        "delta_hit_at_4": 0.0,
+        "delta_precision_at_4": 0.0,
+        "delta_recall_at_4": 0.0,
+        "delta_reciprocal_rank": 0.0
+      }
+    },
+    {
+      "query": "road",
+      "relevant_tiles": [
+        "tile_1.tif",
+        "tile_2.tif",
+        "tile_3.tif",
+        "tile_4.tif"
+      ],
+      "num_relevant_gt": 4,
+      "num_expansions": 4,
+      "expansions": [
+        "road",
+        "highway or street",
+        "paved road network",
+        "transportation route"
+      ],
+      "top_rank_changed": false,
+      "top_score_diff": -0.007556,
+      "single_retrieved_tiles": [
+        "tile_4.tif",
+        "tile_3.tif",
+        "tile_2.tif",
+        "tile_1.tif"
+      ],
+      "ensemble_retrieved_tiles": [
+        "tile_4.tif",
+        "tile_3.tif",
+        "tile_2.tif",
+        "tile_1.tif"
+      ],
+      "single_metrics": {
+        "hit_at_1": 1.0,
+        "precision_at_1": 1.0,
+        "recall_at_1": 0.25,
+        "hit_at_3": 1.0,
+        "precision_at_3": 1.0,
+        "recall_at_3": 0.75,
+        "hit_at_4": 1.0,
+        "precision_at_4": 1.0,
+        "recall_at_4": 1.0,
+        "reciprocal_rank": 1.0
+      },
+      "ensemble_metrics": {
+        "hit_at_1": 1.0,
+        "precision_at_1": 1.0,
+        "recall_at_1": 0.25,
+        "hit_at_3": 1.0,
+        "precision_at_3": 1.0,
+        "recall_at_3": 0.75,
+        "hit_at_4": 1.0,
+        "precision_at_4": 1.0,
+        "recall_at_4": 1.0,
+        "reciprocal_rank": 1.0
+      },
+      "delta_metrics": {
+        "delta_hit_at_1": 0.0,
+        "delta_precision_at_1": 0.0,
+        "delta_recall_at_1": 0.0,
+        "delta_hit_at_3": 0.0,
+        "delta_precision_at_3": 0.0,
+        "delta_recall_at_3": 0.0,
+        "delta_hit_at_4": 0.0,
+        "delta_precision_at_4": 0.0,
+        "delta_recall_at_4": 0.0,
+        "delta_reciprocal_rank": 0.0
+      }
+    },
+    {
+      "query": "buildings",
+      "relevant_tiles": [
+        "tile_1.tif",
+        "tile_2.tif",
+        "tile_3.tif",
+        "tile_4.tif"
+      ],
+      "num_relevant_gt": 4,
+      "num_expansions": 4,
+      "expansions": [
+        "buildings",
+        "urban structures",
+        "residential and commercial buildings",
+        "built-up structures"
+      ],
+      "top_rank_changed": false,
+      "top_score_diff": 0.01085,
+      "single_retrieved_tiles": [
+        "tile_3.tif",
+        "tile_2.tif",
+        "tile_1.tif",
+        "tile_4.tif"
+      ],
+      "ensemble_retrieved_tiles": [
+        "tile_3.tif",
+        "tile_2.tif",
+        "tile_4.tif",
+        "tile_1.tif"
+      ],
+      "single_metrics": {
+        "hit_at_1": 1.0,
+        "precision_at_1": 1.0,
+        "recall_at_1": 0.25,
+        "hit_at_3": 1.0,
+        "precision_at_3": 1.0,
+        "recall_at_3": 0.75,
+        "hit_at_4": 1.0,
+        "precision_at_4": 1.0,
+        "recall_at_4": 1.0,
+        "reciprocal_rank": 1.0
+      },
+      "ensemble_metrics": {
+        "hit_at_1": 1.0,
+        "precision_at_1": 1.0,
+        "recall_at_1": 0.25,
+        "hit_at_3": 1.0,
+        "precision_at_3": 1.0,
+        "recall_at_3": 0.75,
+        "hit_at_4": 1.0,
+        "precision_at_4": 1.0,
+        "recall_at_4": 1.0,
+        "reciprocal_rank": 1.0
+      },
+      "delta_metrics": {
+        "delta_hit_at_1": 0.0,
+        "delta_precision_at_1": 0.0,
+        "delta_recall_at_1": 0.0,
+        "delta_hit_at_3": 0.0,
+        "delta_precision_at_3": 0.0,
+        "delta_recall_at_3": 0.0,
+        "delta_hit_at_4": 0.0,
+        "delta_precision_at_4": 0.0,
+        "delta_recall_at_4": 0.0,
+        "delta_reciprocal_rank": 0.0
+      }
+    },
+    {
+      "query": "urban area",
+      "relevant_tiles": [
+        "tile_1.tif",
+        "tile_2.tif",
+        "tile_3.tif",
+        "tile_4.tif"
+      ],
+      "num_relevant_gt": 4,
+      "num_expansions": 4,
+      "expansions": [
+        "urban area",
+        "city or town",
+        "built-up urban settlement",
+        "densely populated area"
+      ],
+      "top_rank_changed": false,
+      "top_score_diff": -0.01371,
+      "single_retrieved_tiles": [
+        "tile_3.tif",
+        "tile_2.tif",
+        "tile_4.tif",
+        "tile_1.tif"
+      ],
+      "ensemble_retrieved_tiles": [
+        "tile_3.tif",
+        "tile_2.tif",
+        "tile_4.tif",
+        "tile_1.tif"
+      ],
+      "single_metrics": {
+        "hit_at_1": 1.0,
+        "precision_at_1": 1.0,
+        "recall_at_1": 0.25,
+        "hit_at_3": 1.0,
+        "precision_at_3": 1.0,
+        "recall_at_3": 0.75,
+        "hit_at_4": 1.0,
+        "precision_at_4": 1.0,
+        "recall_at_4": 1.0,
+        "reciprocal_rank": 1.0
+      },
+      "ensemble_metrics": {
+        "hit_at_1": 1.0,
+        "precision_at_1": 1.0,
+        "recall_at_1": 0.25,
+        "hit_at_3": 1.0,
+        "precision_at_3": 1.0,
+        "recall_at_3": 0.75,
+        "hit_at_4": 1.0,
+        "precision_at_4": 1.0,
+        "recall_at_4": 1.0,
+        "reciprocal_rank": 1.0
+      },
+      "delta_metrics": {
+        "delta_hit_at_1": 0.0,
+        "delta_precision_at_1": 0.0,
+        "delta_recall_at_1": 0.0,
+        "delta_hit_at_3": 0.0,
+        "delta_precision_at_3": 0.0,
+        "delta_recall_at_3": 0.0,
+        "delta_hit_at_4": 0.0,
+        "delta_precision_at_4": 0.0,
+        "delta_recall_at_4": 0.0,
+        "delta_reciprocal_rank": 0.0
+      }
+    },
+    {
+      "query": "vegetation",
+      "relevant_tiles": [
+        "tile_2.tif",
+        "tile_3.tif",
+        "tile_4.tif"
+      ],
+      "num_relevant_gt": 3,
+      "num_expansions": 4,
+      "expansions": [
+        "vegetation",
+        "green plant cover",
+        "trees and foliage",
+        "natural vegetation"
+      ],
+      "top_rank_changed": true,
+      "top_score_diff": 0.004515,
+      "single_retrieved_tiles": [
+        "tile_3.tif",
+        "tile_2.tif",
+        "tile_1.tif",
+        "tile_4.tif"
+      ],
+      "ensemble_retrieved_tiles": [
+        "tile_2.tif",
+        "tile_1.tif",
+        "tile_3.tif",
+        "tile_4.tif"
+      ],
+      "single_metrics": {
+        "hit_at_1": 1.0,
+        "precision_at_1": 1.0,
+        "recall_at_1": 0.333333,
+        "hit_at_3": 1.0,
+        "precision_at_3": 0.666667,
+        "recall_at_3": 0.666667,
+        "hit_at_4": 1.0,
+        "precision_at_4": 0.75,
+        "recall_at_4": 1.0,
+        "reciprocal_rank": 1.0
+      },
+      "ensemble_metrics": {
+        "hit_at_1": 1.0,
+        "precision_at_1": 1.0,
+        "recall_at_1": 0.333333,
+        "hit_at_3": 1.0,
+        "precision_at_3": 0.666667,
+        "recall_at_3": 0.666667,
+        "hit_at_4": 1.0,
+        "precision_at_4": 0.75,
+        "recall_at_4": 1.0,
+        "reciprocal_rank": 1.0
+      },
+      "delta_metrics": {
+        "delta_hit_at_1": 0.0,
+        "delta_precision_at_1": 0.0,
+        "delta_recall_at_1": 0.0,
+        "delta_hit_at_3": 0.0,
+        "delta_precision_at_3": 0.0,
+        "delta_recall_at_3": 0.0,
+        "delta_hit_at_4": 0.0,
+        "delta_precision_at_4": 0.0,
+        "delta_recall_at_4": 0.0,
+        "delta_reciprocal_rank": 0.0
+      }
+    },
+    {
+      "query": "green area",
+      "relevant_tiles": [
+        "tile_2.tif",
+        "tile_3.tif",
+        "tile_4.tif"
+      ],
+      "num_relevant_gt": 3,
+      "num_expansions": 4,
+      "expansions": [
+        "green area",
+        "park or grassland",
+        "green landscape with vegetation",
+        "foliage and open green space"
+      ],
+      "top_rank_changed": false,
+      "top_score_diff": -0.021112,
+      "single_retrieved_tiles": [
+        "tile_4.tif",
+        "tile_2.tif",
+        "tile_1.tif",
+        "tile_3.tif"
+      ],
+      "ensemble_retrieved_tiles": [
+        "tile_4.tif",
+        "tile_3.tif",
+        "tile_2.tif",
+        "tile_1.tif"
+      ],
+      "single_metrics": {
+        "hit_at_1": 1.0,
+        "precision_at_1": 1.0,
+        "recall_at_1": 0.333333,
+        "hit_at_3": 1.0,
+        "precision_at_3": 0.666667,
+        "recall_at_3": 0.666667,
+        "hit_at_4": 1.0,
+        "precision_at_4": 0.75,
+        "recall_at_4": 1.0,
+        "reciprocal_rank": 1.0
+      },
+      "ensemble_metrics": {
+        "hit_at_1": 1.0,
+        "precision_at_1": 1.0,
+        "recall_at_1": 0.333333,
+        "hit_at_3": 1.0,
+        "precision_at_3": 1.0,
+        "recall_at_3": 1.0,
+        "hit_at_4": 1.0,
+        "precision_at_4": 0.75,
+        "recall_at_4": 1.0,
+        "reciprocal_rank": 1.0
+      },
+      "delta_metrics": {
+        "delta_hit_at_1": 0.0,
+        "delta_precision_at_1": 0.0,
+        "delta_recall_at_1": 0.0,
+        "delta_hit_at_3": 0.0,
+        "delta_precision_at_3": 0.333333,
+        "delta_recall_at_3": 0.333333,
+        "delta_hit_at_4": 0.0,
+        "delta_precision_at_4": 0.0,
+        "delta_recall_at_4": 0.0,
+        "delta_reciprocal_rank": 0.0
+      }
+    },
+    {
+      "query": "urban areas near water",
+      "relevant_tiles": [
+        "tile_1.tif",
+        "tile_4.tif"
+      ],
+      "num_relevant_gt": 2,
+      "num_expansions": 4,
+      "expansions": [
+        "urban areas near water",
+        "city waterfront",
+        "urban buildings along water body",
+        "settlement adjacent to water"
+      ],
+      "top_rank_changed": false,
+      "top_score_diff": -0.024671,
+      "single_retrieved_tiles": [
+        "tile_1.tif",
+        "tile_4.tif",
+        "tile_3.tif",
+        "tile_2.tif"
+      ],
+      "ensemble_retrieved_tiles": [
+        "tile_1.tif",
+        "tile_4.tif",
+        "tile_3.tif",
+        "tile_2.tif"
+      ],
+      "single_metrics": {
+        "hit_at_1": 1.0,
+        "precision_at_1": 1.0,
+        "recall_at_1": 0.5,
+        "hit_at_3": 1.0,
+        "precision_at_3": 0.666667,
+        "recall_at_3": 1.0,
+        "hit_at_4": 1.0,
+        "precision_at_4": 0.5,
+        "recall_at_4": 1.0,
+        "reciprocal_rank": 1.0
+      },
+      "ensemble_metrics": {
+        "hit_at_1": 1.0,
+        "precision_at_1": 1.0,
+        "recall_at_1": 0.5,
+        "hit_at_3": 1.0,
+        "precision_at_3": 0.666667,
+        "recall_at_3": 1.0,
+        "hit_at_4": 1.0,
+        "precision_at_4": 0.5,
+        "recall_at_4": 1.0,
+        "reciprocal_rank": 1.0
+      },
+      "delta_metrics": {
+        "delta_hit_at_1": 0.0,
+        "delta_precision_at_1": 0.0,
+        "delta_recall_at_1": 0.0,
+        "delta_hit_at_3": 0.0,
+        "delta_precision_at_3": 0.0,
+        "delta_recall_at_3": 0.0,
+        "delta_hit_at_4": 0.0,
+        "delta_precision_at_4": 0.0,
+        "delta_recall_at_4": 0.0,
+        "delta_reciprocal_rank": 0.0
+      }
+    },
+    {
+      "query": "buildings near a river",
+      "relevant_tiles": [
+        "tile_1.tif"
+      ],
+      "num_relevant_gt": 1,
+      "num_expansions": 4,
+      "expansions": [
+        "buildings near a river",
+        "urban buildings beside water",
+        "built-up area near water",
+        "structures close to a river"
+      ],
+      "top_rank_changed": false,
+      "top_score_diff": -0.000722,
+      "single_retrieved_tiles": [
+        "tile_1.tif",
+        "tile_4.tif",
+        "tile_3.tif",
+        "tile_2.tif"
+      ],
+      "ensemble_retrieved_tiles": [
+        "tile_1.tif",
+        "tile_4.tif",
+        "tile_3.tif",
+        "tile_2.tif"
+      ],
+      "single_metrics": {
+        "hit_at_1": 1.0,
+        "precision_at_1": 1.0,
+        "recall_at_1": 1.0,
+        "hit_at_3": 1.0,
+        "precision_at_3": 0.333333,
+        "recall_at_3": 1.0,
+        "hit_at_4": 1.0,
+        "precision_at_4": 0.25,
+        "recall_at_4": 1.0,
+        "reciprocal_rank": 1.0
+      },
+      "ensemble_metrics": {
+        "hit_at_1": 1.0,
+        "precision_at_1": 1.0,
+        "recall_at_1": 1.0,
+        "hit_at_3": 1.0,
+        "precision_at_3": 0.333333,
+        "recall_at_3": 1.0,
+        "hit_at_4": 1.0,
+        "precision_at_4": 0.25,
+        "recall_at_4": 1.0,
+        "reciprocal_rank": 1.0
+      },
+      "delta_metrics": {
+        "delta_hit_at_1": 0.0,
+        "delta_precision_at_1": 0.0,
+        "delta_recall_at_1": 0.0,
+        "delta_hit_at_3": 0.0,
+        "delta_precision_at_3": 0.0,
+        "delta_recall_at_3": 0.0,
+        "delta_hit_at_4": 0.0,
+        "delta_precision_at_4": 0.0,
+        "delta_recall_at_4": 0.0,
+        "delta_reciprocal_rank": 0.0
+      }
+    },
+    {
+      "query": "roads through green areas",
+      "relevant_tiles": [
+        "tile_2.tif",
+        "tile_3.tif",
+        "tile_4.tif"
+      ],
+      "num_relevant_gt": 3,
+      "num_expansions": 4,
+      "expansions": [
+        "roads through green areas",
+        "highway crossing vegetation",
+        "road passing through green landscape",
+        "paved route in countryside"
+      ],
+      "top_rank_changed": false,
+      "top_score_diff": -0.004786,
+      "single_retrieved_tiles": [
+        "tile_4.tif",
+        "tile_3.tif",
+        "tile_2.tif",
+        "tile_1.tif"
+      ],
+      "ensemble_retrieved_tiles": [
+        "tile_4.tif",
+        "tile_3.tif",
+        "tile_2.tif",
+        "tile_1.tif"
+      ],
+      "single_metrics": {
+        "hit_at_1": 1.0,
+        "precision_at_1": 1.0,
+        "recall_at_1": 0.333333,
+        "hit_at_3": 1.0,
+        "precision_at_3": 1.0,
+        "recall_at_3": 1.0,
+        "hit_at_4": 1.0,
+        "precision_at_4": 0.75,
+        "recall_at_4": 1.0,
+        "reciprocal_rank": 1.0
+      },
+      "ensemble_metrics": {
+        "hit_at_1": 1.0,
+        "precision_at_1": 1.0,
+        "recall_at_1": 0.333333,
+        "hit_at_3": 1.0,
+        "precision_at_3": 1.0,
+        "recall_at_3": 1.0,
+        "hit_at_4": 1.0,
+        "precision_at_4": 0.75,
+        "recall_at_4": 1.0,
+        "reciprocal_rank": 1.0
+      },
+      "delta_metrics": {
+        "delta_hit_at_1": 0.0,
+        "delta_precision_at_1": 0.0,
+        "delta_recall_at_1": 0.0,
+        "delta_hit_at_3": 0.0,
+        "delta_precision_at_3": 0.0,
+        "delta_recall_at_3": 0.0,
+        "delta_hit_at_4": 0.0,
+        "delta_precision_at_4": 0.0,
+        "delta_recall_at_4": 0.0,
+        "delta_reciprocal_rank": 0.0
+      }
+    },
+    {
+      "query": "water surrounded by vegetation",
+      "relevant_tiles": [
+        "tile_4.tif"
+      ],
+      "num_relevant_gt": 1,
+      "num_expansions": 4,
+      "expansions": [
+        "water surrounded by vegetation",
+        "pond or lake with trees",
+        "water body encircled by greenery",
+        "river surrounded by forest"
+      ],
+      "top_rank_changed": false,
+      "top_score_diff": -0.00655,
+      "single_retrieved_tiles": [
+        "tile_1.tif",
+        "tile_4.tif",
+        "tile_3.tif",
+        "tile_2.tif"
+      ],
+      "ensemble_retrieved_tiles": [
+        "tile_1.tif",
+        "tile_4.tif",
+        "tile_2.tif",
+        "tile_3.tif"
+      ],
+      "single_metrics": {
+        "hit_at_1": 0.0,
+        "precision_at_1": 0.0,
+        "recall_at_1": 0.0,
+        "hit_at_3": 1.0,
+        "precision_at_3": 0.333333,
+        "recall_at_3": 1.0,
+        "hit_at_4": 1.0,
+        "precision_at_4": 0.25,
+        "recall_at_4": 1.0,
+        "reciprocal_rank": 0.5
+      },
+      "ensemble_metrics": {
+        "hit_at_1": 0.0,
+        "precision_at_1": 0.0,
+        "recall_at_1": 0.0,
+        "hit_at_3": 1.0,
+        "precision_at_3": 0.333333,
+        "recall_at_3": 1.0,
+        "hit_at_4": 1.0,
+        "precision_at_4": 0.25,
+        "recall_at_4": 1.0,
+        "reciprocal_rank": 0.5
+      },
+      "delta_metrics": {
+        "delta_hit_at_1": 0.0,
+        "delta_precision_at_1": 0.0,
+        "delta_recall_at_1": 0.0,
+        "delta_hit_at_3": 0.0,
+        "delta_precision_at_3": 0.0,
+        "delta_recall_at_3": 0.0,
+        "delta_hit_at_4": 0.0,
+        "delta_precision_at_4": 0.0,
+        "delta_recall_at_4": 0.0,
+        "delta_reciprocal_rank": 0.0
+      }
+    },
+    {
+      "query": "urban area with roads",
+      "relevant_tiles": [
+        "tile_1.tif",
+        "tile_2.tif",
+        "tile_3.tif",
+        "tile_4.tif"
+      ],
+      "num_relevant_gt": 4,
+      "num_expansions": 4,
+      "expansions": [
+        "urban area with roads",
+        "city street grid",
+        "urban settlement with transportation network",
+        "built-up town with roads"
+      ],
+      "top_rank_changed": false,
+      "top_score_diff": -0.00793,
+      "single_retrieved_tiles": [
+        "tile_3.tif",
+        "tile_4.tif",
+        "tile_2.tif",
+        "tile_1.tif"
+      ],
+      "ensemble_retrieved_tiles": [
+        "tile_3.tif",
+        "tile_4.tif",
+        "tile_2.tif",
+        "tile_1.tif"
+      ],
+      "single_metrics": {
+        "hit_at_1": 1.0,
+        "precision_at_1": 1.0,
+        "recall_at_1": 0.25,
+        "hit_at_3": 1.0,
+        "precision_at_3": 1.0,
+        "recall_at_3": 0.75,
+        "hit_at_4": 1.0,
+        "precision_at_4": 1.0,
+        "recall_at_4": 1.0,
+        "reciprocal_rank": 1.0
+      },
+      "ensemble_metrics": {
+        "hit_at_1": 1.0,
+        "precision_at_1": 1.0,
+        "recall_at_1": 0.25,
+        "hit_at_3": 1.0,
+        "precision_at_3": 1.0,
+        "recall_at_3": 0.75,
+        "hit_at_4": 1.0,
+        "precision_at_4": 1.0,
+        "recall_at_4": 1.0,
+        "reciprocal_rank": 1.0
+      },
+      "delta_metrics": {
+        "delta_hit_at_1": 0.0,
+        "delta_precision_at_1": 0.0,
+        "delta_recall_at_1": 0.0,
+        "delta_hit_at_3": 0.0,
+        "delta_precision_at_3": 0.0,
+        "delta_recall_at_3": 0.0,
+        "delta_hit_at_4": 0.0,
+        "delta_precision_at_4": 0.0,
+        "delta_recall_at_4": 0.0,
+        "delta_reciprocal_rank": 0.0
+      }
+    },
+    {
+      "query": "buildings and roads",
+      "relevant_tiles": [
+        "tile_1.tif",
+        "tile_2.tif",
+        "tile_3.tif",
+        "tile_4.tif"
+      ],
+      "num_relevant_gt": 4,
+      "num_expansions": 4,
+      "expansions": [
+        "buildings and roads",
+        "built-up structures and streets",
+        "urban infrastructure with buildings and roads",
+        "city buildings with paved roads"
+      ],
+      "top_rank_changed": false,
+      "top_score_diff": 0.017795,
+      "single_retrieved_tiles": [
+        "tile_3.tif",
+        "tile_1.tif",
+        "tile_4.tif",
+        "tile_2.tif"
+      ],
+      "ensemble_retrieved_tiles": [
+        "tile_3.tif",
+        "tile_4.tif",
+        "tile_1.tif",
+        "tile_2.tif"
+      ],
+      "single_metrics": {
+        "hit_at_1": 1.0,
+        "precision_at_1": 1.0,
+        "recall_at_1": 0.25,
+        "hit_at_3": 1.0,
+        "precision_at_3": 1.0,
+        "recall_at_3": 0.75,
+        "hit_at_4": 1.0,
+        "precision_at_4": 1.0,
+        "recall_at_4": 1.0,
+        "reciprocal_rank": 1.0
+      },
+      "ensemble_metrics": {
+        "hit_at_1": 1.0,
+        "precision_at_1": 1.0,
+        "recall_at_1": 0.25,
+        "hit_at_3": 1.0,
+        "precision_at_3": 1.0,
+        "recall_at_3": 0.75,
+        "hit_at_4": 1.0,
+        "precision_at_4": 1.0,
+        "recall_at_4": 1.0,
+        "reciprocal_rank": 1.0
+      },
+      "delta_metrics": {
+        "delta_hit_at_1": 0.0,
+        "delta_precision_at_1": 0.0,
+        "delta_recall_at_1": 0.0,
+        "delta_hit_at_3": 0.0,
+        "delta_precision_at_3": 0.0,
+        "delta_recall_at_3": 0.0,
+        "delta_hit_at_4": 0.0,
+        "delta_precision_at_4": 0.0,
+        "delta_recall_at_4": 0.0,
+        "delta_reciprocal_rank": 0.0
+      }
+    },
+    {
+      "query": "green area near water",
+      "relevant_tiles": [
+        "tile_4.tif"
+      ],
+      "num_relevant_gt": 1,
+      "num_expansions": 4,
+      "expansions": [
+        "green area near water",
+        "greenery along riverbank",
+        "park adjacent to water",
+        "vegetation close to water body"
+      ],
+      "top_rank_changed": false,
+      "top_score_diff": -0.002222,
+      "single_retrieved_tiles": [
+        "tile_1.tif",
+        "tile_4.tif",
+        "tile_2.tif",
+        "tile_3.tif"
+      ],
+      "ensemble_retrieved_tiles": [
+        "tile_1.tif",
+        "tile_4.tif",
+        "tile_2.tif",
+        "tile_3.tif"
+      ],
+      "single_metrics": {
+        "hit_at_1": 0.0,
+        "precision_at_1": 0.0,
+        "recall_at_1": 0.0,
+        "hit_at_3": 1.0,
+        "precision_at_3": 0.333333,
+        "recall_at_3": 1.0,
+        "hit_at_4": 1.0,
+        "precision_at_4": 0.25,
+        "recall_at_4": 1.0,
+        "reciprocal_rank": 0.5
+      },
+      "ensemble_metrics": {
+        "hit_at_1": 0.0,
+        "precision_at_1": 0.0,
+        "recall_at_1": 0.0,
+        "hit_at_3": 1.0,
+        "precision_at_3": 0.333333,
+        "recall_at_3": 1.0,
+        "hit_at_4": 1.0,
+        "precision_at_4": 0.25,
+        "recall_at_4": 1.0,
+        "reciprocal_rank": 0.5
+      },
+      "delta_metrics": {
+        "delta_hit_at_1": 0.0,
+        "delta_precision_at_1": 0.0,
+        "delta_recall_at_1": 0.0,
+        "delta_hit_at_3": 0.0,
+        "delta_precision_at_3": 0.0,
+        "delta_recall_at_3": 0.0,
+        "delta_hit_at_4": 0.0,
+        "delta_precision_at_4": 0.0,
+        "delta_recall_at_4": 0.0,
+        "delta_reciprocal_rank": 0.0
+      }
+    },
+    {
+      "query": "dense urban area",
+      "relevant_tiles": [
+        "tile_1.tif",
+        "tile_2.tif",
+        "tile_3.tif",
+        "tile_4.tif"
+      ],
+      "num_relevant_gt": 4,
+      "num_expansions": 4,
+      "expansions": [
+        "dense urban area",
+        "tightly packed buildings",
+        "highly built-up urban core",
+        "dense city infrastructure"
+      ],
+      "top_rank_changed": false,
+      "top_score_diff": -0.029504,
+      "single_retrieved_tiles": [
+        "tile_3.tif",
+        "tile_2.tif",
+        "tile_4.tif",
+        "tile_1.tif"
+      ],
+      "ensemble_retrieved_tiles": [
+        "tile_3.tif",
+        "tile_2.tif",
+        "tile_4.tif",
+        "tile_1.tif"
+      ],
+      "single_metrics": {
+        "hit_at_1": 1.0,
+        "precision_at_1": 1.0,
+        "recall_at_1": 0.25,
+        "hit_at_3": 1.0,
+        "precision_at_3": 1.0,
+        "recall_at_3": 0.75,
+        "hit_at_4": 1.0,
+        "precision_at_4": 1.0,
+        "recall_at_4": 1.0,
+        "reciprocal_rank": 1.0
+      },
+      "ensemble_metrics": {
+        "hit_at_1": 1.0,
+        "precision_at_1": 1.0,
+        "recall_at_1": 0.25,
+        "hit_at_3": 1.0,
+        "precision_at_3": 1.0,
+        "recall_at_3": 0.75,
+        "hit_at_4": 1.0,
+        "precision_at_4": 1.0,
+        "recall_at_4": 1.0,
+        "reciprocal_rank": 1.0
+      },
+      "delta_metrics": {
+        "delta_hit_at_1": 0.0,
+        "delta_precision_at_1": 0.0,
+        "delta_recall_at_1": 0.0,
+        "delta_hit_at_3": 0.0,
+        "delta_precision_at_3": 0.0,
+        "delta_recall_at_3": 0.0,
+        "delta_hit_at_4": 0.0,
+        "delta_precision_at_4": 0.0,
+        "delta_recall_at_4": 0.0,
+        "delta_reciprocal_rank": 0.0
+      }
+    }
+  ]
+}

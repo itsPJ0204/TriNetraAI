@@ -1,0 +1,10 @@
+torch
+torchvision
+open-clip-torch
+rasterio
+pillow
+numpy
+qdrant-client
+pytest
+requests
+

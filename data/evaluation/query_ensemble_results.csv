@@ -1,0 +1,61 @@
+query,rank,single_tile,single_score,ensemble_tile,ensemble_score,top_rank_changed,single_top_tile,ensemble_top_tile,top_score_diff,num_expansions
+river,1,tile_1.tif,0.2839029,tile_1.tif,0.262382285,False,tile_1.tif,tile_1.tif,-0.021521,4
+river,2,tile_4.tif,0.270352,tile_4.tif,0.24486902,False,tile_1.tif,tile_1.tif,-0.021521,4
+river,3,tile_3.tif,0.26183957,tile_3.tif,0.240512835,False,tile_1.tif,tile_1.tif,-0.021521,4
+river,4,tile_2.tif,0.26116735,tile_2.tif,0.23885488,False,tile_1.tif,tile_1.tif,-0.021521,4
+water,1,tile_1.tif,0.2735935,tile_1.tif,0.26575635,False,tile_1.tif,tile_1.tif,-0.007837,4
+water,2,tile_4.tif,0.24822497,tile_4.tif,0.2400070525,False,tile_1.tif,tile_1.tif,-0.007837,4
+water,3,tile_2.tif,0.24679865,tile_2.tif,0.23745708,False,tile_1.tif,tile_1.tif,-0.007837,4
+water,4,tile_3.tif,0.24607666,tile_3.tif,0.23595001,False,tile_1.tif,tile_1.tif,-0.007837,4
+road,1,tile_4.tif,0.2720937,tile_4.tif,0.2645379175,False,tile_4.tif,tile_4.tif,-0.007556,4
+road,2,tile_3.tif,0.26548123,tile_3.tif,0.2582748425,False,tile_4.tif,tile_4.tif,-0.007556,4
+road,3,tile_2.tif,0.25981778,tile_2.tif,0.2513145925,False,tile_4.tif,tile_4.tif,-0.007556,4
+road,4,tile_1.tif,0.25687668,tile_1.tif,0.24553843,False,tile_4.tif,tile_4.tif,-0.007556,4
+buildings,1,tile_3.tif,0.2695524,tile_3.tif,0.2804025525,False,tile_3.tif,tile_3.tif,0.01085,4
+buildings,2,tile_2.tif,0.26275566,tile_2.tif,0.272090555,False,tile_3.tif,tile_3.tif,0.01085,4
+buildings,3,tile_1.tif,0.26201612,tile_4.tif,0.270796905,False,tile_3.tif,tile_3.tif,0.01085,4
+buildings,4,tile_4.tif,0.25608382,tile_1.tif,0.26843302,False,tile_3.tif,tile_3.tif,0.01085,4
+urban area,1,tile_3.tif,0.3201766,tile_3.tif,0.306466395,False,tile_3.tif,tile_3.tif,-0.01371,4
+urban area,2,tile_2.tif,0.32001013,tile_2.tif,0.3026672775,False,tile_3.tif,tile_3.tif,-0.01371,4
+urban area,3,tile_4.tif,0.3137867,tile_4.tif,0.2987322225,False,tile_3.tif,tile_3.tif,-0.01371,4
+urban area,4,tile_1.tif,0.3054841,tile_1.tif,0.2945223125,False,tile_3.tif,tile_3.tif,-0.01371,4
+vegetation,1,tile_3.tif,0.26770774,tile_2.tif,0.2722225825,True,tile_3.tif,tile_2.tif,0.004515,4
+vegetation,2,tile_2.tif,0.2664777,tile_1.tif,0.27159258750000004,True,tile_3.tif,tile_2.tif,0.004515,4
+vegetation,3,tile_1.tif,0.26623744,tile_3.tif,0.26880482,True,tile_3.tif,tile_2.tif,0.004515,4
+vegetation,4,tile_4.tif,0.2652184,tile_4.tif,0.26617871,True,tile_3.tif,tile_2.tif,0.004515,4
+green area,1,tile_4.tif,0.27406284,tile_4.tif,0.2529506575,False,tile_4.tif,tile_4.tif,-0.021112,4
+green area,2,tile_2.tif,0.27296484,tile_3.tif,0.25177242,False,tile_4.tif,tile_4.tif,-0.021112,4
+green area,3,tile_1.tif,0.26916486,tile_2.tif,0.2489600475,False,tile_4.tif,tile_4.tif,-0.021112,4
+green area,4,tile_3.tif,0.26666588,tile_1.tif,0.24800452750000002,False,tile_4.tif,tile_4.tif,-0.021112,4
+urban areas near water,1,tile_1.tif,0.30890444,tile_1.tif,0.28423387499999997,False,tile_1.tif,tile_1.tif,-0.024671,4
+urban areas near water,2,tile_4.tif,0.2942446,tile_4.tif,0.25899819,False,tile_1.tif,tile_1.tif,-0.024671,4
+urban areas near water,3,tile_3.tif,0.2915163,tile_3.tif,0.256605705,False,tile_1.tif,tile_1.tif,-0.024671,4
+urban areas near water,4,tile_2.tif,0.29042414,tile_2.tif,0.255416905,False,tile_1.tif,tile_1.tif,-0.024671,4
+buildings near a river,1,tile_1.tif,0.2813653,tile_1.tif,0.2806430625,False,tile_1.tif,tile_1.tif,-0.000722,4
+buildings near a river,2,tile_4.tif,0.23492932,tile_4.tif,0.25168515,False,tile_1.tif,tile_1.tif,-0.000722,4
+buildings near a river,3,tile_3.tif,0.22839789,tile_3.tif,0.24215862,False,tile_1.tif,tile_1.tif,-0.000722,4
+buildings near a river,4,tile_2.tif,0.22709405,tile_2.tif,0.24030152999999999,False,tile_1.tif,tile_1.tif,-0.000722,4
+roads through green areas,1,tile_4.tif,0.23419255,tile_4.tif,0.2294065675,False,tile_4.tif,tile_4.tif,-0.004786,4
+roads through green areas,2,tile_3.tif,0.22137782,tile_3.tif,0.222209755,False,tile_4.tif,tile_4.tif,-0.004786,4
+roads through green areas,3,tile_2.tif,0.21648502,tile_2.tif,0.2151379175,False,tile_4.tif,tile_4.tif,-0.004786,4
+roads through green areas,4,tile_1.tif,0.20735545,tile_1.tif,0.213194685,False,tile_4.tif,tile_4.tif,-0.004786,4
+water surrounded by vegetation,1,tile_1.tif,0.24541602,tile_1.tif,0.23886617,False,tile_1.tif,tile_1.tif,-0.00655,4
+water surrounded by vegetation,2,tile_4.tif,0.22209427,tile_4.tif,0.20944191,False,tile_1.tif,tile_1.tif,-0.00655,4
+water surrounded by vegetation,3,tile_3.tif,0.2188769,tile_2.tif,0.2085208625,False,tile_1.tif,tile_1.tif,-0.00655,4
+water surrounded by vegetation,4,tile_2.tif,0.21882167,tile_3.tif,0.2030198075,False,tile_1.tif,tile_1.tif,-0.00655,4
+urban area with roads,1,tile_3.tif,0.29980403,tile_3.tif,0.29187393,False,tile_3.tif,tile_3.tif,-0.00793,4
+urban area with roads,2,tile_4.tif,0.29710275,tile_4.tif,0.2844233075,False,tile_3.tif,tile_3.tif,-0.00793,4
+urban area with roads,3,tile_2.tif,0.29694223,tile_2.tif,0.281569815,False,tile_3.tif,tile_3.tif,-0.00793,4
+urban area with roads,4,tile_1.tif,0.28155968,tile_1.tif,0.27672749,False,tile_3.tif,tile_3.tif,-0.00793,4
+buildings and roads,1,tile_3.tif,0.24749675,tile_3.tif,0.265291375,False,tile_3.tif,tile_3.tif,0.017795,4
+buildings and roads,2,tile_1.tif,0.24338374,tile_4.tif,0.2587652925,False,tile_3.tif,tile_3.tif,0.017795,4
+buildings and roads,3,tile_4.tif,0.23820217,tile_1.tif,0.25550368749999997,False,tile_3.tif,tile_3.tif,0.017795,4
+buildings and roads,4,tile_2.tif,0.23699236,tile_2.tif,0.2550394825,False,tile_3.tif,tile_3.tif,0.017795,4
+green area near water,1,tile_1.tif,0.2615769,tile_1.tif,0.25935509749999996,False,tile_1.tif,tile_1.tif,-0.002222,4
+green area near water,2,tile_4.tif,0.23634541,tile_4.tif,0.23980999,False,tile_1.tif,tile_1.tif,-0.002222,4
+green area near water,3,tile_2.tif,0.22311169,tile_2.tif,0.22909888750000001,False,tile_1.tif,tile_1.tif,-0.002222,4
+green area near water,4,tile_3.tif,0.21748918,tile_3.tif,0.2264715475,False,tile_1.tif,tile_1.tif,-0.002222,4
+dense urban area,1,tile_3.tif,0.32928258,tile_3.tif,0.2997788625,False,tile_3.tif,tile_3.tif,-0.029504,4
+dense urban area,2,tile_2.tif,0.32824728,tile_2.tif,0.295248285,False,tile_3.tif,tile_3.tif,-0.029504,4
+dense urban area,3,tile_4.tif,0.3159387,tile_4.tif,0.2873496325,False,tile_3.tif,tile_3.tif,-0.029504,4
+dense urban area,4,tile_1.tif,0.31211966,tile_1.tif,0.28468226500000005,False,tile_3.tif,tile_3.tif,-0.029504,4

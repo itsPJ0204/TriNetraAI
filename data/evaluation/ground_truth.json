@@ -1,0 +1,145 @@
+{
+  "version": "1.0.0",
+  "created_at": "2026-09-06",
+  "description": "Human visual ground-truth annotations for satellite semantic search evaluation.",
+  "dataset_tiles": [
+    "tile_1.tif",
+    "tile_2.tif",
+    "tile_3.tif",
+    "tile_4.tif"
+  ],
+  "labeling_rules": "Conservative visual relevance: a tile is marked relevant only if the concept is visibly present at a meaningful level in actual GeoTIFF imagery.",
+  "queries": {
+    "river": {
+      "relevant_tiles": [
+        "tile_1.tif"
+      ],
+      "notes": "tile_1.tif contains a prominent, wide river channel along the left side with a bridge crossing.",
+      "uncertainty": "tile_4.tif contains a narrow canal/waterway; excluded under strict river definition."
+    },
+    "water": {
+      "relevant_tiles": [
+        "tile_1.tif",
+        "tile_4.tif"
+      ],
+      "notes": "tile_1.tif features a large open river body; tile_4.tif features a visible dark linear water channel/canal and pond feature along the right edge.",
+      "uncertainty": "None. Surface water is distinctly visible in both tile_1.tif and tile_4.tif."
+    },
+    "road": {
+      "relevant_tiles": [
+        "tile_1.tif",
+        "tile_2.tif",
+        "tile_3.tif",
+        "tile_4.tif"
+      ],
+      "notes": "All 4 tiles exhibit clear road and transport infrastructure: tile_1.tif has a major bridge and city street grid; tile_2.tif has arterial corridors; tile_3.tif has distinct avenues and a traffic circle; tile_4.tif has major transit and road convergence.",
+      "uncertainty": "None. Transport corridors and paved road networks are clearly present across all four urban tiles."
+    },
+    "buildings": {
+      "relevant_tiles": [
+        "tile_1.tif",
+        "tile_2.tif",
+        "tile_3.tif",
+        "tile_4.tif"
+      ],
+      "notes": "All 4 tiles have high-density built structures, residential/commercial rooftops, and urban building footprints.",
+      "uncertainty": "None. Structures are visibly present across all four tiles."
+    },
+    "urban area": {
+      "relevant_tiles": [
+        "tile_1.tif",
+        "tile_2.tif",
+        "tile_3.tif",
+        "tile_4.tif"
+      ],
+      "notes": "All 4 tiles encompass developed, high-density urban and metropolitan environments.",
+      "uncertainty": "None. Built-up urban fabric covers substantial portions of every tile."
+    },
+    "vegetation": {
+      "relevant_tiles": [
+        "tile_2.tif",
+        "tile_3.tif",
+        "tile_4.tif"
+      ],
+      "notes": "tile_2.tif has a north-south linear green corridor and park trees; tile_3.tif has large open green grounds and tree clusters on the left; tile_4.tif has a central green park and vegetated canal banks.",
+      "uncertainty": "tile_1.tif contains minor green field patches in the bottom-left corner, but excluded under conservative threshold as it is dominated by urban fabric and river."
+    },
+    "green area": {
+      "relevant_tiles": [
+        "tile_2.tif",
+        "tile_3.tif",
+        "tile_4.tif"
+      ],
+      "notes": "tile_2.tif features a green corridor and park spaces; tile_3.tif features large open grassy/park areas on the left; tile_4.tif features a central green wooded park and green canal corridor.",
+      "uncertainty": "tile_1.tif has small sports/park squares, but not significant contiguous green area."
+    },
+    "urban areas near water": {
+      "relevant_tiles": [
+        "tile_1.tif",
+        "tile_4.tif"
+      ],
+      "notes": "tile_1.tif shows high-density urban buildings immediately adjacent to the large river; tile_4.tif shows urban development bordering the canal/waterway.",
+      "uncertainty": "tile_4.tif water feature is smaller than tile_1.tif's river, but clearly adjacent to urban structures."
+    },
+    "buildings near a river": {
+      "relevant_tiles": [
+        "tile_1.tif"
+      ],
+      "notes": "tile_1.tif contains dense buildings constructed directly along the major river bank.",
+      "uncertainty": "tile_4.tif has buildings along a narrow canal/waterway; excluded under strict river definition."
+    },
+    "roads through green areas": {
+      "relevant_tiles": [
+        "tile_2.tif",
+        "tile_3.tif",
+        "tile_4.tif"
+      ],
+      "notes": "tile_3.tif has roads cutting through and bordering the large park grounds on the left; tile_2.tif has road corridors passing along the linear green belt; tile_4.tif has roads adjacent to the central green park.",
+      "uncertainty": "Roads in tile_2.tif and tile_4.tif run alongside rather than directly through deep forest; tile_3.tif is the clearest example."
+    },
+    "water surrounded by vegetation": {
+      "relevant_tiles": [
+        "tile_4.tif"
+      ],
+      "notes": "tile_4.tif has a canal/water channel closely flanked by green trees and vegetated banks.",
+      "uncertainty": "tile_1.tif's river is mostly lined by concrete/urban embankments rather than dense natural vegetation."
+    },
+    "urban area with roads": {
+      "relevant_tiles": [
+        "tile_1.tif",
+        "tile_2.tif",
+        "tile_3.tif",
+        "tile_4.tif"
+      ],
+      "notes": "All 4 tiles feature developed urban areas integrated with transportation grids.",
+      "uncertainty": "None."
+    },
+    "buildings and roads": {
+      "relevant_tiles": [
+        "tile_1.tif",
+        "tile_2.tif",
+        "tile_3.tif",
+        "tile_4.tif"
+      ],
+      "notes": "All 4 tiles contain dense co-occurring building structures and paved road networks.",
+      "uncertainty": "None."
+    },
+    "green area near water": {
+      "relevant_tiles": [
+        "tile_4.tif"
+      ],
+      "notes": "tile_4.tif shows distinct green tree canopy and vegetated banks directly bordering the waterway.",
+      "uncertainty": "tile_1.tif has a small park in the bottom-left near the river, but the riverbank is largely urban."
+    },
+    "dense urban area": {
+      "relevant_tiles": [
+        "tile_1.tif",
+        "tile_2.tif",
+        "tile_3.tif",
+        "tile_4.tif"
+      ],
+      "notes": "All 4 tiles depict dense metropolitan built-up areas, with tile_2.tif and tile_3.tif showing especially contiguous building density.",
+      "uncertainty": "None."
+    }
+  }
+}

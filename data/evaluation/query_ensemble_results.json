@@ -1,0 +1,2577 @@
+{
+  "benchmark_summary": {
+    "total_queries": 15,
+    "top_rank_changed_count": 1,
+    "top_rank_unchanged_count": 14,
+    "percent_changed": 6.67,
+    "percent_unchanged": 93.33,
+    "avg_top_score_diff": -0.007664
+  },
+  "results": [
+    {
+      "query": "river",
+      "expansions": [
+        "river",
+        "stream or waterway",
+        "river flowing through landscape",
+        "water river channel"
+      ],
+      "num_expansions": 4,
+      "top_k": 4,
+      "single_query_results": [
+        {
+          "rank": 1,
+          "tile_name": "tile_1.tif",
+          "score": 0.2839029,
+          "image_path": "data/tiles/tile_1.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.344498,
+            "bottom": 22.570773000000003,
+            "right": 88.3654405,
+            "top": 22.586632
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29"
+        },
+        {
+          "rank": 2,
+          "tile_name": "tile_4.tif",
+          "score": 0.270352,
+          "image_path": "data/tiles/tile_4.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.3654405,
+            "bottom": 22.554914000000004,
+            "right": 88.386383,
+            "top": 22.570773000000003
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29"
+        },
+        {
+          "rank": 3,
+          "tile_name": "tile_3.tif",
+          "score": 0.26183957,
+          "image_path": "data/tiles/tile_3.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.344498,
+            "bottom": 22.554914000000004,
+            "right": 88.3654405,
+            "top": 22.570773000000003
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29"
+        },
+        {
+          "rank": 4,
+          "tile_name": "tile_2.tif",
+          "score": 0.26116735,
+          "image_path": "data/tiles/tile_2.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.3654405,
+            "bottom": 22.570773000000003,
+            "right": 88.386383,
+            "top": 22.586632
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29"
+        }
+      ],
+      "ensemble_results": [
+        {
+          "tile_name": "tile_1.tif",
+          "score": 0.262382285,
+          "image_path": "data/tiles/tile_1.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.344498,
+            "bottom": 22.570773000000003,
+            "right": 88.3654405,
+            "top": 22.586632
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29",
+          "raw_scores": [
+            0.2839029,
+            0.2505164,
+            0.24597189,
+            0.26913795
+          ],
+          "rank": 1
+        },
+        {
+          "tile_name": "tile_4.tif",
+          "score": 0.24486902,
+          "image_path": "data/tiles/tile_4.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.3654405,
+            "bottom": 22.554914000000004,
+            "right": 88.386383,
+            "top": 22.570773000000003
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29",
+          "raw_scores": [
+            0.270352,
+            0.24099155,
+            0.22191307,
+            0.24621946
+          ],
+          "rank": 2
+        },
+        {
+          "tile_name": "tile_3.tif",
+          "score": 0.240512835,
+          "image_path": "data/tiles/tile_3.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.344498,
+            "bottom": 22.554914000000004,
+            "right": 88.3654405,
+            "top": 22.570773000000003
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29",
+          "raw_scores": [
+            0.26183957,
+            0.22692376,
+            0.23175345,
+            0.24153456
+          ],
+          "rank": 3
+        },
+        {
+          "tile_name": "tile_2.tif",
+          "score": 0.23885488,
+          "image_path": "data/tiles/tile_2.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.3654405,
+            "bottom": 22.570773000000003,
+            "right": 88.386383,
+            "top": 22.586632
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29",
+          "raw_scores": [
+            0.26116735,
+            0.22985908,
+            0.22122663,
+            0.24316646
+          ],
+          "rank": 4
+        }
+      ],
+      "single_top_tile": "tile_1.tif",
+      "ensemble_top_tile": "tile_1.tif",
+      "top_rank_changed": false,
+      "top_score_diff": -0.021521
+    },
+    {
+      "query": "water",
+      "expansions": [
+        "water",
+        "body of water",
+        "water surface",
+        "lake river or sea"
+      ],
+      "num_expansions": 4,
+      "top_k": 4,
+      "single_query_results": [
+        {
+          "rank": 1,
+          "tile_name": "tile_1.tif",
+          "score": 0.2735935,
+          "image_path": "data/tiles/tile_1.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.344498,
+            "bottom": 22.570773000000003,
+            "right": 88.3654405,
+            "top": 22.586632
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29"
+        },
+        {
+          "rank": 2,
+          "tile_name": "tile_4.tif",
+          "score": 0.24822497,
+          "image_path": "data/tiles/tile_4.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.3654405,
+            "bottom": 22.554914000000004,
+            "right": 88.386383,
+            "top": 22.570773000000003
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29"
+        },
+        {
+          "rank": 3,
+          "tile_name": "tile_2.tif",
+          "score": 0.24679865,
+          "image_path": "data/tiles/tile_2.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.3654405,
+            "bottom": 22.570773000000003,
+            "right": 88.386383,
+            "top": 22.586632
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29"
+        },
+        {
+          "rank": 4,
+          "tile_name": "tile_3.tif",
+          "score": 0.24607666,
+          "image_path": "data/tiles/tile_3.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.344498,
+            "bottom": 22.554914000000004,
+            "right": 88.3654405,
+            "top": 22.570773000000003
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29"
+        }
+      ],
+      "ensemble_results": [
+        {
+          "tile_name": "tile_1.tif",
+          "score": 0.26575635,
+          "image_path": "data/tiles/tile_1.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.344498,
+            "bottom": 22.570773000000003,
+            "right": 88.3654405,
+            "top": 22.586632
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29",
+          "raw_scores": [
+            0.2735935,
+            0.27154568,
+            0.26787907,
+            0.25000715
+          ],
+          "rank": 1
+        },
+        {
+          "tile_name": "tile_4.tif",
+          "score": 0.2400070525,
+          "image_path": "data/tiles/tile_4.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.3654405,
+            "bottom": 22.554914000000004,
+            "right": 88.386383,
+            "top": 22.570773000000003
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29",
+          "raw_scores": [
+            0.24822497,
+            0.24142325,
+            0.23763305,
+            0.23274694
+          ],
+          "rank": 2
+        },
+        {
+          "tile_name": "tile_2.tif",
+          "score": 0.23745708,
+          "image_path": "data/tiles/tile_2.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.3654405,
+            "bottom": 22.570773000000003,
+            "right": 88.386383,
+            "top": 22.586632
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29",
+          "raw_scores": [
+            0.24679865,
+            0.23854628,
+            0.24010138,
+            0.22438201
+          ],
+          "rank": 3
+        },
+        {
+          "tile_name": "tile_3.tif",
+          "score": 0.23595001,
+          "image_path": "data/tiles/tile_3.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.344498,
+            "bottom": 22.554914000000004,
+            "right": 88.3654405,
+            "top": 22.570773000000003
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29",
+          "raw_scores": [
+            0.24607666,
+            0.2406041,
+            0.23685408,
+            0.2202652
+          ],
+          "rank": 4
+        }
+      ],
+      "single_top_tile": "tile_1.tif",
+      "ensemble_top_tile": "tile_1.tif",
+      "top_rank_changed": false,
+      "top_score_diff": -0.007837
+    },
+    {
+      "query": "road",
+      "expansions": [
+        "road",
+        "highway or street",
+        "paved road network",
+        "transportation route"
+      ],
+      "num_expansions": 4,
+      "top_k": 4,
+      "single_query_results": [
+        {
+          "rank": 1,
+          "tile_name": "tile_4.tif",
+          "score": 0.2720937,
+          "image_path": "data/tiles/tile_4.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.3654405,
+            "bottom": 22.554914000000004,
+            "right": 88.386383,
+            "top": 22.570773000000003
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29"
+        },
+        {
+          "rank": 2,
+          "tile_name": "tile_3.tif",
+          "score": 0.26548123,
+          "image_path": "data/tiles/tile_3.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.344498,
+            "bottom": 22.554914000000004,
+            "right": 88.3654405,
+            "top": 22.570773000000003
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29"
+        },
+        {
+          "rank": 3,
+          "tile_name": "tile_2.tif",
+          "score": 0.25981778,
+          "image_path": "data/tiles/tile_2.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.3654405,
+            "bottom": 22.570773000000003,
+            "right": 88.386383,
+            "top": 22.586632
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29"
+        },
+        {
+          "rank": 4,
+          "tile_name": "tile_1.tif",
+          "score": 0.25687668,
+          "image_path": "data/tiles/tile_1.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.344498,
+            "bottom": 22.570773000000003,
+            "right": 88.3654405,
+            "top": 22.586632
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29"
+        }
+      ],
+      "ensemble_results": [
+        {
+          "tile_name": "tile_4.tif",
+          "score": 0.2645379175,
+          "image_path": "data/tiles/tile_4.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.3654405,
+            "bottom": 22.554914000000004,
+            "right": 88.386383,
+            "top": 22.570773000000003
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29",
+          "raw_scores": [
+            0.2720937,
+            0.2548316,
+            0.25348657,
+            0.2777398
+          ],
+          "rank": 1
+        },
+        {
+          "tile_name": "tile_3.tif",
+          "score": 0.2582748425,
+          "image_path": "data/tiles/tile_3.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.344498,
+            "bottom": 22.554914000000004,
+            "right": 88.3654405,
+            "top": 22.570773000000003
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29",
+          "raw_scores": [
+            0.26548123,
+            0.25189218,
+            0.24457683,
+            0.27114913
+          ],
+          "rank": 2
+        },
+        {
+          "tile_name": "tile_2.tif",
+          "score": 0.2513145925,
+          "image_path": "data/tiles/tile_2.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.3654405,
+            "bottom": 22.570773000000003,
+            "right": 88.386383,
+            "top": 22.586632
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29",
+          "raw_scores": [
+            0.25981778,
+            0.2428694,
+            0.24658301,
+            0.25598818
+          ],
+          "rank": 3
+        },
+        {
+          "tile_name": "tile_1.tif",
+          "score": 0.24553843,
+          "image_path": "data/tiles/tile_1.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.344498,
+            "bottom": 22.570773000000003,
+            "right": 88.3654405,
+            "top": 22.586632
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29",
+          "raw_scores": [
+            0.25687668,
+            0.23462428,
+            0.24069016,
+            0.2499626
+          ],
+          "rank": 4
+        }
+      ],
+      "single_top_tile": "tile_4.tif",
+      "ensemble_top_tile": "tile_4.tif",
+      "top_rank_changed": false,
+      "top_score_diff": -0.007556
+    },
+    {
+      "query": "buildings",
+      "expansions": [
+        "buildings",
+        "urban structures",
+        "residential and commercial buildings",
+        "built-up structures"
+      ],
+      "num_expansions": 4,
+      "top_k": 4,
+      "single_query_results": [
+        {
+          "rank": 1,
+          "tile_name": "tile_3.tif",
+          "score": 0.2695524,
+          "image_path": "data/tiles/tile_3.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.344498,
+            "bottom": 22.554914000000004,
+            "right": 88.3654405,
+            "top": 22.570773000000003
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29"
+        },
+        {
+          "rank": 2,
+          "tile_name": "tile_2.tif",
+          "score": 0.26275566,
+          "image_path": "data/tiles/tile_2.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.3654405,
+            "bottom": 22.570773000000003,
+            "right": 88.386383,
+            "top": 22.586632
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29"
+        },
+        {
+          "rank": 3,
+          "tile_name": "tile_1.tif",
+          "score": 0.26201612,
+          "image_path": "data/tiles/tile_1.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.344498,
+            "bottom": 22.570773000000003,
+            "right": 88.3654405,
+            "top": 22.586632
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29"
+        },
+        {
+          "rank": 4,
+          "tile_name": "tile_4.tif",
+          "score": 0.25608382,
+          "image_path": "data/tiles/tile_4.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.3654405,
+            "bottom": 22.554914000000004,
+            "right": 88.386383,
+            "top": 22.570773000000003
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29"
+        }
+      ],
+      "ensemble_results": [
+        {
+          "tile_name": "tile_3.tif",
+          "score": 0.2804025525,
+          "image_path": "data/tiles/tile_3.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.344498,
+            "bottom": 22.554914000000004,
+            "right": 88.3654405,
+            "top": 22.570773000000003
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29",
+          "raw_scores": [
+            0.2695524,
+            0.31103876,
+            0.28230238,
+            0.25871667
+          ],
+          "rank": 1
+        },
+        {
+          "tile_name": "tile_2.tif",
+          "score": 0.272090555,
+          "image_path": "data/tiles/tile_2.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.3654405,
+            "bottom": 22.570773000000003,
+            "right": 88.386383,
+            "top": 22.586632
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29",
+          "raw_scores": [
+            0.26275566,
+            0.30709586,
+            0.26741424,
+            0.25109646
+          ],
+          "rank": 2
+        },
+        {
+          "tile_name": "tile_4.tif",
+          "score": 0.270796905,
+          "image_path": "data/tiles/tile_4.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.3654405,
+            "bottom": 22.554914000000004,
+            "right": 88.386383,
+            "top": 22.570773000000003
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29",
+          "raw_scores": [
+            0.25608382,
+            0.3022264,
+            0.26121634,
+            0.26366106
+          ],
+          "rank": 3
+        },
+        {
+          "tile_name": "tile_1.tif",
+          "score": 0.26843302,
+          "image_path": "data/tiles/tile_1.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.344498,
+            "bottom": 22.570773000000003,
+            "right": 88.3654405,
+            "top": 22.586632
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29",
+          "raw_scores": [
+            0.26201612,
+            0.29072136,
+            0.2740169,
+            0.2469777
+          ],
+          "rank": 4
+        }
+      ],
+      "single_top_tile": "tile_3.tif",
+      "ensemble_top_tile": "tile_3.tif",
+      "top_rank_changed": false,
+      "top_score_diff": 0.01085
+    },
+    {
+      "query": "urban area",
+      "expansions": [
+        "urban area",
+        "city or town",
+        "built-up urban settlement",
+        "densely populated area"
+      ],
+      "num_expansions": 4,
+      "top_k": 4,
+      "single_query_results": [
+        {
+          "rank": 1,
+          "tile_name": "tile_3.tif",
+          "score": 0.3201766,
+          "image_path": "data/tiles/tile_3.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.344498,
+            "bottom": 22.554914000000004,
+            "right": 88.3654405,
+            "top": 22.570773000000003
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29"
+        },
+        {
+          "rank": 2,
+          "tile_name": "tile_2.tif",
+          "score": 0.32001013,
+          "image_path": "data/tiles/tile_2.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.3654405,
+            "bottom": 22.570773000000003,
+            "right": 88.386383,
+            "top": 22.586632
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29"
+        },
+        {
+          "rank": 3,
+          "tile_name": "tile_4.tif",
+          "score": 0.3137867,
+          "image_path": "data/tiles/tile_4.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.3654405,
+            "bottom": 22.554914000000004,
+            "right": 88.386383,
+            "top": 22.570773000000003
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29"
+        },
+        {
+          "rank": 4,
+          "tile_name": "tile_1.tif",
+          "score": 0.3054841,
+          "image_path": "data/tiles/tile_1.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.344498,
+            "bottom": 22.570773000000003,
+            "right": 88.3654405,
+            "top": 22.586632
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29"
+        }
+      ],
+      "ensemble_results": [
+        {
+          "tile_name": "tile_3.tif",
+          "score": 0.306466395,
+          "image_path": "data/tiles/tile_3.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.344498,
+            "bottom": 22.554914000000004,
+            "right": 88.3654405,
+            "top": 22.570773000000003
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29",
+          "raw_scores": [
+            0.3201766,
+            0.30981082,
+            0.30506012,
+            0.29081804
+          ],
+          "rank": 1
+        },
+        {
+          "tile_name": "tile_2.tif",
+          "score": 0.3026672775,
+          "image_path": "data/tiles/tile_2.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.3654405,
+            "bottom": 22.570773000000003,
+            "right": 88.386383,
+            "top": 22.586632
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29",
+          "raw_scores": [
+            0.32001013,
+            0.29686785,
+            0.30021808,
+            0.29357305
+          ],
+          "rank": 2
+        },
+        {
+          "tile_name": "tile_4.tif",
+          "score": 0.2987322225,
+          "image_path": "data/tiles/tile_4.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.3654405,
+            "bottom": 22.554914000000004,
+            "right": 88.386383,
+            "top": 22.570773000000003
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29",
+          "raw_scores": [
+            0.3137867,
+            0.2992084,
+            0.29890206,
+            0.28303173
+          ],
+          "rank": 3
+        },
+        {
+          "tile_name": "tile_1.tif",
+          "score": 0.2945223125,
+          "image_path": "data/tiles/tile_1.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.344498,
+            "bottom": 22.570773000000003,
+            "right": 88.3654405,
+            "top": 22.586632
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29",
+          "raw_scores": [
+            0.3054841,
+            0.29116178,
+            0.29205847,
+            0.2893849
+          ],
+          "rank": 4
+        }
+      ],
+      "single_top_tile": "tile_3.tif",
+      "ensemble_top_tile": "tile_3.tif",
+      "top_rank_changed": false,
+      "top_score_diff": -0.01371
+    },
+    {
+      "query": "vegetation",
+      "expansions": [
+        "vegetation",
+        "green plant cover",
+        "trees and foliage",
+        "natural vegetation"
+      ],
+      "num_expansions": 4,
+      "top_k": 4,
+      "single_query_results": [
+        {
+          "rank": 1,
+          "tile_name": "tile_3.tif",
+          "score": 0.26770774,
+          "image_path": "data/tiles/tile_3.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.344498,
+            "bottom": 22.554914000000004,
+            "right": 88.3654405,
+            "top": 22.570773000000003
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29"
+        },
+        {
+          "rank": 2,
+          "tile_name": "tile_2.tif",
+          "score": 0.2664777,
+          "image_path": "data/tiles/tile_2.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.3654405,
+            "bottom": 22.570773000000003,
+            "right": 88.386383,
+            "top": 22.586632
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29"
+        },
+        {
+          "rank": 3,
+          "tile_name": "tile_1.tif",
+          "score": 0.26623744,
+          "image_path": "data/tiles/tile_1.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.344498,
+            "bottom": 22.570773000000003,
+            "right": 88.3654405,
+            "top": 22.586632
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29"
+        },
+        {
+          "rank": 4,
+          "tile_name": "tile_4.tif",
+          "score": 0.2652184,
+          "image_path": "data/tiles/tile_4.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.3654405,
+            "bottom": 22.554914000000004,
+            "right": 88.386383,
+            "top": 22.570773000000003
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29"
+        }
+      ],
+      "ensemble_results": [
+        {
+          "tile_name": "tile_2.tif",
+          "score": 0.2722225825,
+          "image_path": "data/tiles/tile_2.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.3654405,
+            "bottom": 22.570773000000003,
+            "right": 88.386383,
+            "top": 22.586632
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29",
+          "raw_scores": [
+            0.2664777,
+            0.28051206,
+            0.26349282,
+            0.27840775
+          ],
+          "rank": 1
+        },
+        {
+          "tile_name": "tile_1.tif",
+          "score": 0.27159258750000004,
+          "image_path": "data/tiles/tile_1.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.344498,
+            "bottom": 22.570773000000003,
+            "right": 88.3654405,
+            "top": 22.586632
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29",
+          "raw_scores": [
+            0.26623744,
+            0.28425336,
+            0.26041108,
+            0.27546847
+          ],
+          "rank": 2
+        },
+        {
+          "tile_name": "tile_3.tif",
+          "score": 0.26880482,
+          "image_path": "data/tiles/tile_3.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.344498,
+            "bottom": 22.554914000000004,
+            "right": 88.3654405,
+            "top": 22.570773000000003
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29",
+          "raw_scores": [
+            0.26770774,
+            0.27102557,
+            0.25624725,
+            0.28023872
+          ],
+          "rank": 3
+        },
+        {
+          "tile_name": "tile_4.tif",
+          "score": 0.26617871,
+          "image_path": "data/tiles/tile_4.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.3654405,
+            "bottom": 22.554914000000004,
+            "right": 88.386383,
+            "top": 22.570773000000003
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29",
+          "raw_scores": [
+            0.2652184,
+            0.27352843,
+            0.24982294,
+            0.27614507
+          ],
+          "rank": 4
+        }
+      ],
+      "single_top_tile": "tile_3.tif",
+      "ensemble_top_tile": "tile_2.tif",
+      "top_rank_changed": true,
+      "top_score_diff": 0.004515
+    },
+    {
+      "query": "green area",
+      "expansions": [
+        "green area",
+        "park or grassland",
+        "green landscape with vegetation",
+        "foliage and open green space"
+      ],
+      "num_expansions": 4,
+      "top_k": 4,
+      "single_query_results": [
+        {
+          "rank": 1,
+          "tile_name": "tile_4.tif",
+          "score": 0.27406284,
+          "image_path": "data/tiles/tile_4.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.3654405,
+            "bottom": 22.554914000000004,
+            "right": 88.386383,
+            "top": 22.570773000000003
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29"
+        },
+        {
+          "rank": 2,
+          "tile_name": "tile_2.tif",
+          "score": 0.27296484,
+          "image_path": "data/tiles/tile_2.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.3654405,
+            "bottom": 22.570773000000003,
+            "right": 88.386383,
+            "top": 22.586632
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29"
+        },
+        {
+          "rank": 3,
+          "tile_name": "tile_1.tif",
+          "score": 0.26916486,
+          "image_path": "data/tiles/tile_1.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.344498,
+            "bottom": 22.570773000000003,
+            "right": 88.3654405,
+            "top": 22.586632
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29"
+        },
+        {
+          "rank": 4,
+          "tile_name": "tile_3.tif",
+          "score": 0.26666588,
+          "image_path": "data/tiles/tile_3.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.344498,
+            "bottom": 22.554914000000004,
+            "right": 88.3654405,
+            "top": 22.570773000000003
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29"
+        }
+      ],
+      "ensemble_results": [
+        {
+          "tile_name": "tile_4.tif",
+          "score": 0.2529506575,
+          "image_path": "data/tiles/tile_4.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.3654405,
+            "bottom": 22.554914000000004,
+            "right": 88.386383,
+            "top": 22.570773000000003
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29",
+          "raw_scores": [
+            0.27406284,
+            0.25880906,
+            0.23938495,
+            0.23954578
+          ],
+          "rank": 1
+        },
+        {
+          "tile_name": "tile_3.tif",
+          "score": 0.25177242,
+          "image_path": "data/tiles/tile_3.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.344498,
+            "bottom": 22.554914000000004,
+            "right": 88.3654405,
+            "top": 22.570773000000003
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29",
+          "raw_scores": [
+            0.26666588,
+            0.26188347,
+            0.23827097,
+            0.24026936
+          ],
+          "rank": 2
+        },
+        {
+          "tile_name": "tile_2.tif",
+          "score": 0.2489600475,
+          "image_path": "data/tiles/tile_2.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.3654405,
+            "bottom": 22.570773000000003,
+            "right": 88.386383,
+            "top": 22.586632
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29",
+          "raw_scores": [
+            0.27296484,
+            0.24844767,
+            0.23126596,
+            0.24316172
+          ],
+          "rank": 3
+        },
+        {
+          "tile_name": "tile_1.tif",
+          "score": 0.24800452750000002,
+          "image_path": "data/tiles/tile_1.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.344498,
+            "bottom": 22.570773000000003,
+            "right": 88.3654405,
+            "top": 22.586632
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29",
+          "raw_scores": [
+            0.26916486,
+            0.23902027,
+            0.23979017,
+            0.24404281
+          ],
+          "rank": 4
+        }
+      ],
+      "single_top_tile": "tile_4.tif",
+      "ensemble_top_tile": "tile_4.tif",
+      "top_rank_changed": false,
+      "top_score_diff": -0.021112
+    },
+    {
+      "query": "urban areas near water",
+      "expansions": [
+        "urban areas near water",
+        "city waterfront",
+        "urban buildings along water body",
+        "settlement adjacent to water"
+      ],
+      "num_expansions": 4,
+      "top_k": 4,
+      "single_query_results": [
+        {
+          "rank": 1,
+          "tile_name": "tile_1.tif",
+          "score": 0.30890444,
+          "image_path": "data/tiles/tile_1.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.344498,
+            "bottom": 22.570773000000003,
+            "right": 88.3654405,
+            "top": 22.586632
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29"
+        },
+        {
+          "rank": 2,
+          "tile_name": "tile_4.tif",
+          "score": 0.2942446,
+          "image_path": "data/tiles/tile_4.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.3654405,
+            "bottom": 22.554914000000004,
+            "right": 88.386383,
+            "top": 22.570773000000003
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29"
+        },
+        {
+          "rank": 3,
+          "tile_name": "tile_3.tif",
+          "score": 0.2915163,
+          "image_path": "data/tiles/tile_3.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.344498,
+            "bottom": 22.554914000000004,
+            "right": 88.3654405,
+            "top": 22.570773000000003
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29"
+        },
+        {
+          "rank": 4,
+          "tile_name": "tile_2.tif",
+          "score": 0.29042414,
+          "image_path": "data/tiles/tile_2.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.3654405,
+            "bottom": 22.570773000000003,
+            "right": 88.386383,
+            "top": 22.586632
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29"
+        }
+      ],
+      "ensemble_results": [
+        {
+          "tile_name": "tile_1.tif",
+          "score": 0.28423387499999997,
+          "image_path": "data/tiles/tile_1.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.344498,
+            "bottom": 22.570773000000003,
+            "right": 88.3654405,
+            "top": 22.586632
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29",
+          "raw_scores": [
+            0.30890444,
+            0.2641068,
+            0.30209774,
+            0.26182652
+          ],
+          "rank": 1
+        },
+        {
+          "tile_name": "tile_4.tif",
+          "score": 0.25899819,
+          "image_path": "data/tiles/tile_4.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.3654405,
+            "bottom": 22.554914000000004,
+            "right": 88.386383,
+            "top": 22.570773000000003
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29",
+          "raw_scores": [
+            0.2942446,
+            0.24467206,
+            0.26138,
+            0.2356961
+          ],
+          "rank": 2
+        },
+        {
+          "tile_name": "tile_3.tif",
+          "score": 0.256605705,
+          "image_path": "data/tiles/tile_3.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.344498,
+            "bottom": 22.554914000000004,
+            "right": 88.3654405,
+            "top": 22.570773000000003
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29",
+          "raw_scores": [
+            0.2915163,
+            0.24417299,
+            0.26170605,
+            0.22902748
+          ],
+          "rank": 3
+        },
+        {
+          "tile_name": "tile_2.tif",
+          "score": 0.255416905,
+          "image_path": "data/tiles/tile_2.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.3654405,
+            "bottom": 22.570773000000003,
+            "right": 88.386383,
+            "top": 22.586632
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29",
+          "raw_scores": [
+            0.29042414,
+            0.24226636,
+            0.2615525,
+            0.22742462
+          ],
+          "rank": 4
+        }
+      ],
+      "single_top_tile": "tile_1.tif",
+      "ensemble_top_tile": "tile_1.tif",
+      "top_rank_changed": false,
+      "top_score_diff": -0.024671
+    },
+    {
+      "query": "buildings near a river",
+      "expansions": [
+        "buildings near a river",
+        "urban buildings beside water",
+        "built-up area near water",
+        "structures close to a river"
+      ],
+      "num_expansions": 4,
+      "top_k": 4,
+      "single_query_results": [
+        {
+          "rank": 1,
+          "tile_name": "tile_1.tif",
+          "score": 0.2813653,
+          "image_path": "data/tiles/tile_1.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.344498,
+            "bottom": 22.570773000000003,
+            "right": 88.3654405,
+            "top": 22.586632
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29"
+        },
+        {
+          "rank": 2,
+          "tile_name": "tile_4.tif",
+          "score": 0.23492932,
+          "image_path": "data/tiles/tile_4.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.3654405,
+            "bottom": 22.554914000000004,
+            "right": 88.386383,
+            "top": 22.570773000000003
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29"
+        },
+        {
+          "rank": 3,
+          "tile_name": "tile_3.tif",
+          "score": 0.22839789,
+          "image_path": "data/tiles/tile_3.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.344498,
+            "bottom": 22.554914000000004,
+            "right": 88.3654405,
+            "top": 22.570773000000003
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29"
+        },
+        {
+          "rank": 4,
+          "tile_name": "tile_2.tif",
+          "score": 0.22709405,
+          "image_path": "data/tiles/tile_2.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.3654405,
+            "bottom": 22.570773000000003,
+            "right": 88.386383,
+            "top": 22.586632
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29"
+        }
+      ],
+      "ensemble_results": [
+        {
+          "tile_name": "tile_1.tif",
+          "score": 0.2806430625,
+          "image_path": "data/tiles/tile_1.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.344498,
+            "bottom": 22.570773000000003,
+            "right": 88.3654405,
+            "top": 22.586632
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29",
+          "raw_scores": [
+            0.2813653,
+            0.29175103,
+            0.26640862,
+            0.2830473
+          ],
+          "rank": 1
+        },
+        {
+          "tile_name": "tile_4.tif",
+          "score": 0.25168515,
+          "image_path": "data/tiles/tile_4.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.3654405,
+            "bottom": 22.554914000000004,
+            "right": 88.386383,
+            "top": 22.570773000000003
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29",
+          "raw_scores": [
+            0.23492932,
+            0.2521319,
+            0.2561966,
+            0.26348278
+          ],
+          "rank": 2
+        },
+        {
+          "tile_name": "tile_3.tif",
+          "score": 0.24215862,
+          "image_path": "data/tiles/tile_3.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.344498,
+            "bottom": 22.554914000000004,
+            "right": 88.3654405,
+            "top": 22.570773000000003
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29",
+          "raw_scores": [
+            0.22839789,
+            0.2514079,
+            0.23740342,
+            0.25142527
+          ],
+          "rank": 3
+        },
+        {
+          "tile_name": "tile_2.tif",
+          "score": 0.24030152999999999,
+          "image_path": "data/tiles/tile_2.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.3654405,
+            "bottom": 22.570773000000003,
+            "right": 88.386383,
+            "top": 22.586632
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29",
+          "raw_scores": [
+            0.22709405,
+            0.2555521,
+            0.23424518,
+            0.24431479
+          ],
+          "rank": 4
+        }
+      ],
+      "single_top_tile": "tile_1.tif",
+      "ensemble_top_tile": "tile_1.tif",
+      "top_rank_changed": false,
+      "top_score_diff": -0.000722
+    },
+    {
+      "query": "roads through green areas",
+      "expansions": [
+        "roads through green areas",
+        "highway crossing vegetation",
+        "road passing through green landscape",
+        "paved route in countryside"
+      ],
+      "num_expansions": 4,
+      "top_k": 4,
+      "single_query_results": [
+        {
+          "rank": 1,
+          "tile_name": "tile_4.tif",
+          "score": 0.23419255,
+          "image_path": "data/tiles/tile_4.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.3654405,
+            "bottom": 22.554914000000004,
+            "right": 88.386383,
+            "top": 22.570773000000003
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29"
+        },
+        {
+          "rank": 2,
+          "tile_name": "tile_3.tif",
+          "score": 0.22137782,
+          "image_path": "data/tiles/tile_3.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.344498,
+            "bottom": 22.554914000000004,
+            "right": 88.3654405,
+            "top": 22.570773000000003
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29"
+        },
+        {
+          "rank": 3,
+          "tile_name": "tile_2.tif",
+          "score": 0.21648502,
+          "image_path": "data/tiles/tile_2.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.3654405,
+            "bottom": 22.570773000000003,
+            "right": 88.386383,
+            "top": 22.586632
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29"
+        },
+        {
+          "rank": 4,
+          "tile_name": "tile_1.tif",
+          "score": 0.20735545,
+          "image_path": "data/tiles/tile_1.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.344498,
+            "bottom": 22.570773000000003,
+            "right": 88.3654405,
+            "top": 22.586632
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29"
+        }
+      ],
+      "ensemble_results": [
+        {
+          "tile_name": "tile_4.tif",
+          "score": 0.2294065675,
+          "image_path": "data/tiles/tile_4.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.3654405,
+            "bottom": 22.554914000000004,
+            "right": 88.386383,
+            "top": 22.570773000000003
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29",
+          "raw_scores": [
+            0.23419255,
+            0.23371126,
+            0.22228806,
+            0.2274344
+          ],
+          "rank": 1
+        },
+        {
+          "tile_name": "tile_3.tif",
+          "score": 0.222209755,
+          "image_path": "data/tiles/tile_3.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.344498,
+            "bottom": 22.554914000000004,
+            "right": 88.3654405,
+            "top": 22.570773000000003
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29",
+          "raw_scores": [
+            0.22137782,
+            0.23686726,
+            0.21134266,
+            0.21925128
+          ],
+          "rank": 2
+        },
+        {
+          "tile_name": "tile_2.tif",
+          "score": 0.2151379175,
+          "image_path": "data/tiles/tile_2.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.3654405,
+            "bottom": 22.570773000000003,
+            "right": 88.386383,
+            "top": 22.586632
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29",
+          "raw_scores": [
+            0.21648502,
+            0.23120818,
+            0.20585248,
+            0.20700599
+          ],
+          "rank": 3
+        },
+        {
+          "tile_name": "tile_1.tif",
+          "score": 0.213194685,
+          "image_path": "data/tiles/tile_1.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.344498,
+            "bottom": 22.570773000000003,
+            "right": 88.3654405,
+            "top": 22.586632
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29",
+          "raw_scores": [
+            0.20735545,
+            0.23008679,
+            0.20686951,
+            0.20846699
+          ],
+          "rank": 4
+        }
+      ],
+      "single_top_tile": "tile_4.tif",
+      "ensemble_top_tile": "tile_4.tif",
+      "top_rank_changed": false,
+      "top_score_diff": -0.004786
+    },
+    {
+      "query": "water surrounded by vegetation",
+      "expansions": [
+        "water surrounded by vegetation",
+        "pond or lake with trees",
+        "water body encircled by greenery",
+        "river surrounded by forest"
+      ],
+      "num_expansions": 4,
+      "top_k": 4,
+      "single_query_results": [
+        {
+          "rank": 1,
+          "tile_name": "tile_1.tif",
+          "score": 0.24541602,
+          "image_path": "data/tiles/tile_1.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.344498,
+            "bottom": 22.570773000000003,
+            "right": 88.3654405,
+            "top": 22.586632
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29"
+        },
+        {
+          "rank": 2,
+          "tile_name": "tile_4.tif",
+          "score": 0.22209427,
+          "image_path": "data/tiles/tile_4.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.3654405,
+            "bottom": 22.554914000000004,
+            "right": 88.386383,
+            "top": 22.570773000000003
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29"
+        },
+        {
+          "rank": 3,
+          "tile_name": "tile_3.tif",
+          "score": 0.2188769,
+          "image_path": "data/tiles/tile_3.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.344498,
+            "bottom": 22.554914000000004,
+            "right": 88.3654405,
+            "top": 22.570773000000003
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29"
+        },
+        {
+          "rank": 4,
+          "tile_name": "tile_2.tif",
+          "score": 0.21882167,
+          "image_path": "data/tiles/tile_2.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.3654405,
+            "bottom": 22.570773000000003,
+            "right": 88.386383,
+            "top": 22.586632
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29"
+        }
+      ],
+      "ensemble_results": [
+        {
+          "tile_name": "tile_1.tif",
+          "score": 0.23886617,
+          "image_path": "data/tiles/tile_1.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.344498,
+            "bottom": 22.570773000000003,
+            "right": 88.3654405,
+            "top": 22.586632
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29",
+          "raw_scores": [
+            0.24541602,
+            0.23626527,
+            0.24746238,
+            0.22632101
+          ],
+          "rank": 1
+        },
+        {
+          "tile_name": "tile_4.tif",
+          "score": 0.20944191,
+          "image_path": "data/tiles/tile_4.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.3654405,
+            "bottom": 22.554914000000004,
+            "right": 88.386383,
+            "top": 22.570773000000003
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29",
+          "raw_scores": [
+            0.22209427,
+            0.20498255,
+            0.20590562,
+            0.2047852
+          ],
+          "rank": 2
+        },
+        {
+          "tile_name": "tile_2.tif",
+          "score": 0.2085208625,
+          "image_path": "data/tiles/tile_2.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.3654405,
+            "bottom": 22.570773000000003,
+            "right": 88.386383,
+            "top": 22.586632
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29",
+          "raw_scores": [
+            0.21882167,
+            0.2090047,
+            0.2054749,
+            0.20078218
+          ],
+          "rank": 3
+        },
+        {
+          "tile_name": "tile_3.tif",
+          "score": 0.2030198075,
+          "image_path": "data/tiles/tile_3.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.344498,
+            "bottom": 22.554914000000004,
+            "right": 88.3654405,
+            "top": 22.570773000000003
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29",
+          "raw_scores": [
+            0.2188769,
+            0.20048942,
+            0.1970376,
+            0.19567531
+          ],
+          "rank": 4
+        }
+      ],
+      "single_top_tile": "tile_1.tif",
+      "ensemble_top_tile": "tile_1.tif",
+      "top_rank_changed": false,
+      "top_score_diff": -0.00655
+    },
+    {
+      "query": "urban area with roads",
+      "expansions": [
+        "urban area with roads",
+        "city street grid",
+        "urban settlement with transportation network",
+        "built-up town with roads"
+      ],
+      "num_expansions": 4,
+      "top_k": 4,
+      "single_query_results": [
+        {
+          "rank": 1,
+          "tile_name": "tile_3.tif",
+          "score": 0.29980403,
+          "image_path": "data/tiles/tile_3.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.344498,
+            "bottom": 22.554914000000004,
+            "right": 88.3654405,
+            "top": 22.570773000000003
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29"
+        },
+        {
+          "rank": 2,
+          "tile_name": "tile_4.tif",
+          "score": 0.29710275,
+          "image_path": "data/tiles/tile_4.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.3654405,
+            "bottom": 22.554914000000004,
+            "right": 88.386383,
+            "top": 22.570773000000003
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29"
+        },
+        {
+          "rank": 3,
+          "tile_name": "tile_2.tif",
+          "score": 0.29694223,
+          "image_path": "data/tiles/tile_2.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.3654405,
+            "bottom": 22.570773000000003,
+            "right": 88.386383,
+            "top": 22.586632
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29"
+        },
+        {
+          "rank": 4,
+          "tile_name": "tile_1.tif",
+          "score": 0.28155968,
+          "image_path": "data/tiles/tile_1.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.344498,
+            "bottom": 22.570773000000003,
+            "right": 88.3654405,
+            "top": 22.586632
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29"
+        }
+      ],
+      "ensemble_results": [
+        {
+          "tile_name": "tile_3.tif",
+          "score": 0.29187393,
+          "image_path": "data/tiles/tile_3.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.344498,
+            "bottom": 22.554914000000004,
+            "right": 88.3654405,
+            "top": 22.570773000000003
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29",
+          "raw_scores": [
+            0.29980403,
+            0.29659647,
+            0.30294698,
+            0.26814824
+          ],
+          "rank": 1
+        },
+        {
+          "tile_name": "tile_4.tif",
+          "score": 0.2844233075,
+          "image_path": "data/tiles/tile_4.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.3654405,
+            "bottom": 22.554914000000004,
+            "right": 88.386383,
+            "top": 22.570773000000003
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29",
+          "raw_scores": [
+            0.29710275,
+            0.28043783,
+            0.29601967,
+            0.26413298
+          ],
+          "rank": 2
+        },
+        {
+          "tile_name": "tile_2.tif",
+          "score": 0.281569815,
+          "image_path": "data/tiles/tile_2.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.3654405,
+            "bottom": 22.570773000000003,
+            "right": 88.386383,
+            "top": 22.586632
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29",
+          "raw_scores": [
+            0.29694223,
+            0.2847216,
+            0.296362,
+            0.24825343
+          ],
+          "rank": 3
+        },
+        {
+          "tile_name": "tile_1.tif",
+          "score": 0.27672749,
+          "image_path": "data/tiles/tile_1.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.344498,
+            "bottom": 22.570773000000003,
+            "right": 88.3654405,
+            "top": 22.586632
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29",
+          "raw_scores": [
+            0.28155968,
+            0.28829154,
+            0.2921147,
+            0.24494404
+          ],
+          "rank": 4
+        }
+      ],
+      "single_top_tile": "tile_3.tif",
+      "ensemble_top_tile": "tile_3.tif",
+      "top_rank_changed": false,
+      "top_score_diff": -0.00793
+    },
+    {
+      "query": "buildings and roads",
+      "expansions": [
+        "buildings and roads",
+        "built-up structures and streets",
+        "urban infrastructure with buildings and roads",
+        "city buildings with paved roads"
+      ],
+      "num_expansions": 4,
+      "top_k": 4,
+      "single_query_results": [
+        {
+          "rank": 1,
+          "tile_name": "tile_3.tif",
+          "score": 0.24749675,
+          "image_path": "data/tiles/tile_3.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.344498,
+            "bottom": 22.554914000000004,
+            "right": 88.3654405,
+            "top": 22.570773000000003
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29"
+        },
+        {
+          "rank": 2,
+          "tile_name": "tile_1.tif",
+          "score": 0.24338374,
+          "image_path": "data/tiles/tile_1.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.344498,
+            "bottom": 22.570773000000003,
+            "right": 88.3654405,
+            "top": 22.586632
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29"
+        },
+        {
+          "rank": 3,
+          "tile_name": "tile_4.tif",
+          "score": 0.23820217,
+          "image_path": "data/tiles/tile_4.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.3654405,
+            "bottom": 22.554914000000004,
+            "right": 88.386383,
+            "top": 22.570773000000003
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29"
+        },
+        {
+          "rank": 4,
+          "tile_name": "tile_2.tif",
+          "score": 0.23699236,
+          "image_path": "data/tiles/tile_2.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.3654405,
+            "bottom": 22.570773000000003,
+            "right": 88.386383,
+            "top": 22.586632
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29"
+        }
+      ],
+      "ensemble_results": [
+        {
+          "tile_name": "tile_3.tif",
+          "score": 0.265291375,
+          "image_path": "data/tiles/tile_3.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.344498,
+            "bottom": 22.554914000000004,
+            "right": 88.3654405,
+            "top": 22.570773000000003
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29",
+          "raw_scores": [
+            0.24749675,
+            0.25683802,
+            0.27742186,
+            0.27940887
+          ],
+          "rank": 1
+        },
+        {
+          "tile_name": "tile_4.tif",
+          "score": 0.2587652925,
+          "image_path": "data/tiles/tile_4.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.3654405,
+            "bottom": 22.554914000000004,
+            "right": 88.386383,
+            "top": 22.570773000000003
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29",
+          "raw_scores": [
+            0.23820217,
+            0.2609554,
+            0.27066752,
+            0.26523608
+          ],
+          "rank": 2
+        },
+        {
+          "tile_name": "tile_1.tif",
+          "score": 0.25550368749999997,
+          "image_path": "data/tiles/tile_1.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.344498,
+            "bottom": 22.570773000000003,
+            "right": 88.3654405,
+            "top": 22.586632
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29",
+          "raw_scores": [
+            0.24338374,
+            0.24491686,
+            0.26217303,
+            0.27154112
+          ],
+          "rank": 3
+        },
+        {
+          "tile_name": "tile_2.tif",
+          "score": 0.2550394825,
+          "image_path": "data/tiles/tile_2.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.3654405,
+            "bottom": 22.570773000000003,
+            "right": 88.386383,
+            "top": 22.586632
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29",
+          "raw_scores": [
+            0.23699236,
+            0.24431802,
+            0.26972005,
+            0.2691275
+          ],
+          "rank": 4
+        }
+      ],
+      "single_top_tile": "tile_3.tif",
+      "ensemble_top_tile": "tile_3.tif",
+      "top_rank_changed": false,
+      "top_score_diff": 0.017795
+    },
+    {
+      "query": "green area near water",
+      "expansions": [
+        "green area near water",
+        "greenery along riverbank",
+        "park adjacent to water",
+        "vegetation close to water body"
+      ],
+      "num_expansions": 4,
+      "top_k": 4,
+      "single_query_results": [
+        {
+          "rank": 1,
+          "tile_name": "tile_1.tif",
+          "score": 0.2615769,
+          "image_path": "data/tiles/tile_1.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.344498,
+            "bottom": 22.570773000000003,
+            "right": 88.3654405,
+            "top": 22.586632
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29"
+        },
+        {
+          "rank": 2,
+          "tile_name": "tile_4.tif",
+          "score": 0.23634541,
+          "image_path": "data/tiles/tile_4.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.3654405,
+            "bottom": 22.554914000000004,
+            "right": 88.386383,
+            "top": 22.570773000000003
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29"
+        },
+        {
+          "rank": 3,
+          "tile_name": "tile_2.tif",
+          "score": 0.22311169,
+          "image_path": "data/tiles/tile_2.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.3654405,
+            "bottom": 22.570773000000003,
+            "right": 88.386383,
+            "top": 22.586632
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29"
+        },
+        {
+          "rank": 4,
+          "tile_name": "tile_3.tif",
+          "score": 0.21748918,
+          "image_path": "data/tiles/tile_3.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.344498,
+            "bottom": 22.554914000000004,
+            "right": 88.3654405,
+            "top": 22.570773000000003
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29"
+        }
+      ],
+      "ensemble_results": [
+        {
+          "tile_name": "tile_1.tif",
+          "score": 0.25935509749999996,
+          "image_path": "data/tiles/tile_1.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.344498,
+            "bottom": 22.570773000000003,
+            "right": 88.3654405,
+            "top": 22.586632
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29",
+          "raw_scores": [
+            0.2615769,
+            0.2743287,
+            0.2560687,
+            0.24544609
+          ],
+          "rank": 1
+        },
+        {
+          "tile_name": "tile_4.tif",
+          "score": 0.23980999,
+          "image_path": "data/tiles/tile_4.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.3654405,
+            "bottom": 22.554914000000004,
+            "right": 88.386383,
+            "top": 22.570773000000003
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29",
+          "raw_scores": [
+            0.23634541,
+            0.25772578,
+            0.25077087,
+            0.2143979
+          ],
+          "rank": 2
+        },
+        {
+          "tile_name": "tile_2.tif",
+          "score": 0.22909888750000001,
+          "image_path": "data/tiles/tile_2.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.3654405,
+            "bottom": 22.570773000000003,
+            "right": 88.386383,
+            "top": 22.586632
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29",
+          "raw_scores": [
+            0.22311169,
+            0.24927844,
+            0.23566054,
+            0.20834488
+          ],
+          "rank": 3
+        },
+        {
+          "tile_name": "tile_3.tif",
+          "score": 0.2264715475,
+          "image_path": "data/tiles/tile_3.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.344498,
+            "bottom": 22.554914000000004,
+            "right": 88.3654405,
+            "top": 22.570773000000003
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29",
+          "raw_scores": [
+            0.21748918,
+            0.24137922,
+            0.24245425,
+            0.20456354
+          ],
+          "rank": 4
+        }
+      ],
+      "single_top_tile": "tile_1.tif",
+      "ensemble_top_tile": "tile_1.tif",
+      "top_rank_changed": false,
+      "top_score_diff": -0.002222
+    },
+    {
+      "query": "dense urban area",
+      "expansions": [
+        "dense urban area",
+        "tightly packed buildings",
+        "highly built-up urban core",
+        "dense city infrastructure"
+      ],
+      "num_expansions": 4,
+      "top_k": 4,
+      "single_query_results": [
+        {
+          "rank": 1,
+          "tile_name": "tile_3.tif",
+          "score": 0.32928258,
+          "image_path": "data/tiles/tile_3.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.344498,
+            "bottom": 22.554914000000004,
+            "right": 88.3654405,
+            "top": 22.570773000000003
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29"
+        },
+        {
+          "rank": 2,
+          "tile_name": "tile_2.tif",
+          "score": 0.32824728,
+          "image_path": "data/tiles/tile_2.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.3654405,
+            "bottom": 22.570773000000003,
+            "right": 88.386383,
+            "top": 22.586632
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29"
+        },
+        {
+          "rank": 3,
+          "tile_name": "tile_4.tif",
+          "score": 0.3159387,
+          "image_path": "data/tiles/tile_4.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.3654405,
+            "bottom": 22.554914000000004,
+            "right": 88.386383,
+            "top": 22.570773000000003
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29"
+        },
+        {
+          "rank": 4,
+          "tile_name": "tile_1.tif",
+          "score": 0.31211966,
+          "image_path": "data/tiles/tile_1.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.344498,
+            "bottom": 22.570773000000003,
+            "right": 88.3654405,
+            "top": 22.586632
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29"
+        }
+      ],
+      "ensemble_results": [
+        {
+          "tile_name": "tile_3.tif",
+          "score": 0.2997788625,
+          "image_path": "data/tiles/tile_3.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.344498,
+            "bottom": 22.554914000000004,
+            "right": 88.3654405,
+            "top": 22.570773000000003
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29",
+          "raw_scores": [
+            0.32928258,
+            0.27726567,
+            0.2785762,
+            0.313991
+          ],
+          "rank": 1
+        },
+        {
+          "tile_name": "tile_2.tif",
+          "score": 0.295248285,
+          "image_path": "data/tiles/tile_2.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.3654405,
+            "bottom": 22.570773000000003,
+            "right": 88.386383,
+            "top": 22.586632
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29",
+          "raw_scores": [
+            0.32824728,
+            0.2687122,
+            0.2771171,
+            0.30691656
+          ],
+          "rank": 2
+        },
+        {
+          "tile_name": "tile_4.tif",
+          "score": 0.2873496325,
+          "image_path": "data/tiles/tile_4.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.3654405,
+            "bottom": 22.554914000000004,
+            "right": 88.386383,
+            "top": 22.570773000000003
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29",
+          "raw_scores": [
+            0.3159387,
+            0.25300133,
+            0.27769554,
+            0.30276296
+          ],
+          "rank": 3
+        },
+        {
+          "tile_name": "tile_1.tif",
+          "score": 0.28468226500000005,
+          "image_path": "data/tiles/tile_1.tif",
+          "crs": "EPSG:4326",
+          "bounds": {
+            "left": 88.344498,
+            "bottom": 22.570773000000003,
+            "right": 88.3654405,
+            "top": 22.586632
+          },
+          "width": 233,
+          "height": 191,
+          "date": "2025-03-29",
+          "raw_scores": [
+            0.31211966,
+            0.2633881,
+            0.26875764,
+            0.29446366
+          ],
+          "rank": 4
+        }
+      ],
+      "single_top_tile": "tile_3.tif",
+      "ensemble_top_tile": "tile_3.tif",
+      "top_rank_changed": false,
+      "top_score_diff": -0.029504
+    }
+  ]
+}

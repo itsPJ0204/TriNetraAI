@@ -1,0 +1,16 @@
+query,relevant_tiles,top_rank_changed,single_top_tile,ensemble_top_tile,single_hit_at_1,ensemble_hit_at_1,single_precision_at_1,ensemble_precision_at_1,single_recall_at_1,ensemble_recall_at_1,single_precision_at_3,ensemble_precision_at_3,single_recall_at_3,ensemble_recall_at_3,single_precision_at_4,ensemble_precision_at_4,single_recall_at_4,ensemble_recall_at_4,single_mrr,ensemble_mrr,delta_mrr
+river,tile_1.tif,False,tile_1.tif,tile_1.tif,1.0,1.0,1.0,1.0,1.0,1.0,0.333333,0.333333,1.0,1.0,0.25,0.25,1.0,1.0,1.0,1.0,0.0
+water,tile_1.tif;tile_4.tif,False,tile_1.tif,tile_1.tif,1.0,1.0,1.0,1.0,0.5,0.5,0.666667,0.666667,1.0,1.0,0.5,0.5,1.0,1.0,1.0,1.0,0.0
+road,tile_1.tif;tile_2.tif;tile_3.tif;tile_4.tif,False,tile_4.tif,tile_4.tif,1.0,1.0,1.0,1.0,0.25,0.25,1.0,1.0,0.75,0.75,1.0,1.0,1.0,1.0,1.0,1.0,0.0
+buildings,tile_1.tif;tile_2.tif;tile_3.tif;tile_4.tif,False,tile_3.tif,tile_3.tif,1.0,1.0,1.0,1.0,0.25,0.25,1.0,1.0,0.75,0.75,1.0,1.0,1.0,1.0,1.0,1.0,0.0
+urban area,tile_1.tif;tile_2.tif;tile_3.tif;tile_4.tif,False,tile_3.tif,tile_3.tif,1.0,1.0,1.0,1.0,0.25,0.25,1.0,1.0,0.75,0.75,1.0,1.0,1.0,1.0,1.0,1.0,0.0
+vegetation,tile_2.tif;tile_3.tif;tile_4.tif,True,tile_3.tif,tile_2.tif,1.0,1.0,1.0,1.0,0.333333,0.333333,0.666667,0.666667,0.666667,0.666667,0.75,0.75,1.0,1.0,1.0,1.0,0.0
+green area,tile_2.tif;tile_3.tif;tile_4.tif,False,tile_4.tif,tile_4.tif,1.0,1.0,1.0,1.0,0.333333,0.333333,0.666667,1.0,0.666667,1.0,0.75,0.75,1.0,1.0,1.0,1.0,0.0
+urban areas near water,tile_1.tif;tile_4.tif,False,tile_1.tif,tile_1.tif,1.0,1.0,1.0,1.0,0.5,0.5,0.666667,0.666667,1.0,1.0,0.5,0.5,1.0,1.0,1.0,1.0,0.0
+buildings near a river,tile_1.tif,False,tile_1.tif,tile_1.tif,1.0,1.0,1.0,1.0,1.0,1.0,0.333333,0.333333,1.0,1.0,0.25,0.25,1.0,1.0,1.0,1.0,0.0
+roads through green areas,tile_2.tif;tile_3.tif;tile_4.tif,False,tile_4.tif,tile_4.tif,1.0,1.0,1.0,1.0,0.333333,0.333333,1.0,1.0,1.0,1.0,0.75,0.75,1.0,1.0,1.0,1.0,0.0
+water surrounded by vegetation,tile_4.tif,False,tile_1.tif,tile_1.tif,0.0,0.0,0.0,0.0,0.0,0.0,0.333333,0.333333,1.0,1.0,0.25,0.25,1.0,1.0,0.5,0.5,0.0
+urban area with roads,tile_1.tif;tile_2.tif;tile_3.tif;tile_4.tif,False,tile_3.tif,tile_3.tif,1.0,1.0,1.0,1.0,0.25,0.25,1.0,1.0,0.75,0.75,1.0,1.0,1.0,1.0,1.0,1.0,0.0
+buildings and roads,tile_1.tif;tile_2.tif;tile_3.tif;tile_4.tif,False,tile_3.tif,tile_3.tif,1.0,1.0,1.0,1.0,0.25,0.25,1.0,1.0,0.75,0.75,1.0,1.0,1.0,1.0,1.0,1.0,0.0
+green area near water,tile_4.tif,False,tile_1.tif,tile_1.tif,0.0,0.0,0.0,0.0,0.0,0.0,0.333333,0.333333,1.0,1.0,0.25,0.25,1.0,1.0,0.5,0.5,0.0
+dense urban area,tile_1.tif;tile_2.tif;tile_3.tif;tile_4.tif,False,tile_3.tif,tile_3.tif,1.0,1.0,1.0,1.0,0.25,0.25,1.0,1.0,0.75,0.75,1.0,1.0,1.0,1.0,1.0,1.0,0.0

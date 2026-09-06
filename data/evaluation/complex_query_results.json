@@ -1,0 +1,570 @@
+[
+  {
+    "query": "urban areas near water",
+    "top_k": 4,
+    "num_results": 4,
+    "results": [
+      {
+        "rank": 1,
+        "tile_name": "tile_1.tif",
+        "score": 0.30890444,
+        "image_path": "data/tiles/tile_1.tif",
+        "crs": "EPSG:4326",
+        "bounds": {
+          "left": 88.344498,
+          "bottom": 22.570773000000003,
+          "right": 88.3654405,
+          "top": 22.586632
+        },
+        "width": 233,
+        "height": 191,
+        "date": "2025-03-29"
+      },
+      {
+        "rank": 2,
+        "tile_name": "tile_4.tif",
+        "score": 0.2942446,
+        "image_path": "data/tiles/tile_4.tif",
+        "crs": "EPSG:4326",
+        "bounds": {
+          "left": 88.3654405,
+          "bottom": 22.554914000000004,
+          "right": 88.386383,
+          "top": 22.570773000000003
+        },
+        "width": 233,
+        "height": 191,
+        "date": "2025-03-29"
+      },
+      {
+        "rank": 3,
+        "tile_name": "tile_3.tif",
+        "score": 0.2915163,
+        "image_path": "data/tiles/tile_3.tif",
+        "crs": "EPSG:4326",
+        "bounds": {
+          "left": 88.344498,
+          "bottom": 22.554914000000004,
+          "right": 88.3654405,
+          "top": 22.570773000000003
+        },
+        "width": 233,
+        "height": 191,
+        "date": "2025-03-29"
+      },
+      {
+        "rank": 4,
+        "tile_name": "tile_2.tif",
+        "score": 0.29042414,
+        "image_path": "data/tiles/tile_2.tif",
+        "crs": "EPSG:4326",
+        "bounds": {
+          "left": 88.3654405,
+          "bottom": 22.570773000000003,
+          "right": 88.386383,
+          "top": 22.586632
+        },
+        "width": 233,
+        "height": 191,
+        "date": "2025-03-29"
+      }
+    ]
+  },
+  {
+    "query": "buildings near a river",
+    "top_k": 4,
+    "num_results": 4,
+    "results": [
+      {
+        "rank": 1,
+        "tile_name": "tile_1.tif",
+        "score": 0.2813653,
+        "image_path": "data/tiles/tile_1.tif",
+        "crs": "EPSG:4326",
+        "bounds": {
+          "left": 88.344498,
+          "bottom": 22.570773000000003,
+          "right": 88.3654405,
+          "top": 22.586632
+        },
+        "width": 233,
+        "height": 191,
+        "date": "2025-03-29"
+      },
+      {
+        "rank": 2,
+        "tile_name": "tile_4.tif",
+        "score": 0.23492932,
+        "image_path": "data/tiles/tile_4.tif",
+        "crs": "EPSG:4326",
+        "bounds": {
+          "left": 88.3654405,
+          "bottom": 22.554914000000004,
+          "right": 88.386383,
+          "top": 22.570773000000003
+        },
+        "width": 233,
+        "height": 191,
+        "date": "2025-03-29"
+      },
+      {
+        "rank": 3,
+        "tile_name": "tile_3.tif",
+        "score": 0.22839789,
+        "image_path": "data/tiles/tile_3.tif",
+        "crs": "EPSG:4326",
+        "bounds": {
+          "left": 88.344498,
+          "bottom": 22.554914000000004,
+          "right": 88.3654405,
+          "top": 22.570773000000003
+        },
+        "width": 233,
+        "height": 191,
+        "date": "2025-03-29"
+      },
+      {
+        "rank": 4,
+        "tile_name": "tile_2.tif",
+        "score": 0.22709405,
+        "image_path": "data/tiles/tile_2.tif",
+        "crs": "EPSG:4326",
+        "bounds": {
+          "left": 88.3654405,
+          "bottom": 22.570773000000003,
+          "right": 88.386383,
+          "top": 22.586632
+        },
+        "width": 233,
+        "height": 191,
+        "date": "2025-03-29"
+      }
+    ]
+  },
+  {
+    "query": "roads through green areas",
+    "top_k": 4,
+    "num_results": 4,
+    "results": [
+      {
+        "rank": 1,
+        "tile_name": "tile_4.tif",
+        "score": 0.23419255,
+        "image_path": "data/tiles/tile_4.tif",
+        "crs": "EPSG:4326",
+        "bounds": {
+          "left": 88.3654405,
+          "bottom": 22.554914000000004,
+          "right": 88.386383,
+          "top": 22.570773000000003
+        },
+        "width": 233,
+        "height": 191,
+        "date": "2025-03-29"
+      },
+      {
+        "rank": 2,
+        "tile_name": "tile_3.tif",
+        "score": 0.22137782,
+        "image_path": "data/tiles/tile_3.tif",
+        "crs": "EPSG:4326",
+        "bounds": {
+          "left": 88.344498,
+          "bottom": 22.554914000000004,
+          "right": 88.3654405,
+          "top": 22.570773000000003
+        },
+        "width": 233,
+        "height": 191,
+        "date": "2025-03-29"
+      },
+      {
+        "rank": 3,
+        "tile_name": "tile_2.tif",
+        "score": 0.21648502,
+        "image_path": "data/tiles/tile_2.tif",
+        "crs": "EPSG:4326",
+        "bounds": {
+          "left": 88.3654405,
+          "bottom": 22.570773000000003,
+          "right": 88.386383,
+          "top": 22.586632
+        },
+        "width": 233,
+        "height": 191,
+        "date": "2025-03-29"
+      },
+      {
+        "rank": 4,
+        "tile_name": "tile_1.tif",
+        "score": 0.20735545,
+        "image_path": "data/tiles/tile_1.tif",
+        "crs": "EPSG:4326",
+        "bounds": {
+          "left": 88.344498,
+          "bottom": 22.570773000000003,
+          "right": 88.3654405,
+          "top": 22.586632
+        },
+        "width": 233,
+        "height": 191,
+        "date": "2025-03-29"
+      }
+    ]
+  },
+  {
+    "query": "water surrounded by vegetation",
+    "top_k": 4,
+    "num_results": 4,
+    "results": [
+      {
+        "rank": 1,
+        "tile_name": "tile_1.tif",
+        "score": 0.24541602,
+        "image_path": "data/tiles/tile_1.tif",
+        "crs": "EPSG:4326",
+        "bounds": {
+          "left": 88.344498,
+          "bottom": 22.570773000000003,
+          "right": 88.3654405,
+          "top": 22.586632
+        },
+        "width": 233,
+        "height": 191,
+        "date": "2025-03-29"
+      },
+      {
+        "rank": 2,
+        "tile_name": "tile_4.tif",
+        "score": 0.22209427,
+        "image_path": "data/tiles/tile_4.tif",
+        "crs": "EPSG:4326",
+        "bounds": {
+          "left": 88.3654405,
+          "bottom": 22.554914000000004,
+          "right": 88.386383,
+          "top": 22.570773000000003
+        },
+        "width": 233,
+        "height": 191,
+        "date": "2025-03-29"
+      },
+      {
+        "rank": 3,
+        "tile_name": "tile_3.tif",
+        "score": 0.2188769,
+        "image_path": "data/tiles/tile_3.tif",
+        "crs": "EPSG:4326",
+        "bounds": {
+          "left": 88.344498,
+          "bottom": 22.554914000000004,
+          "right": 88.3654405,
+          "top": 22.570773000000003
+        },
+        "width": 233,
+        "height": 191,
+        "date": "2025-03-29"
+      },
+      {
+        "rank": 4,
+        "tile_name": "tile_2.tif",
+        "score": 0.21882167,
+        "image_path": "data/tiles/tile_2.tif",
+        "crs": "EPSG:4326",
+        "bounds": {
+          "left": 88.3654405,
+          "bottom": 22.570773000000003,
+          "right": 88.386383,
+          "top": 22.586632
+        },
+        "width": 233,
+        "height": 191,
+        "date": "2025-03-29"
+      }
+    ]
+  },
+  {
+    "query": "urban area with roads",
+    "top_k": 4,
+    "num_results": 4,
+    "results": [
+      {
+        "rank": 1,
+        "tile_name": "tile_3.tif",
+        "score": 0.29980403,
+        "image_path": "data/tiles/tile_3.tif",
+        "crs": "EPSG:4326",
+        "bounds": {
+          "left": 88.344498,
+          "bottom": 22.554914000000004,
+          "right": 88.3654405,
+          "top": 22.570773000000003
+        },
+        "width": 233,
+        "height": 191,
+        "date": "2025-03-29"
+      },
+      {
+        "rank": 2,
+        "tile_name": "tile_4.tif",
+        "score": 0.29710275,
+        "image_path": "data/tiles/tile_4.tif",
+        "crs": "EPSG:4326",
+        "bounds": {
+          "left": 88.3654405,
+          "bottom": 22.554914000000004,
+          "right": 88.386383,
+          "top": 22.570773000000003
+        },
+        "width": 233,
+        "height": 191,
+        "date": "2025-03-29"
+      },
+      {
+        "rank": 3,
+        "tile_name": "tile_2.tif",
+        "score": 0.29694223,
+        "image_path": "data/tiles/tile_2.tif",
+        "crs": "EPSG:4326",
+        "bounds": {
+          "left": 88.3654405,
+          "bottom": 22.570773000000003,
+          "right": 88.386383,
+          "top": 22.586632
+        },
+        "width": 233,
+        "height": 191,
+        "date": "2025-03-29"
+      },
+      {
+        "rank": 4,
+        "tile_name": "tile_1.tif",
+        "score": 0.28155968,
+        "image_path": "data/tiles/tile_1.tif",
+        "crs": "EPSG:4326",
+        "bounds": {
+          "left": 88.344498,
+          "bottom": 22.570773000000003,
+          "right": 88.3654405,
+          "top": 22.586632
+        },
+        "width": 233,
+        "height": 191,
+        "date": "2025-03-29"
+      }
+    ]
+  },
+  {
+    "query": "buildings and roads",
+    "top_k": 4,
+    "num_results": 4,
+    "results": [
+      {
+        "rank": 1,
+        "tile_name": "tile_3.tif",
+        "score": 0.24749675,
+        "image_path": "data/tiles/tile_3.tif",
+        "crs": "EPSG:4326",
+        "bounds": {
+          "left": 88.344498,
+          "bottom": 22.554914000000004,
+          "right": 88.3654405,
+          "top": 22.570773000000003
+        },
+        "width": 233,
+        "height": 191,
+        "date": "2025-03-29"
+      },
+      {
+        "rank": 2,
+        "tile_name": "tile_1.tif",
+        "score": 0.24338374,
+        "image_path": "data/tiles/tile_1.tif",
+        "crs": "EPSG:4326",
+        "bounds": {
+          "left": 88.344498,
+          "bottom": 22.570773000000003,
+          "right": 88.3654405,
+          "top": 22.586632
+        },
+        "width": 233,
+        "height": 191,
+        "date": "2025-03-29"
+      },
+      {
+        "rank": 3,
+        "tile_name": "tile_4.tif",
+        "score": 0.23820217,
+        "image_path": "data/tiles/tile_4.tif",
+        "crs": "EPSG:4326",
+        "bounds": {
+          "left": 88.3654405,
+          "bottom": 22.554914000000004,
+          "right": 88.386383,
+          "top": 22.570773000000003
+        },
+        "width": 233,
+        "height": 191,
+        "date": "2025-03-29"
+      },
+      {
+        "rank": 4,
+        "tile_name": "tile_2.tif",
+        "score": 0.23699236,
+        "image_path": "data/tiles/tile_2.tif",
+        "crs": "EPSG:4326",
+        "bounds": {
+          "left": 88.3654405,
+          "bottom": 22.570773000000003,
+          "right": 88.386383,
+          "top": 22.586632
+        },
+        "width": 233,
+        "height": 191,
+        "date": "2025-03-29"
+      }
+    ]
+  },
+  {
+    "query": "green area near water",
+    "top_k": 4,
+    "num_results": 4,
+    "results": [
+      {
+        "rank": 1,
+        "tile_name": "tile_1.tif",
+        "score": 0.2615769,
+        "image_path": "data/tiles/tile_1.tif",
+        "crs": "EPSG:4326",
+        "bounds": {
+          "left": 88.344498,
+          "bottom": 22.570773000000003,
+          "right": 88.3654405,
+          "top": 22.586632
+        },
+        "width": 233,
+        "height": 191,
+        "date": "2025-03-29"
+      },
+      {
+        "rank": 2,
+        "tile_name": "tile_4.tif",
+        "score": 0.23634541,
+        "image_path": "data/tiles/tile_4.tif",
+        "crs": "EPSG:4326",
+        "bounds": {
+          "left": 88.3654405,
+          "bottom": 22.554914000000004,
+          "right": 88.386383,
+          "top": 22.570773000000003
+        },
+        "width": 233,
+        "height": 191,
+        "date": "2025-03-29"
+      },
+      {
+        "rank": 3,
+        "tile_name": "tile_2.tif",
+        "score": 0.22311169,
+        "image_path": "data/tiles/tile_2.tif",
+        "crs": "EPSG:4326",
+        "bounds": {
+          "left": 88.3654405,
+          "bottom": 22.570773000000003,
+          "right": 88.386383,
+          "top": 22.586632
+        },
+        "width": 233,
+        "height": 191,
+        "date": "2025-03-29"
+      },
+      {
+        "rank": 4,
+        "tile_name": "tile_3.tif",
+        "score": 0.21748918,
+        "image_path": "data/tiles/tile_3.tif",
+        "crs": "EPSG:4326",
+        "bounds": {
+          "left": 88.344498,
+          "bottom": 22.554914000000004,
+          "right": 88.3654405,
+          "top": 22.570773000000003
+        },
+        "width": 233,
+        "height": 191,
+        "date": "2025-03-29"
+      }
+    ]
+  },
+  {
+    "query": "dense urban area",
+    "top_k": 4,
+    "num_results": 4,
+    "results": [
+      {
+        "rank": 1,
+        "tile_name": "tile_3.tif",
+        "score": 0.32928258,
+        "image_path": "data/tiles/tile_3.tif",
+        "crs": "EPSG:4326",
+        "bounds": {
+          "left": 88.344498,
+          "bottom": 22.554914000000004,
+          "right": 88.3654405,
+          "top": 22.570773000000003
+        },
+        "width": 233,
+        "height": 191,
+        "date": "2025-03-29"
+      },
+      {
+        "rank": 2,
+        "tile_name": "tile_2.tif",
+        "score": 0.32824728,
+        "image_path": "data/tiles/tile_2.tif",
+        "crs": "EPSG:4326",
+        "bounds": {
+          "left": 88.3654405,
+          "bottom": 22.570773000000003,
+          "right": 88.386383,
+          "top": 22.586632
+        },
+        "width": 233,
+        "height": 191,
+        "date": "2025-03-29"
+      },
+      {
+        "rank": 3,
+        "tile_name": "tile_4.tif",
+        "score": 0.3159387,
+        "image_path": "data/tiles/tile_4.tif",
+        "crs": "EPSG:4326",
+        "bounds": {
+          "left": 88.3654405,
+          "bottom": 22.554914000000004,
+          "right": 88.386383,
+          "top": 22.570773000000003
+        },
+        "width": 233,
+        "height": 191,
+        "date": "2025-03-29"
+      },
+      {
+        "rank": 4,
+        "tile_name": "tile_1.tif",
+        "score": 0.31211966,
+        "image_path": "data/tiles/tile_1.tif",
+        "crs": "EPSG:4326",
+        "bounds": {
+          "left": 88.344498,
+          "bottom": 22.570773000000003,
+          "right": 88.3654405,
+          "top": 22.586632
+        },
+        "width": 233,
+        "height": 191,
+        "date": "2025-03-29"
+      }
+    ]
+  }
+]

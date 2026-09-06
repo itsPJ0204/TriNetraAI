@@ -1,0 +1,499 @@
+[
+  {
+    "query": "river",
+    "top_k": 4,
+    "num_results": 4,
+    "results": [
+      {
+        "rank": 1,
+        "tile_name": "tile_1.tif",
+        "score": 0.2839029,
+        "image_path": "data/tiles/tile_1.tif",
+        "crs": "EPSG:4326",
+        "bounds": {
+          "left": 88.344498,
+          "bottom": 22.570773000000003,
+          "right": 88.3654405,
+          "top": 22.586632
+        },
+        "width": 233,
+        "height": 191,
+        "date": "2025-03-29"
+      },
+      {
+        "rank": 2,
+        "tile_name": "tile_4.tif",
+        "score": 0.270352,
+        "image_path": "data/tiles/tile_4.tif",
+        "crs": "EPSG:4326",
+        "bounds": {
+          "left": 88.3654405,
+          "bottom": 22.554914000000004,
+          "right": 88.386383,
+          "top": 22.570773000000003
+        },
+        "width": 233,
+        "height": 191,
+        "date": "2025-03-29"
+      },
+      {
+        "rank": 3,
+        "tile_name": "tile_3.tif",
+        "score": 0.26183957,
+        "image_path": "data/tiles/tile_3.tif",
+        "crs": "EPSG:4326",
+        "bounds": {
+          "left": 88.344498,
+          "bottom": 22.554914000000004,
+          "right": 88.3654405,
+          "top": 22.570773000000003
+        },
+        "width": 233,
+        "height": 191,
+        "date": "2025-03-29"
+      },
+      {
+        "rank": 4,
+        "tile_name": "tile_2.tif",
+        "score": 0.26116735,
+        "image_path": "data/tiles/tile_2.tif",
+        "crs": "EPSG:4326",
+        "bounds": {
+          "left": 88.3654405,
+          "bottom": 22.570773000000003,
+          "right": 88.386383,
+          "top": 22.586632
+        },
+        "width": 233,
+        "height": 191,
+        "date": "2025-03-29"
+      }
+    ]
+  },
+  {
+    "query": "water",
+    "top_k": 4,
+    "num_results": 4,
+    "results": [
+      {
+        "rank": 1,
+        "tile_name": "tile_1.tif",
+        "score": 0.2735935,
+        "image_path": "data/tiles/tile_1.tif",
+        "crs": "EPSG:4326",
+        "bounds": {
+          "left": 88.344498,
+          "bottom": 22.570773000000003,
+          "right": 88.3654405,
+          "top": 22.586632
+        },
+        "width": 233,
+        "height": 191,
+        "date": "2025-03-29"
+      },
+      {
+        "rank": 2,
+        "tile_name": "tile_4.tif",
+        "score": 0.24822497,
+        "image_path": "data/tiles/tile_4.tif",
+        "crs": "EPSG:4326",
+        "bounds": {
+          "left": 88.3654405,
+          "bottom": 22.554914000000004,
+          "right": 88.386383,
+          "top": 22.570773000000003
+        },
+        "width": 233,
+        "height": 191,
+        "date": "2025-03-29"
+      },
+      {
+        "rank": 3,
+        "tile_name": "tile_2.tif",
+        "score": 0.24679865,
+        "image_path": "data/tiles/tile_2.tif",
+        "crs": "EPSG:4326",
+        "bounds": {
+          "left": 88.3654405,
+          "bottom": 22.570773000000003,
+          "right": 88.386383,
+          "top": 22.586632
+        },
+        "width": 233,
+        "height": 191,
+        "date": "2025-03-29"
+      },
+      {
+        "rank": 4,
+        "tile_name": "tile_3.tif",
+        "score": 0.24607666,
+        "image_path": "data/tiles/tile_3.tif",
+        "crs": "EPSG:4326",
+        "bounds": {
+          "left": 88.344498,
+          "bottom": 22.554914000000004,
+          "right": 88.3654405,
+          "top": 22.570773000000003
+        },
+        "width": 233,
+        "height": 191,
+        "date": "2025-03-29"
+      }
+    ]
+  },
+  {
+    "query": "road",
+    "top_k": 4,
+    "num_results": 4,
+    "results": [
+      {
+        "rank": 1,
+        "tile_name": "tile_4.tif",
+        "score": 0.2720937,
+        "image_path": "data/tiles/tile_4.tif",
+        "crs": "EPSG:4326",
+        "bounds": {
+          "left": 88.3654405,
+          "bottom": 22.554914000000004,
+          "right": 88.386383,
+          "top": 22.570773000000003
+        },
+        "width": 233,
+        "height": 191,
+        "date": "2025-03-29"
+      },
+      {
+        "rank": 2,
+        "tile_name": "tile_3.tif",
+        "score": 0.26548123,
+        "image_path": "data/tiles/tile_3.tif",
+        "crs": "EPSG:4326",
+        "bounds": {
+          "left": 88.344498,
+          "bottom": 22.554914000000004,
+          "right": 88.3654405,
+          "top": 22.570773000000003
+        },
+        "width": 233,
+        "height": 191,
+        "date": "2025-03-29"
+      },
+      {
+        "rank": 3,
+        "tile_name": "tile_2.tif",
+        "score": 0.25981778,
+        "image_path": "data/tiles/tile_2.tif",
+        "crs": "EPSG:4326",
+        "bounds": {
+          "left": 88.3654405,
+          "bottom": 22.570773000000003,
+          "right": 88.386383,
+          "top": 22.586632
+        },
+        "width": 233,
+        "height": 191,
+        "date": "2025-03-29"
+      },
+      {
+        "rank": 4,
+        "tile_name": "tile_1.tif",
+        "score": 0.25687668,
+        "image_path": "data/tiles/tile_1.tif",
+        "crs": "EPSG:4326",
+        "bounds": {
+          "left": 88.344498,
+          "bottom": 22.570773000000003,
+          "right": 88.3654405,
+          "top": 22.586632
+        },
+        "width": 233,
+        "height": 191,
+        "date": "2025-03-29"
+      }
+    ]
+  },
+  {
+    "query": "buildings",
+    "top_k": 4,
+    "num_results": 4,
+    "results": [
+      {
+        "rank": 1,
+        "tile_name": "tile_3.tif",
+        "score": 0.2695524,
+        "image_path": "data/tiles/tile_3.tif",
+        "crs": "EPSG:4326",
+        "bounds": {
+          "left": 88.344498,
+          "bottom": 22.554914000000004,
+          "right": 88.3654405,
+          "top": 22.570773000000003
+        },
+        "width": 233,
+        "height": 191,
+        "date": "2025-03-29"
+      },
+      {
+        "rank": 2,
+        "tile_name": "tile_2.tif",
+        "score": 0.26275566,
+        "image_path": "data/tiles/tile_2.tif",
+        "crs": "EPSG:4326",
+        "bounds": {
+          "left": 88.3654405,
+          "bottom": 22.570773000000003,
+          "right": 88.386383,
+          "top": 22.586632
+        },
+        "width": 233,
+        "height": 191,
+        "date": "2025-03-29"
+      },
+      {
+        "rank": 3,
+        "tile_name": "tile_1.tif",
+        "score": 0.26201612,
+        "image_path": "data/tiles/tile_1.tif",
+        "crs": "EPSG:4326",
+        "bounds": {
+          "left": 88.344498,
+          "bottom": 22.570773000000003,
+          "right": 88.3654405,
+          "top": 22.586632
+        },
+        "width": 233,
+        "height": 191,
+        "date": "2025-03-29"
+      },
+      {
+        "rank": 4,
+        "tile_name": "tile_4.tif",
+        "score": 0.25608382,
+        "image_path": "data/tiles/tile_4.tif",
+        "crs": "EPSG:4326",
+        "bounds": {
+          "left": 88.3654405,
+          "bottom": 22.554914000000004,
+          "right": 88.386383,
+          "top": 22.570773000000003
+        },
+        "width": 233,
+        "height": 191,
+        "date": "2025-03-29"
+      }
+    ]
+  },
+  {
+    "query": "urban area",
+    "top_k": 4,
+    "num_results": 4,
+    "results": [
+      {
+        "rank": 1,
+        "tile_name": "tile_3.tif",
+        "score": 0.3201766,
+        "image_path": "data/tiles/tile_3.tif",
+        "crs": "EPSG:4326",
+        "bounds": {
+          "left": 88.344498,
+          "bottom": 22.554914000000004,
+          "right": 88.3654405,
+          "top": 22.570773000000003
+        },
+        "width": 233,
+        "height": 191,
+        "date": "2025-03-29"
+      },
+      {
+        "rank": 2,
+        "tile_name": "tile_2.tif",
+        "score": 0.32001013,
+        "image_path": "data/tiles/tile_2.tif",
+        "crs": "EPSG:4326",
+        "bounds": {
+          "left": 88.3654405,
+          "bottom": 22.570773000000003,
+          "right": 88.386383,
+          "top": 22.586632
+        },
+        "width": 233,
+        "height": 191,
+        "date": "2025-03-29"
+      },
+      {
+        "rank": 3,
+        "tile_name": "tile_4.tif",
+        "score": 0.3137867,
+        "image_path": "data/tiles/tile_4.tif",
+        "crs": "EPSG:4326",
+        "bounds": {
+          "left": 88.3654405,
+          "bottom": 22.554914000000004,
+          "right": 88.386383,
+          "top": 22.570773000000003
+        },
+        "width": 233,
+        "height": 191,
+        "date": "2025-03-29"
+      },
+      {
+        "rank": 4,
+        "tile_name": "tile_1.tif",
+        "score": 0.3054841,
+        "image_path": "data/tiles/tile_1.tif",
+        "crs": "EPSG:4326",
+        "bounds": {
+          "left": 88.344498,
+          "bottom": 22.570773000000003,
+          "right": 88.3654405,
+          "top": 22.586632
+        },
+        "width": 233,
+        "height": 191,
+        "date": "2025-03-29"
+      }
+    ]
+  },
+  {
+    "query": "vegetation",
+    "top_k": 4,
+    "num_results": 4,
+    "results": [
+      {
+        "rank": 1,
+        "tile_name": "tile_3.tif",
+        "score": 0.26770774,
+        "image_path": "data/tiles/tile_3.tif",
+        "crs": "EPSG:4326",
+        "bounds": {
+          "left": 88.344498,
+          "bottom": 22.554914000000004,
+          "right": 88.3654405,
+          "top": 22.570773000000003
+        },
+        "width": 233,
+        "height": 191,
+        "date": "2025-03-29"
+      },
+      {
+        "rank": 2,
+        "tile_name": "tile_2.tif",
+        "score": 0.2664777,
+        "image_path": "data/tiles/tile_2.tif",
+        "crs": "EPSG:4326",
+        "bounds": {
+          "left": 88.3654405,
+          "bottom": 22.570773000000003,
+          "right": 88.386383,
+          "top": 22.586632
+        },
+        "width": 233,
+        "height": 191,
+        "date": "2025-03-29"
+      },
+      {
+        "rank": 3,
+        "tile_name": "tile_1.tif",
+        "score": 0.26623744,
+        "image_path": "data/tiles/tile_1.tif",
+        "crs": "EPSG:4326",
+        "bounds": {
+          "left": 88.344498,
+          "bottom": 22.570773000000003,
+          "right": 88.3654405,
+          "top": 22.586632
+        },
+        "width": 233,
+        "height": 191,
+        "date": "2025-03-29"
+      },
+      {
+        "rank": 4,
+        "tile_name": "tile_4.tif",
+        "score": 0.2652184,
+        "image_path": "data/tiles/tile_4.tif",
+        "crs": "EPSG:4326",
+        "bounds": {
+          "left": 88.3654405,
+          "bottom": 22.554914000000004,
+          "right": 88.386383,
+          "top": 22.570773000000003
+        },
+        "width": 233,
+        "height": 191,
+        "date": "2025-03-29"
+      }
+    ]
+  },
+  {
+    "query": "green area",
+    "top_k": 4,
+    "num_results": 4,
+    "results": [
+      {
+        "rank": 1,
+        "tile_name": "tile_4.tif",
+        "score": 0.27406284,
+        "image_path": "data/tiles/tile_4.tif",
+        "crs": "EPSG:4326",
+        "bounds": {
+          "left": 88.3654405,
+          "bottom": 22.554914000000004,
+          "right": 88.386383,
+          "top": 22.570773000000003
+        },
+        "width": 233,
+        "height": 191,
+        "date": "2025-03-29"
+      },
+      {
+        "rank": 2,
+        "tile_name": "tile_2.tif",
+        "score": 0.27296484,
+        "image_path": "data/tiles/tile_2.tif",
+        "crs": "EPSG:4326",
+        "bounds": {
+          "left": 88.3654405,
+          "bottom": 22.570773000000003,
+          "right": 88.386383,
+          "top": 22.586632
+        },
+        "width": 233,
+        "height": 191,
+        "date": "2025-03-29"
+      },
+      {
+        "rank": 3,
+        "tile_name": "tile_1.tif",
+        "score": 0.26916486,
+        "image_path": "data/tiles/tile_1.tif",
+        "crs": "EPSG:4326",
+        "bounds": {
+          "left": 88.344498,
+          "bottom": 22.570773000000003,
+          "right": 88.3654405,
+          "top": 22.586632
+        },
+        "width": 233,
+        "height": 191,
+        "date": "2025-03-29"
+      },
+      {
+        "rank": 4,
+        "tile_name": "tile_3.tif",
+        "score": 0.26666588,
+        "image_path": "data/tiles/tile_3.tif",
+        "crs": "EPSG:4326",
+        "bounds": {
+          "left": 88.344498,
+          "bottom": 22.554914000000004,
+          "right": 88.3654405,
+          "top": 22.570773000000003
+        },
+        "width": 233,
+        "height": 191,
+        "date": "2025-03-29"
+      }
+    ]
+  }
+]

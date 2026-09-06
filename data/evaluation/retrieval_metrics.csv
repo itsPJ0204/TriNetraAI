@@ -1,0 +1,16 @@
+query,relevant_tiles,num_relevant_gt,retrieved_tiles,hit_at_1,hit_at_3,hit_at_4,precision_at_1,precision_at_3,precision_at_4,recall_at_1,recall_at_3,recall_at_4,reciprocal_rank
+river,tile_1.tif,1,tile_1.tif;tile_4.tif;tile_3.tif;tile_2.tif,1.0,1.0,1.0,1.0,0.333333,0.25,1.0,1.0,1.0,1.0
+water,tile_1.tif;tile_4.tif,2,tile_1.tif;tile_4.tif;tile_2.tif;tile_3.tif,1.0,1.0,1.0,1.0,0.666667,0.5,0.5,1.0,1.0,1.0
+road,tile_1.tif;tile_2.tif;tile_3.tif;tile_4.tif,4,tile_4.tif;tile_3.tif;tile_2.tif;tile_1.tif,1.0,1.0,1.0,1.0,1.0,1.0,0.25,0.75,1.0,1.0
+buildings,tile_1.tif;tile_2.tif;tile_3.tif;tile_4.tif,4,tile_3.tif;tile_2.tif;tile_1.tif;tile_4.tif,1.0,1.0,1.0,1.0,1.0,1.0,0.25,0.75,1.0,1.0
+urban area,tile_1.tif;tile_2.tif;tile_3.tif;tile_4.tif,4,tile_3.tif;tile_2.tif;tile_4.tif;tile_1.tif,1.0,1.0,1.0,1.0,1.0,1.0,0.25,0.75,1.0,1.0
+vegetation,tile_2.tif;tile_3.tif;tile_4.tif,3,tile_3.tif;tile_2.tif;tile_1.tif;tile_4.tif,1.0,1.0,1.0,1.0,0.666667,0.75,0.333333,0.666667,1.0,1.0
+green area,tile_2.tif;tile_3.tif;tile_4.tif,3,tile_4.tif;tile_2.tif;tile_1.tif;tile_3.tif,1.0,1.0,1.0,1.0,0.666667,0.75,0.333333,0.666667,1.0,1.0
+urban areas near water,tile_1.tif;tile_4.tif,2,tile_1.tif;tile_4.tif;tile_3.tif;tile_2.tif,1.0,1.0,1.0,1.0,0.666667,0.5,0.5,1.0,1.0,1.0
+buildings near a river,tile_1.tif,1,tile_1.tif;tile_4.tif;tile_3.tif;tile_2.tif,1.0,1.0,1.0,1.0,0.333333,0.25,1.0,1.0,1.0,1.0
+roads through green areas,tile_2.tif;tile_3.tif;tile_4.tif,3,tile_4.tif;tile_3.tif;tile_2.tif;tile_1.tif,1.0,1.0,1.0,1.0,1.0,0.75,0.333333,1.0,1.0,1.0
+water surrounded by vegetation,tile_4.tif,1,tile_1.tif;tile_4.tif;tile_3.tif;tile_2.tif,0.0,1.0,1.0,0.0,0.333333,0.25,0.0,1.0,1.0,0.5
+urban area with roads,tile_1.tif;tile_2.tif;tile_3.tif;tile_4.tif,4,tile_3.tif;tile_4.tif;tile_2.tif;tile_1.tif,1.0,1.0,1.0,1.0,1.0,1.0,0.25,0.75,1.0,1.0
+buildings and roads,tile_1.tif;tile_2.tif;tile_3.tif;tile_4.tif,4,tile_3.tif;tile_1.tif;tile_4.tif;tile_2.tif,1.0,1.0,1.0,1.0,1.0,1.0,0.25,0.75,1.0,1.0
+green area near water,tile_4.tif,1,tile_1.tif;tile_4.tif;tile_2.tif;tile_3.tif,0.0,1.0,1.0,0.0,0.333333,0.25,0.0,1.0,1.0,0.5
+dense urban area,tile_1.tif;tile_2.tif;tile_3.tif;tile_4.tif,4,tile_3.tif;tile_2.tif;tile_4.tif;tile_1.tif,1.0,1.0,1.0,1.0,1.0,1.0,0.25,0.75,1.0,1.0
