@@ -1,0 +1,1794 @@
+[
+  {
+    "id": "tile_0000",
+    "row": 0,
+    "col": 0,
+    "valid_frac": 1.0,
+    "cluster": 7
+  },
+  {
+    "id": "tile_0001",
+    "row": 0,
+    "col": 1,
+    "valid_frac": 1.0,
+    "cluster": 4
+  },
+  {
+    "id": "tile_0002",
+    "row": 0,
+    "col": 2,
+    "valid_frac": 1.0,
+    "cluster": 4
+  },
+  {
+    "id": "tile_0003",
+    "row": 0,
+    "col": 3,
+    "valid_frac": 1.0,
+    "cluster": 4
+  },
+  {
+    "id": "tile_0004",
+    "row": 0,
+    "col": 4,
+    "valid_frac": 1.0,
+    "cluster": 4
+  },
+  {
+    "id": "tile_0005",
+    "row": 0,
+    "col": 5,
+    "valid_frac": 1.0,
+    "cluster": 4
+  },
+  {
+    "id": "tile_0006",
+    "row": 0,
+    "col": 6,
+    "valid_frac": 1.0,
+    "cluster": 4
+  },
+  {
+    "id": "tile_0007",
+    "row": 0,
+    "col": 7,
+    "valid_frac": 1.0,
+    "cluster": 7
+  },
+  {
+    "id": "tile_0008",
+    "row": 0,
+    "col": 8,
+    "valid_frac": 1.0,
+    "cluster": 2
+  },
+  {
+    "id": "tile_0009",
+    "row": 0,
+    "col": 9,
+    "valid_frac": 1.0,
+    "cluster": 3
+  },
+  {
+    "id": "tile_0010",
+    "row": 0,
+    "col": 10,
+    "valid_frac": 1.0,
+    "cluster": 4
+  },
+  {
+    "id": "tile_0011",
+    "row": 0,
+    "col": 11,
+    "valid_frac": 1.0,
+    "cluster": 4
+  },
+  {
+    "id": "tile_0012",
+    "row": 0,
+    "col": 12,
+    "valid_frac": 1.0,
+    "cluster": 4
+  },
+  {
+    "id": "tile_0013",
+    "row": 0,
+    "col": 13,
+    "valid_frac": 1.0,
+    "cluster": 4
+  },
+  {
+    "id": "tile_0014",
+    "row": 0,
+    "col": 14,
+    "valid_frac": 1.0,
+    "cluster": 4
+  },
+  {
+    "id": "tile_0015",
+    "row": 0,
+    "col": 15,
+    "valid_frac": 1.0,
+    "cluster": 4
+  },
+  {
+    "id": "tile_0016",
+    "row": 1,
+    "col": 0,
+    "valid_frac": 1.0,
+    "cluster": 2
+  },
+  {
+    "id": "tile_0017",
+    "row": 1,
+    "col": 1,
+    "valid_frac": 1.0,
+    "cluster": 3
+  },
+  {
+    "id": "tile_0018",
+    "row": 1,
+    "col": 2,
+    "valid_frac": 1.0,
+    "cluster": 5
+  },
+  {
+    "id": "tile_0019",
+    "row": 1,
+    "col": 3,
+    "valid_frac": 1.0,
+    "cluster": 3
+  },
+  {
+    "id": "tile_0020",
+    "row": 1,
+    "col": 4,
+    "valid_frac": 1.0,
+    "cluster": 3
+  },
+  {
+    "id": "tile_0021",
+    "row": 1,
+    "col": 5,
+    "valid_frac": 1.0,
+    "cluster": 4
+  },
+  {
+    "id": "tile_0022",
+    "row": 1,
+    "col": 6,
+    "valid_frac": 1.0,
+    "cluster": 3
+  },
+  {
+    "id": "tile_0023",
+    "row": 1,
+    "col": 7,
+    "valid_frac": 1.0,
+    "cluster": 2
+  },
+  {
+    "id": "tile_0024",
+    "row": 1,
+    "col": 8,
+    "valid_frac": 1.0,
+    "cluster": 2
+  },
+  {
+    "id": "tile_0025",
+    "row": 1,
+    "col": 9,
+    "valid_frac": 1.0,
+    "cluster": 7
+  },
+  {
+    "id": "tile_0026",
+    "row": 1,
+    "col": 10,
+    "valid_frac": 1.0,
+    "cluster": 5
+  },
+  {
+    "id": "tile_0027",
+    "row": 1,
+    "col": 11,
+    "valid_frac": 1.0,
+    "cluster": 4
+  },
+  {
+    "id": "tile_0028",
+    "row": 1,
+    "col": 12,
+    "valid_frac": 1.0,
+    "cluster": 4
+  },
+  {
+    "id": "tile_0029",
+    "row": 1,
+    "col": 13,
+    "valid_frac": 1.0,
+    "cluster": 4
+  },
+  {
+    "id": "tile_0030",
+    "row": 1,
+    "col": 14,
+    "valid_frac": 1.0,
+    "cluster": 4
+  },
+  {
+    "id": "tile_0031",
+    "row": 1,
+    "col": 15,
+    "valid_frac": 1.0,
+    "cluster": 4
+  },
+  {
+    "id": "tile_0032",
+    "row": 2,
+    "col": 0,
+    "valid_frac": 1.0,
+    "cluster": 7
+  },
+  {
+    "id": "tile_0033",
+    "row": 2,
+    "col": 1,
+    "valid_frac": 1.0,
+    "cluster": 2
+  },
+  {
+    "id": "tile_0034",
+    "row": 2,
+    "col": 2,
+    "valid_frac": 1.0,
+    "cluster": 7
+  },
+  {
+    "id": "tile_0035",
+    "row": 2,
+    "col": 3,
+    "valid_frac": 1.0,
+    "cluster": 7
+  },
+  {
+    "id": "tile_0036",
+    "row": 2,
+    "col": 4,
+    "valid_frac": 1.0,
+    "cluster": 7
+  },
+  {
+    "id": "tile_0037",
+    "row": 2,
+    "col": 5,
+    "valid_frac": 1.0,
+    "cluster": 2
+  },
+  {
+    "id": "tile_0038",
+    "row": 2,
+    "col": 6,
+    "valid_frac": 1.0,
+    "cluster": 2
+  },
+  {
+    "id": "tile_0039",
+    "row": 2,
+    "col": 7,
+    "valid_frac": 1.0,
+    "cluster": 2
+  },
+  {
+    "id": "tile_0040",
+    "row": 2,
+    "col": 8,
+    "valid_frac": 1.0,
+    "cluster": 7
+  },
+  {
+    "id": "tile_0041",
+    "row": 2,
+    "col": 9,
+    "valid_frac": 1.0,
+    "cluster": 7
+  },
+  {
+    "id": "tile_0042",
+    "row": 2,
+    "col": 10,
+    "valid_frac": 1.0,
+    "cluster": 2
+  },
+  {
+    "id": "tile_0043",
+    "row": 2,
+    "col": 11,
+    "valid_frac": 1.0,
+    "cluster": 4
+  },
+  {
+    "id": "tile_0044",
+    "row": 2,
+    "col": 12,
+    "valid_frac": 1.0,
+    "cluster": 4
+  },
+  {
+    "id": "tile_0045",
+    "row": 2,
+    "col": 13,
+    "valid_frac": 1.0,
+    "cluster": 4
+  },
+  {
+    "id": "tile_0046",
+    "row": 2,
+    "col": 14,
+    "valid_frac": 1.0,
+    "cluster": 4
+  },
+  {
+    "id": "tile_0047",
+    "row": 2,
+    "col": 15,
+    "valid_frac": 1.0,
+    "cluster": 4
+  },
+  {
+    "id": "tile_0048",
+    "row": 3,
+    "col": 0,
+    "valid_frac": 1.0,
+    "cluster": 7
+  },
+  {
+    "id": "tile_0049",
+    "row": 3,
+    "col": 1,
+    "valid_frac": 1.0,
+    "cluster": 7
+  },
+  {
+    "id": "tile_0050",
+    "row": 3,
+    "col": 2,
+    "valid_frac": 1.0,
+    "cluster": 3
+  },
+  {
+    "id": "tile_0051",
+    "row": 3,
+    "col": 3,
+    "valid_frac": 1.0,
+    "cluster": 7
+  },
+  {
+    "id": "tile_0052",
+    "row": 3,
+    "col": 4,
+    "valid_frac": 1.0,
+    "cluster": 2
+  },
+  {
+    "id": "tile_0053",
+    "row": 3,
+    "col": 5,
+    "valid_frac": 1.0,
+    "cluster": 2
+  },
+  {
+    "id": "tile_0054",
+    "row": 3,
+    "col": 6,
+    "valid_frac": 1.0,
+    "cluster": 7
+  },
+  {
+    "id": "tile_0055",
+    "row": 3,
+    "col": 7,
+    "valid_frac": 1.0,
+    "cluster": 3
+  },
+  {
+    "id": "tile_0056",
+    "row": 3,
+    "col": 8,
+    "valid_frac": 1.0,
+    "cluster": 7
+  },
+  {
+    "id": "tile_0057",
+    "row": 3,
+    "col": 9,
+    "valid_frac": 1.0,
+    "cluster": 5
+  },
+  {
+    "id": "tile_0058",
+    "row": 3,
+    "col": 10,
+    "valid_frac": 1.0,
+    "cluster": 2
+  },
+  {
+    "id": "tile_0059",
+    "row": 3,
+    "col": 11,
+    "valid_frac": 1.0,
+    "cluster": 3
+  },
+  {
+    "id": "tile_0060",
+    "row": 3,
+    "col": 12,
+    "valid_frac": 1.0,
+    "cluster": 4
+  },
+  {
+    "id": "tile_0061",
+    "row": 3,
+    "col": 13,
+    "valid_frac": 1.0,
+    "cluster": 4
+  },
+  {
+    "id": "tile_0062",
+    "row": 3,
+    "col": 14,
+    "valid_frac": 1.0,
+    "cluster": 4
+  },
+  {
+    "id": "tile_0063",
+    "row": 3,
+    "col": 15,
+    "valid_frac": 1.0,
+    "cluster": 4
+  },
+  {
+    "id": "tile_0064",
+    "row": 4,
+    "col": 0,
+    "valid_frac": 1.0,
+    "cluster": 5
+  },
+  {
+    "id": "tile_0065",
+    "row": 4,
+    "col": 1,
+    "valid_frac": 1.0,
+    "cluster": 2
+  },
+  {
+    "id": "tile_0066",
+    "row": 4,
+    "col": 2,
+    "valid_frac": 1.0,
+    "cluster": 3
+  },
+  {
+    "id": "tile_0067",
+    "row": 4,
+    "col": 3,
+    "valid_frac": 1.0,
+    "cluster": 2
+  },
+  {
+    "id": "tile_0068",
+    "row": 4,
+    "col": 4,
+    "valid_frac": 1.0,
+    "cluster": 2
+  },
+  {
+    "id": "tile_0069",
+    "row": 4,
+    "col": 5,
+    "valid_frac": 1.0,
+    "cluster": 2
+  },
+  {
+    "id": "tile_0070",
+    "row": 4,
+    "col": 6,
+    "valid_frac": 1.0,
+    "cluster": 5
+  },
+  {
+    "id": "tile_0071",
+    "row": 4,
+    "col": 7,
+    "valid_frac": 1.0,
+    "cluster": 5
+  },
+  {
+    "id": "tile_0072",
+    "row": 4,
+    "col": 8,
+    "valid_frac": 1.0,
+    "cluster": 7
+  },
+  {
+    "id": "tile_0073",
+    "row": 4,
+    "col": 9,
+    "valid_frac": 1.0,
+    "cluster": 3
+  },
+  {
+    "id": "tile_0074",
+    "row": 4,
+    "col": 10,
+    "valid_frac": 1.0,
+    "cluster": 3
+  },
+  {
+    "id": "tile_0075",
+    "row": 4,
+    "col": 11,
+    "valid_frac": 1.0,
+    "cluster": 2
+  },
+  {
+    "id": "tile_0076",
+    "row": 4,
+    "col": 12,
+    "valid_frac": 1.0,
+    "cluster": 4
+  },
+  {
+    "id": "tile_0077",
+    "row": 4,
+    "col": 13,
+    "valid_frac": 1.0,
+    "cluster": 4
+  },
+  {
+    "id": "tile_0078",
+    "row": 4,
+    "col": 14,
+    "valid_frac": 1.0,
+    "cluster": 3
+  },
+  {
+    "id": "tile_0079",
+    "row": 4,
+    "col": 15,
+    "valid_frac": 1.0,
+    "cluster": 3
+  },
+  {
+    "id": "tile_0080",
+    "row": 5,
+    "col": 0,
+    "valid_frac": 1.0,
+    "cluster": 2
+  },
+  {
+    "id": "tile_0081",
+    "row": 5,
+    "col": 1,
+    "valid_frac": 1.0,
+    "cluster": 5
+  },
+  {
+    "id": "tile_0082",
+    "row": 5,
+    "col": 2,
+    "valid_frac": 1.0,
+    "cluster": 5
+  },
+  {
+    "id": "tile_0083",
+    "row": 5,
+    "col": 3,
+    "valid_frac": 1.0,
+    "cluster": 5
+  },
+  {
+    "id": "tile_0084",
+    "row": 5,
+    "col": 4,
+    "valid_frac": 1.0,
+    "cluster": 5
+  },
+  {
+    "id": "tile_0085",
+    "row": 5,
+    "col": 5,
+    "valid_frac": 1.0,
+    "cluster": 5
+  },
+  {
+    "id": "tile_0086",
+    "row": 5,
+    "col": 6,
+    "valid_frac": 1.0,
+    "cluster": 3
+  },
+  {
+    "id": "tile_0087",
+    "row": 5,
+    "col": 7,
+    "valid_frac": 1.0,
+    "cluster": 7
+  },
+  {
+    "id": "tile_0088",
+    "row": 5,
+    "col": 8,
+    "valid_frac": 1.0,
+    "cluster": 7
+  },
+  {
+    "id": "tile_0089",
+    "row": 5,
+    "col": 9,
+    "valid_frac": 1.0,
+    "cluster": 5
+  },
+  {
+    "id": "tile_0090",
+    "row": 5,
+    "col": 10,
+    "valid_frac": 1.0,
+    "cluster": 6
+  },
+  {
+    "id": "tile_0091",
+    "row": 5,
+    "col": 11,
+    "valid_frac": 1.0,
+    "cluster": 2
+  },
+  {
+    "id": "tile_0092",
+    "row": 5,
+    "col": 12,
+    "valid_frac": 1.0,
+    "cluster": 5
+  },
+  {
+    "id": "tile_0093",
+    "row": 5,
+    "col": 13,
+    "valid_frac": 1.0,
+    "cluster": 4
+  },
+  {
+    "id": "tile_0094",
+    "row": 5,
+    "col": 14,
+    "valid_frac": 1.0,
+    "cluster": 4
+  },
+  {
+    "id": "tile_0095",
+    "row": 5,
+    "col": 15,
+    "valid_frac": 1.0,
+    "cluster": 3
+  },
+  {
+    "id": "tile_0096",
+    "row": 6,
+    "col": 0,
+    "valid_frac": 1.0,
+    "cluster": 3
+  },
+  {
+    "id": "tile_0097",
+    "row": 6,
+    "col": 1,
+    "valid_frac": 1.0,
+    "cluster": 3
+  },
+  {
+    "id": "tile_0098",
+    "row": 6,
+    "col": 2,
+    "valid_frac": 1.0,
+    "cluster": 3
+  },
+  {
+    "id": "tile_0099",
+    "row": 6,
+    "col": 3,
+    "valid_frac": 1.0,
+    "cluster": 3
+  },
+  {
+    "id": "tile_0100",
+    "row": 6,
+    "col": 4,
+    "valid_frac": 1.0,
+    "cluster": 7
+  },
+  {
+    "id": "tile_0101",
+    "row": 6,
+    "col": 5,
+    "valid_frac": 1.0,
+    "cluster": 7
+  },
+  {
+    "id": "tile_0102",
+    "row": 6,
+    "col": 6,
+    "valid_frac": 1.0,
+    "cluster": 6
+  },
+  {
+    "id": "tile_0103",
+    "row": 6,
+    "col": 7,
+    "valid_frac": 1.0,
+    "cluster": 6
+  },
+  {
+    "id": "tile_0104",
+    "row": 6,
+    "col": 8,
+    "valid_frac": 1.0,
+    "cluster": 5
+  },
+  {
+    "id": "tile_0105",
+    "row": 6,
+    "col": 9,
+    "valid_frac": 1.0,
+    "cluster": 0
+  },
+  {
+    "id": "tile_0106",
+    "row": 6,
+    "col": 10,
+    "valid_frac": 1.0,
+    "cluster": 6
+  },
+  {
+    "id": "tile_0107",
+    "row": 6,
+    "col": 11,
+    "valid_frac": 1.0,
+    "cluster": 3
+  },
+  {
+    "id": "tile_0108",
+    "row": 6,
+    "col": 12,
+    "valid_frac": 1.0,
+    "cluster": 3
+  },
+  {
+    "id": "tile_0109",
+    "row": 6,
+    "col": 13,
+    "valid_frac": 1.0,
+    "cluster": 5
+  },
+  {
+    "id": "tile_0110",
+    "row": 6,
+    "col": 14,
+    "valid_frac": 1.0,
+    "cluster": 4
+  },
+  {
+    "id": "tile_0111",
+    "row": 6,
+    "col": 15,
+    "valid_frac": 1.0,
+    "cluster": 4
+  },
+  {
+    "id": "tile_0112",
+    "row": 7,
+    "col": 0,
+    "valid_frac": 1.0,
+    "cluster": 2
+  },
+  {
+    "id": "tile_0113",
+    "row": 7,
+    "col": 1,
+    "valid_frac": 1.0,
+    "cluster": 2
+  },
+  {
+    "id": "tile_0114",
+    "row": 7,
+    "col": 2,
+    "valid_frac": 1.0,
+    "cluster": 6
+  },
+  {
+    "id": "tile_0115",
+    "row": 7,
+    "col": 3,
+    "valid_frac": 1.0,
+    "cluster": 2
+  },
+  {
+    "id": "tile_0116",
+    "row": 7,
+    "col": 4,
+    "valid_frac": 1.0,
+    "cluster": 2
+  },
+  {
+    "id": "tile_0117",
+    "row": 7,
+    "col": 5,
+    "valid_frac": 1.0,
+    "cluster": 6
+  },
+  {
+    "id": "tile_0118",
+    "row": 7,
+    "col": 6,
+    "valid_frac": 1.0,
+    "cluster": 2
+  },
+  {
+    "id": "tile_0119",
+    "row": 7,
+    "col": 7,
+    "valid_frac": 1.0,
+    "cluster": 6
+  },
+  {
+    "id": "tile_0120",
+    "row": 7,
+    "col": 8,
+    "valid_frac": 1.0,
+    "cluster": 2
+  },
+  {
+    "id": "tile_0121",
+    "row": 7,
+    "col": 9,
+    "valid_frac": 1.0,
+    "cluster": 1
+  },
+  {
+    "id": "tile_0122",
+    "row": 7,
+    "col": 10,
+    "valid_frac": 1.0,
+    "cluster": 2
+  },
+  {
+    "id": "tile_0123",
+    "row": 7,
+    "col": 11,
+    "valid_frac": 1.0,
+    "cluster": 2
+  },
+  {
+    "id": "tile_0124",
+    "row": 7,
+    "col": 12,
+    "valid_frac": 1.0,
+    "cluster": 2
+  },
+  {
+    "id": "tile_0125",
+    "row": 7,
+    "col": 13,
+    "valid_frac": 1.0,
+    "cluster": 2
+  },
+  {
+    "id": "tile_0126",
+    "row": 7,
+    "col": 14,
+    "valid_frac": 1.0,
+    "cluster": 4
+  },
+  {
+    "id": "tile_0127",
+    "row": 7,
+    "col": 15,
+    "valid_frac": 1.0,
+    "cluster": 2
+  },
+  {
+    "id": "tile_0128",
+    "row": 8,
+    "col": 0,
+    "valid_frac": 1.0,
+    "cluster": 2
+  },
+  {
+    "id": "tile_0129",
+    "row": 8,
+    "col": 1,
+    "valid_frac": 1.0,
+    "cluster": 2
+  },
+  {
+    "id": "tile_0130",
+    "row": 8,
+    "col": 2,
+    "valid_frac": 1.0,
+    "cluster": 2
+  },
+  {
+    "id": "tile_0131",
+    "row": 8,
+    "col": 3,
+    "valid_frac": 1.0,
+    "cluster": 2
+  },
+  {
+    "id": "tile_0132",
+    "row": 8,
+    "col": 4,
+    "valid_frac": 1.0,
+    "cluster": 2
+  },
+  {
+    "id": "tile_0133",
+    "row": 8,
+    "col": 5,
+    "valid_frac": 1.0,
+    "cluster": 6
+  },
+  {
+    "id": "tile_0134",
+    "row": 8,
+    "col": 6,
+    "valid_frac": 1.0,
+    "cluster": 2
+  },
+  {
+    "id": "tile_0135",
+    "row": 8,
+    "col": 7,
+    "valid_frac": 1.0,
+    "cluster": 6
+  },
+  {
+    "id": "tile_0136",
+    "row": 8,
+    "col": 8,
+    "valid_frac": 1.0,
+    "cluster": 6
+  },
+  {
+    "id": "tile_0137",
+    "row": 8,
+    "col": 9,
+    "valid_frac": 1.0,
+    "cluster": 5
+  },
+  {
+    "id": "tile_0138",
+    "row": 8,
+    "col": 10,
+    "valid_frac": 1.0,
+    "cluster": 1
+  },
+  {
+    "id": "tile_0139",
+    "row": 8,
+    "col": 11,
+    "valid_frac": 1.0,
+    "cluster": 6
+  },
+  {
+    "id": "tile_0140",
+    "row": 8,
+    "col": 12,
+    "valid_frac": 1.0,
+    "cluster": 6
+  },
+  {
+    "id": "tile_0141",
+    "row": 8,
+    "col": 13,
+    "valid_frac": 1.0,
+    "cluster": 6
+  },
+  {
+    "id": "tile_0142",
+    "row": 8,
+    "col": 14,
+    "valid_frac": 1.0,
+    "cluster": 7
+  },
+  {
+    "id": "tile_0143",
+    "row": 8,
+    "col": 15,
+    "valid_frac": 1.0,
+    "cluster": 4
+  },
+  {
+    "id": "tile_0144",
+    "row": 9,
+    "col": 0,
+    "valid_frac": 1.0,
+    "cluster": 6
+  },
+  {
+    "id": "tile_0145",
+    "row": 9,
+    "col": 1,
+    "valid_frac": 1.0,
+    "cluster": 6
+  },
+  {
+    "id": "tile_0146",
+    "row": 9,
+    "col": 2,
+    "valid_frac": 1.0,
+    "cluster": 2
+  },
+  {
+    "id": "tile_0147",
+    "row": 9,
+    "col": 3,
+    "valid_frac": 1.0,
+    "cluster": 2
+  },
+  {
+    "id": "tile_0148",
+    "row": 9,
+    "col": 4,
+    "valid_frac": 1.0,
+    "cluster": 7
+  },
+  {
+    "id": "tile_0149",
+    "row": 9,
+    "col": 5,
+    "valid_frac": 1.0,
+    "cluster": 7
+  },
+  {
+    "id": "tile_0150",
+    "row": 9,
+    "col": 6,
+    "valid_frac": 1.0,
+    "cluster": 4
+  },
+  {
+    "id": "tile_0151",
+    "row": 9,
+    "col": 7,
+    "valid_frac": 1.0,
+    "cluster": 2
+  },
+  {
+    "id": "tile_0152",
+    "row": 9,
+    "col": 8,
+    "valid_frac": 1.0,
+    "cluster": 2
+  },
+  {
+    "id": "tile_0153",
+    "row": 9,
+    "col": 9,
+    "valid_frac": 1.0,
+    "cluster": 2
+  },
+  {
+    "id": "tile_0154",
+    "row": 9,
+    "col": 10,
+    "valid_frac": 1.0,
+    "cluster": 5
+  },
+  {
+    "id": "tile_0155",
+    "row": 9,
+    "col": 11,
+    "valid_frac": 1.0,
+    "cluster": 1
+  },
+  {
+    "id": "tile_0156",
+    "row": 9,
+    "col": 12,
+    "valid_frac": 1.0,
+    "cluster": 0
+  },
+  {
+    "id": "tile_0157",
+    "row": 9,
+    "col": 13,
+    "valid_frac": 1.0,
+    "cluster": 6
+  },
+  {
+    "id": "tile_0158",
+    "row": 9,
+    "col": 14,
+    "valid_frac": 1.0,
+    "cluster": 6
+  },
+  {
+    "id": "tile_0159",
+    "row": 9,
+    "col": 15,
+    "valid_frac": 1.0,
+    "cluster": 3
+  },
+  {
+    "id": "tile_0160",
+    "row": 10,
+    "col": 0,
+    "valid_frac": 1.0,
+    "cluster": 3
+  },
+  {
+    "id": "tile_0161",
+    "row": 10,
+    "col": 1,
+    "valid_frac": 1.0,
+    "cluster": 7
+  },
+  {
+    "id": "tile_0162",
+    "row": 10,
+    "col": 2,
+    "valid_frac": 1.0,
+    "cluster": 2
+  },
+  {
+    "id": "tile_0163",
+    "row": 10,
+    "col": 3,
+    "valid_frac": 1.0,
+    "cluster": 2
+  },
+  {
+    "id": "tile_0164",
+    "row": 10,
+    "col": 4,
+    "valid_frac": 1.0,
+    "cluster": 2
+  },
+  {
+    "id": "tile_0165",
+    "row": 10,
+    "col": 5,
+    "valid_frac": 1.0,
+    "cluster": 5
+  },
+  {
+    "id": "tile_0166",
+    "row": 10,
+    "col": 6,
+    "valid_frac": 1.0,
+    "cluster": 3
+  },
+  {
+    "id": "tile_0167",
+    "row": 10,
+    "col": 7,
+    "valid_frac": 1.0,
+    "cluster": 4
+  },
+  {
+    "id": "tile_0168",
+    "row": 10,
+    "col": 8,
+    "valid_frac": 1.0,
+    "cluster": 4
+  },
+  {
+    "id": "tile_0169",
+    "row": 10,
+    "col": 9,
+    "valid_frac": 1.0,
+    "cluster": 7
+  },
+  {
+    "id": "tile_0170",
+    "row": 10,
+    "col": 10,
+    "valid_frac": 1.0,
+    "cluster": 2
+  },
+  {
+    "id": "tile_0171",
+    "row": 10,
+    "col": 11,
+    "valid_frac": 1.0,
+    "cluster": 6
+  },
+  {
+    "id": "tile_0172",
+    "row": 10,
+    "col": 12,
+    "valid_frac": 1.0,
+    "cluster": 6
+  },
+  {
+    "id": "tile_0173",
+    "row": 10,
+    "col": 13,
+    "valid_frac": 1.0,
+    "cluster": 1
+  },
+  {
+    "id": "tile_0174",
+    "row": 10,
+    "col": 14,
+    "valid_frac": 1.0,
+    "cluster": 0
+  },
+  {
+    "id": "tile_0175",
+    "row": 10,
+    "col": 15,
+    "valid_frac": 1.0,
+    "cluster": 7
+  },
+  {
+    "id": "tile_0176",
+    "row": 11,
+    "col": 0,
+    "valid_frac": 1.0,
+    "cluster": 4
+  },
+  {
+    "id": "tile_0177",
+    "row": 11,
+    "col": 1,
+    "valid_frac": 1.0,
+    "cluster": 7
+  },
+  {
+    "id": "tile_0178",
+    "row": 11,
+    "col": 2,
+    "valid_frac": 1.0,
+    "cluster": 2
+  },
+  {
+    "id": "tile_0179",
+    "row": 11,
+    "col": 3,
+    "valid_frac": 1.0,
+    "cluster": 4
+  },
+  {
+    "id": "tile_0180",
+    "row": 11,
+    "col": 4,
+    "valid_frac": 1.0,
+    "cluster": 5
+  },
+  {
+    "id": "tile_0181",
+    "row": 11,
+    "col": 5,
+    "valid_frac": 1.0,
+    "cluster": 7
+  },
+  {
+    "id": "tile_0182",
+    "row": 11,
+    "col": 6,
+    "valid_frac": 1.0,
+    "cluster": 4
+  },
+  {
+    "id": "tile_0183",
+    "row": 11,
+    "col": 7,
+    "valid_frac": 1.0,
+    "cluster": 3
+  },
+  {
+    "id": "tile_0184",
+    "row": 11,
+    "col": 8,
+    "valid_frac": 1.0,
+    "cluster": 5
+  },
+  {
+    "id": "tile_0185",
+    "row": 11,
+    "col": 9,
+    "valid_frac": 1.0,
+    "cluster": 4
+  },
+  {
+    "id": "tile_0186",
+    "row": 11,
+    "col": 10,
+    "valid_frac": 1.0,
+    "cluster": 7
+  },
+  {
+    "id": "tile_0187",
+    "row": 11,
+    "col": 11,
+    "valid_frac": 1.0,
+    "cluster": 6
+  },
+  {
+    "id": "tile_0188",
+    "row": 11,
+    "col": 12,
+    "valid_frac": 1.0,
+    "cluster": 6
+  },
+  {
+    "id": "tile_0189",
+    "row": 11,
+    "col": 13,
+    "valid_frac": 1.0,
+    "cluster": 6
+  },
+  {
+    "id": "tile_0190",
+    "row": 11,
+    "col": 14,
+    "valid_frac": 1.0,
+    "cluster": 1
+  },
+  {
+    "id": "tile_0191",
+    "row": 11,
+    "col": 15,
+    "valid_frac": 1.0,
+    "cluster": 6
+  },
+  {
+    "id": "tile_0192",
+    "row": 12,
+    "col": 0,
+    "valid_frac": 1.0,
+    "cluster": 3
+  },
+  {
+    "id": "tile_0193",
+    "row": 12,
+    "col": 1,
+    "valid_frac": 1.0,
+    "cluster": 4
+  },
+  {
+    "id": "tile_0194",
+    "row": 12,
+    "col": 2,
+    "valid_frac": 1.0,
+    "cluster": 4
+  },
+  {
+    "id": "tile_0195",
+    "row": 12,
+    "col": 3,
+    "valid_frac": 1.0,
+    "cluster": 4
+  },
+  {
+    "id": "tile_0196",
+    "row": 12,
+    "col": 4,
+    "valid_frac": 1.0,
+    "cluster": 4
+  },
+  {
+    "id": "tile_0197",
+    "row": 12,
+    "col": 5,
+    "valid_frac": 1.0,
+    "cluster": 4
+  },
+  {
+    "id": "tile_0198",
+    "row": 12,
+    "col": 6,
+    "valid_frac": 1.0,
+    "cluster": 4
+  },
+  {
+    "id": "tile_0199",
+    "row": 12,
+    "col": 7,
+    "valid_frac": 1.0,
+    "cluster": 2
+  },
+  {
+    "id": "tile_0200",
+    "row": 12,
+    "col": 8,
+    "valid_frac": 1.0,
+    "cluster": 3
+  },
+  {
+    "id": "tile_0201",
+    "row": 12,
+    "col": 9,
+    "valid_frac": 1.0,
+    "cluster": 4
+  },
+  {
+    "id": "tile_0202",
+    "row": 12,
+    "col": 10,
+    "valid_frac": 1.0,
+    "cluster": 7
+  },
+  {
+    "id": "tile_0203",
+    "row": 12,
+    "col": 11,
+    "valid_frac": 1.0,
+    "cluster": 4
+  },
+  {
+    "id": "tile_0204",
+    "row": 12,
+    "col": 12,
+    "valid_frac": 1.0,
+    "cluster": 2
+  },
+  {
+    "id": "tile_0205",
+    "row": 12,
+    "col": 13,
+    "valid_frac": 1.0,
+    "cluster": 7
+  },
+  {
+    "id": "tile_0206",
+    "row": 12,
+    "col": 14,
+    "valid_frac": 1.0,
+    "cluster": 7
+  },
+  {
+    "id": "tile_0207",
+    "row": 12,
+    "col": 15,
+    "valid_frac": 1.0,
+    "cluster": 0
+  },
+  {
+    "id": "tile_0208",
+    "row": 13,
+    "col": 0,
+    "valid_frac": 1.0,
+    "cluster": 3
+  },
+  {
+    "id": "tile_0209",
+    "row": 13,
+    "col": 1,
+    "valid_frac": 1.0,
+    "cluster": 3
+  },
+  {
+    "id": "tile_0210",
+    "row": 13,
+    "col": 2,
+    "valid_frac": 1.0,
+    "cluster": 4
+  },
+  {
+    "id": "tile_0211",
+    "row": 13,
+    "col": 3,
+    "valid_frac": 1.0,
+    "cluster": 4
+  },
+  {
+    "id": "tile_0212",
+    "row": 13,
+    "col": 4,
+    "valid_frac": 1.0,
+    "cluster": 3
+  },
+  {
+    "id": "tile_0213",
+    "row": 13,
+    "col": 5,
+    "valid_frac": 1.0,
+    "cluster": 4
+  },
+  {
+    "id": "tile_0214",
+    "row": 13,
+    "col": 6,
+    "valid_frac": 1.0,
+    "cluster": 4
+  },
+  {
+    "id": "tile_0215",
+    "row": 13,
+    "col": 7,
+    "valid_frac": 1.0,
+    "cluster": 4
+  },
+  {
+    "id": "tile_0216",
+    "row": 13,
+    "col": 8,
+    "valid_frac": 1.0,
+    "cluster": 2
+  },
+  {
+    "id": "tile_0217",
+    "row": 13,
+    "col": 9,
+    "valid_frac": 1.0,
+    "cluster": 7
+  },
+  {
+    "id": "tile_0218",
+    "row": 13,
+    "col": 10,
+    "valid_frac": 1.0,
+    "cluster": 3
+  },
+  {
+    "id": "tile_0219",
+    "row": 13,
+    "col": 11,
+    "valid_frac": 1.0,
+    "cluster": 3
+  },
+  {
+    "id": "tile_0220",
+    "row": 13,
+    "col": 12,
+    "valid_frac": 1.0,
+    "cluster": 3
+  },
+  {
+    "id": "tile_0221",
+    "row": 13,
+    "col": 13,
+    "valid_frac": 1.0,
+    "cluster": 3
+  },
+  {
+    "id": "tile_0222",
+    "row": 13,
+    "col": 14,
+    "valid_frac": 1.0,
+    "cluster": 3
+  },
+  {
+    "id": "tile_0223",
+    "row": 13,
+    "col": 15,
+    "valid_frac": 1.0,
+    "cluster": 1
+  },
+  {
+    "id": "tile_0224",
+    "row": 14,
+    "col": 0,
+    "valid_frac": 1.0,
+    "cluster": 4
+  },
+  {
+    "id": "tile_0225",
+    "row": 14,
+    "col": 1,
+    "valid_frac": 1.0,
+    "cluster": 4
+  },
+  {
+    "id": "tile_0226",
+    "row": 14,
+    "col": 2,
+    "valid_frac": 1.0,
+    "cluster": 3
+  },
+  {
+    "id": "tile_0227",
+    "row": 14,
+    "col": 3,
+    "valid_frac": 1.0,
+    "cluster": 4
+  },
+  {
+    "id": "tile_0228",
+    "row": 14,
+    "col": 4,
+    "valid_frac": 1.0,
+    "cluster": 7
+  },
+  {
+    "id": "tile_0229",
+    "row": 14,
+    "col": 5,
+    "valid_frac": 1.0,
+    "cluster": 5
+  },
+  {
+    "id": "tile_0230",
+    "row": 14,
+    "col": 6,
+    "valid_frac": 1.0,
+    "cluster": 3
+  },
+  {
+    "id": "tile_0231",
+    "row": 14,
+    "col": 7,
+    "valid_frac": 1.0,
+    "cluster": 4
+  },
+  {
+    "id": "tile_0232",
+    "row": 14,
+    "col": 8,
+    "valid_frac": 1.0,
+    "cluster": 4
+  },
+  {
+    "id": "tile_0233",
+    "row": 14,
+    "col": 9,
+    "valid_frac": 1.0,
+    "cluster": 3
+  },
+  {
+    "id": "tile_0234",
+    "row": 14,
+    "col": 10,
+    "valid_frac": 1.0,
+    "cluster": 7
+  },
+  {
+    "id": "tile_0235",
+    "row": 14,
+    "col": 11,
+    "valid_frac": 1.0,
+    "cluster": 3
+  },
+  {
+    "id": "tile_0236",
+    "row": 14,
+    "col": 12,
+    "valid_frac": 1.0,
+    "cluster": 7
+  },
+  {
+    "id": "tile_0237",
+    "row": 14,
+    "col": 13,
+    "valid_frac": 1.0,
+    "cluster": 2
+  },
+  {
+    "id": "tile_0238",
+    "row": 14,
+    "col": 14,
+    "valid_frac": 1.0,
+    "cluster": 2
+  },
+  {
+    "id": "tile_0239",
+    "row": 14,
+    "col": 15,
+    "valid_frac": 1.0,
+    "cluster": 7
+  },
+  {
+    "id": "tile_0240",
+    "row": 15,
+    "col": 0,
+    "valid_frac": 1.0,
+    "cluster": 4
+  },
+  {
+    "id": "tile_0241",
+    "row": 15,
+    "col": 1,
+    "valid_frac": 1.0,
+    "cluster": 7
+  },
+  {
+    "id": "tile_0242",
+    "row": 15,
+    "col": 2,
+    "valid_frac": 1.0,
+    "cluster": 2
+  },
+  {
+    "id": "tile_0243",
+    "row": 15,
+    "col": 3,
+    "valid_frac": 1.0,
+    "cluster": 7
+  },
+  {
+    "id": "tile_0244",
+    "row": 15,
+    "col": 4,
+    "valid_frac": 1.0,
+    "cluster": 2
+  },
+  {
+    "id": "tile_0245",
+    "row": 15,
+    "col": 5,
+    "valid_frac": 1.0,
+    "cluster": 4
+  },
+  {
+    "id": "tile_0246",
+    "row": 15,
+    "col": 6,
+    "valid_frac": 1.0,
+    "cluster": 4
+  },
+  {
+    "id": "tile_0247",
+    "row": 15,
+    "col": 7,
+    "valid_frac": 1.0,
+    "cluster": 3
+  },
+  {
+    "id": "tile_0248",
+    "row": 15,
+    "col": 8,
+    "valid_frac": 1.0,
+    "cluster": 6
+  },
+  {
+    "id": "tile_0249",
+    "row": 15,
+    "col": 9,
+    "valid_frac": 1.0,
+    "cluster": 6
+  },
+  {
+    "id": "tile_0250",
+    "row": 15,
+    "col": 10,
+    "valid_frac": 1.0,
+    "cluster": 2
+  },
+  {
+    "id": "tile_0251",
+    "row": 15,
+    "col": 11,
+    "valid_frac": 1.0,
+    "cluster": 2
+  },
+  {
+    "id": "tile_0252",
+    "row": 15,
+    "col": 12,
+    "valid_frac": 1.0,
+    "cluster": 2
+  },
+  {
+    "id": "tile_0253",
+    "row": 15,
+    "col": 13,
+    "valid_frac": 1.0,
+    "cluster": 2
+  },
+  {
+    "id": "tile_0254",
+    "row": 15,
+    "col": 14,
+    "valid_frac": 1.0,
+    "cluster": 3
+  },
+  {
+    "id": "tile_0255",
+    "row": 15,
+    "col": 15,
+    "valid_frac": 1.0,
+    "cluster": 7
+  }
+]
