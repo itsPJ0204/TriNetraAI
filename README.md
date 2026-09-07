@@ -1,287 +1,223 @@
-# TriNetraAI
+# 🛰️ TriNetraAI — Unified Earth Observation & Satellite Intelligence Engine
 
-TriNetraAI is an offline satellite imagery search and change detection system designed for high-performance geospatial intelligence.
+**TriNetraAI** is a comprehensive, offline-first satellite intelligence platform built for Earth Observation, automated monitoring, and reconnaissance. It unifies three core capabilities:
 
-The **Semantic AI** module enables users to discover and rank satellite image tiles using natural-language descriptions (such as *"buildings near a river"*, *"dense urban area"*, or *"water surrounded by vegetation"*) combined with optional 2D geographic bounding-box spatial filters.
-
----
-
-## Key Features
-
-- **Natural Language Satellite Search**: Query satellite imagery directly with natural language using RemoteCLIP (ViT-B/32) vision-language embeddings.
-- **2D Geographic Filtering**: Intersect semantic search with spatial bounding boxes (latitude/longitude coordinates) via native Qdrant payload filters.
-- **CPU Inference Optimized**: In-memory singleton caching and query embedding reuse deliver fast response times (~77ms warm search latency on standard multi-core CPUs).
-- **Clean Decoupled API**: Exposes a stable, typed Python interface (`search()` -> `list[SearchResult]`) isolating downstream APIs (FastAPI / Web Clients) from vector store internals.
-- **Geospatial Integrity**: Full preservation of Coordinate Reference Systems (CRS), affine transforms, and geographic extents using Rasterio.
+1. **🛡️ QA & False-Alarm Suppression (Role 4)**: Filters out clouds, cloud shadows, snow, and sensor defects using Sentinel-2 SCL bands and edge-optimized `s2cloudless` machine learning models.
+2. **🔍 Semantic Natural-Language Search (Role 2)**: Enables analysts to search satellite tiles using free-form text descriptions (*"buildings near a river"*, *"dense urban area"*) powered by **RemoteCLIP (ViT-B/32)** and **Qdrant Vector Database**.
+3. **🕵️‍♂️ Temporal Change Detective & Semantic Classifier (Role 3)**: Compares bitemporal satellite tile pairs, pinpoints physical change locations (**BIT Transformer** + **Classical CV**), and classifies **WHAT the actual change is** (*Vegetation &rarr; New Construction*, *Land Clearing*, *Road Expansion*, *Flooding*).
 
 ---
 
-## Architecture & Tech Stack
+## 🏗️ End-to-End System Architecture
 
 ```
-+-------------------------------------------------------------------------+
-|                              TriNetraAI                                 |
-|                                                                         |
-|   +-------------------+    +--------------------+    +--------------+   |
-|   |  GeoTIFF Imagery  | -> |  RemoteCLIP Vision | -> | 512-D L2-Norm|   |
-|   | (Rasterio Tiles)  |    |   Encoder (CPU)    |    |   Vectors    |   |
-|   +-------------------+    +--------------------+    +-------+------+   |
-|                                                              |          |
-|                                                              v          |
-|   +-------------------+    +--------------------+    +--------------+   |
-|   |  Text Query (CLI/ | -> |  RemoteCLIP Text   | -> | Qdrant Vector|   |
-|   |  FastAPI / Python)|    |   Encoder (CPU)    |    |   Database   |   |
-|   +-------------------+    +--------------------+    +-------+------+   |
-|                                                              |          |
-|                                                              v          |
-|                                                     +---------------+   |
-|                                                     |  SearchResult |   |
-|                                                     | Domain Models |   |
-|                                                     +---------------+   |
-+-------------------------------------------------------------------------+
-```
-
-- **Vision-Language Model**: [RemoteCLIP](https://github.com/ChenDelong1999/RemoteCLIP) (ViT-B/32)
-- **Vector Database**: [Qdrant](https://qdrant.tech/) (Cosine Similarity, 512 dimensions)
-- **Geospatial Processing**: [Rasterio](https://rasterio.readthedocs.io/) & [Pillow](https://python-pillow.org/)
-- **Runtime**: Python 3.10+ (PyTorch CPU)
-
----
-
-## Project Structure
-
-```text
-satellite-semantic-search/
-├── data/
-│   ├── evaluation/         # Ground-truth visual labels & benchmark results
-│   ├── embeddings/         # Generated tile vector embeddings (.npy, .json)
-│   └── tiles/              # GeoTIFF satellite image tiles (.tif)
-├── docs/
-│   └── semantic_ai_integration.md  # Detailed team integration specification
-├── models/
-│   └── remoteclip/         # RemoteCLIP ViT-B-32 checkpoint location
-├── scripts/
-│   ├── benchmark_search.py # CPU latency and memory benchmarking
-│   ├── evaluate.py         # Search evaluation orchestrator
-│   ├── evaluate_ensemble.py# Prompt ensemble / expansion evaluation
-│   ├── evaluate_metrics.py # Retrieval quality metrics (MRR, Precision@K, Hit@K)
-│   ├── evaluate_robustness.py # Query normalization and edge-case testing
-│   ├── generate_embeddings.py # Generate RemoteCLIP vectors from tiles
-│   ├── index_embeddings.py # Upsert vectors and metadata into Qdrant
-│   ├── search.py           # Interactive CLI search utility
-│   ├── tile_image.py       # Split satellite GeoTIFF into tiles
-│   └── validate_production_readiness.py # Master system audit suite
-├── semantic_search/
-│   ├── __init__.py         # Public exports (search, SearchResult, metrics)
-│   ├── config.py           # System configuration & default paths
-│   ├── embeddings.py       # Image embedding extraction
-│   ├── evaluation.py       # Benchmark query suites
-│   ├── ground_truth.py     # Ground-truth dataset loaders
-│   ├── metrics.py          # Metric calculations (Precision, Recall, MRR, Hit)
-│   ├── model.py            # Thread-safe RemoteCLIP model loader
-│   ├── query_expansion.py  # Multi-prompt ensembling & expansion
-│   ├── schemas.py          # SearchResult domain models
-│   ├── search.py           # Core search API & geographic filter builder
-│   └── vector_store.py     # Qdrant client connection & collection manager
-├── tests/                  # Complete test suite (76 tests)
-├── requirements.txt        # Python package dependencies
-└── README.md
+[ Raw Satellite Scenes / Multi-Band GeoTIFFs ]
+                      │
+                      ▼
+ ┌─────────────────────────────────────────────────────────────┐
+ │ 1. QA & FALSE-ALARM SUPPRESSION (Role 4 / qa_mask.py)       │
+ │    • SCL Band Filtering (removes clouds, shadows, snow)     │
+ │    • Offline s2cloudless Edge Ingestion (local_ingest.py)   │
+ │    • Morphological Halo Erosion                             │
+ └─────────────────────────────────────────────────────────────┘
+                      │
+                      ▼
+ ┌─────────────────────────────────────────────────────────────┐
+ │ 2. DISCOVERY & TILE INDEXING (Role 1 & Role 2)              │
+ │    • 512x512 GeoTIFF Patch Extraction with GPS Bounds       │
+ │    • RemoteCLIP 512-D Visual Feature Extraction             │
+ │    • Qdrant Vector DB Upsert ('satellite_tiles')           │
+ │    • K-Means Terrain Similarity Clustering (clustering.py) │
+ └─────────────────────────────────────────────────────────────┘
+                      │
+        ┌─────────────┴─────────────┐
+        ▼                           ▼
+ ┌───────────────────────────┐ ┌───────────────────────────────────────────────┐
+ │ 3. NATURAL LANGUAGE SEARCH│ │ 4. TEMPORAL CHANGE DETECTIVE (Role 3)         │
+ │    (Role 2)               │ │    (detective_api.py / src/)                  │
+ │    • Query Expansion      │ │    • BIT Deep Learning Transformer Engine     │
+ │    • 512-D Text Embedding │ │    • Fast Classical Absolute Diff Fallback    │
+ │    • Cosine Similarity    │ │    • Morphological Cleaning & Bounding Boxes  │
+ │    • 2D BBox Filter       │ │    • RemoteCLIP Semantic Change Classifier    │
+ └───────────────────────────┘ └───────────────────────────────────────────────┘
+        │                           │
+        └─────────────┬─────────────┘
+                      ▼
+ ┌─────────────────────────────────────────────────────────────┐
+ │ 5. FRONTEND / FASTAPI INTEGRATION (Role 5)                  │
+ │    • REST Endpoints (/api/search, /api/changes, /api/similar│
+ │    • Leaflet.js Interactive Map & Before/After Slider       │
+ │    • Analyst Approve/Reject Review Queue & Audit Log        │
+ └─────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## Setup & Installation
+## 📁 Repository Structure
 
-### 1. Create Virtual Environment
+```plaintext
+TriNetraAI/
+├── semantic_search/             # 🔍 Role 2: Semantic Natural-Language Search Engine
+│   ├── model.py                 # RemoteCLIP ViT-B/32 loader
+│   ├── embeddings.py            # 512-D L2-normalized image embeddings
+│   ├── vector_store.py          # Qdrant vector database integration & bbox filters
+│   ├── query_expansion.py       # Domain-specific remote-sensing prompt ensembling
+│   ├── search.py                # Public search(query, bbox, top_k) API
+│   ├── schemas.py               # SearchResult typed domain model
+│   ├── metrics.py               # Evaluation metrics (MRR, Hit@k, Precision@k)
+│   └── evaluation.py            # Automated benchmark evaluation runner
+│
+├── src/                         # 🕵️‍♂️ Role 3: Temporal AI Detective Engine
+│   ├── preprocessor.py          # 16-bit GeoTIFF / Optical RGB normalizer & tensor loader
+│   ├── classical_cd.py          # Gaussian absolute difference change detection
+│   ├── neural_cd.py             # BIT (Bitemporal Image Transformer) inference engine
+│   ├── semantic_classifier.py   # RemoteCLIP Zero-Shot Semantic Transition Classifier
+│   └── postprocessor.py         # Morphology, BBoxes, Semantic Labels & Overlay generator
+│
+├── bit_core/                    # Official BIT Transformer architecture & backbone
+│   ├── networks.py              # Model builder, tokenizer & transformer decoder
+│   ├── resnet.py / backbone.py  # ResNet feature extractors
+│   └── help_funcs.py            # Multi-head attention & position embeddings
+│
+├── qa_mask.py                   # 🛡️ Role 4: SCL Cloud & Quality Masking engine
+├── clustering.py                # 🌐 Role 4: PCA-50 + K-Means Terrain Similarity Clustering
+├── local_ingest.py              # ⚡ Role 4: Zero-internet Edge Ingestion with s2cloudless
+├── download.py                  # Sentinel-2 L2A satellite scene downloader
+├── download_edge_data.py        # 13-band Sentinel-2 L1C edge data simulator
+├── run_qa_pipeline.py           # Multi-year QA batch runner (2024–2026)
+├── run_clustering.py            # K-Means clustering pipeline runner
+│
+├── detective_api.py             # 🚀 Public API for Change Detection & Classification
+├── standalone_test.py           # Verification script for Temporal Detective
+│
+├── checkpoints/                 # Pretrained weights (bit_levircd.pth, RemoteCLIP)
+├── sample_pairs/                # Sample bitemporal tiles for testing
+├── data/                        # Benchmark tile repository & ground truth annotations
+│   ├── tiles/                   # Indexed GeoTIFF tiles
+│   └── evaluation/              # Human-annotated ground truth & evaluation logs
+├── outputs/                     # Generated change masks, overlays, and reports
+├── edge_data/                   # Raw 13-band input and processed cloudless outputs
+├── sih_dataset/                 # Multi-year Sentinel-2 composite dataset (2024, 2025, 2026)
+│
+├── docs/                        # Architecture & Role Integration specifications
+│   └── semantic_ai_integration.md
+├── tests/                       # Unit & integration test suites
+├── requirements.txt             # Consolidated project dependencies
+└── README.md                    # Main documentation
+```
+
+---
+
+## 🚀 Quickstart & Installation
+
+### 1. Environment Setup
+Clone the repository and install all dependencies:
 
 ```bash
-# Windows
-python -m venv venv
-.\venv\Scripts\Activate.ps1
-
-# Linux / macOS
-python3 -m venv venv
-source venv/bin/activate
-```
-
-### 2. Install Dependencies
-
-```bash
+git clone -b integrated-trinetra-ai https://github.com/itsPJ0204/TriNetraAI.git
+cd TriNetraAI
 pip install -r requirements.txt
 ```
 
-### 3. Model Checkpoint Setup
+---
 
-Download the official **RemoteCLIP ViT-B-32** model weights and place the checkpoint file in:
+### 2. Running Subsystems Independently
 
-```text
-models/remoteclip/RemoteCLIP-ViT-B-32.pt
-```
-
-*(Note: Model checkpoints are excluded from Git via `.gitignore` to keep repository size minimal).*
-
-### 4. Start Qdrant Vector Database
-
-Start a local Qdrant instance using Docker:
+#### A. 🕵️‍♂️ Temporal Change Detective (Role 3)
+Compares a Before & After tile, detects changes, and classifies what changed:
 
 ```bash
-docker run -d -p 6333:6333 -p 6334:6334 \
-  -v qdrant_storage:/qdrant/storage \
-  --name qdrant qdrant/qdrant
+python standalone_test.py
 ```
 
-## Ingestion & Indexing Pipeline
+Or invoke in Python:
+```python
+from detective_api import compare_tiles
 
-When adding new satellite imagery or starting with a fresh vector index:
+result = compare_tiles("sample_pairs/tile_000_t1.png", "sample_pairs/tile_000_t2.png")
 
-```bash
-# 1. (Optional) Tile a large GeoTIFF into smaller grid tiles
-python -m scripts.tile_image
-
-# 2. Generate 512-D RemoteCLIP embeddings for all tiles in data/tiles/
-python -m scripts.generate_embeddings
-
-# 3. Index vectors and geospatial metadata into Qdrant
-python -m scripts.index_embeddings
+print("Change Detected:", result["has_change"])
+print(f"Surface Area Changed: {result['change_ratio'] * 100:.2f}%")
+for target in result["detected_targets"]:
+    print(f"Target #{target['target_id']}: {target['change_type']} ({target['confidence']*100:.1f}%)")
+    print(f"  Transition: {target['transition']}")
+    print(f"  Details: {target['description']}")
 ```
 
 ---
 
-## Usage
-
-### 1. CLI Search
-
-Run interactive or argument-based natural language searches from the terminal:
-
-```bash
-# Simple natural language query
-python -m scripts.search "buildings near a river"
-
-# Search with geographic bounding-box filter [left, bottom, right, top]
-python -m scripts.search "urban area" --bbox 88.345 22.572 88.360 22.585
-```
-
-### 2. Programmatic Python API
-
-Import and call the search engine directly in your Python applications:
+#### B. 🔍 Semantic Natural-Language Search (Role 2)
+Search indexed satellite tiles by natural language query:
 
 ```python
-from semantic_search import search, SearchResult
-
-# Unconstrained natural-language search
-results: list[SearchResult] = search("buildings near a river", top_k=5)
-
-for r in results:
-    print(f"Tile: {r.tile_name} | Score: {r.score:.4f}")
-    print(f"  Path:       {r.image_path}")
-    print(f"  CRS:        {r.crs}")
-    print(f"  Bounds:     {r.bounds}")
-    print(f"  Dimensions: {r.width}x{r.height}")
-    print(f"  Date:       {r.date}")
-
-# Search with 2D spatial bounding-box constraint
-bbox = {
-    "left": 88.345,
-    "bottom": 22.572,
-    "right": 88.360,
-    "top": 22.585,
-}
-filtered_results = search("urban area near water", bbox=bbox, top_k=3)
-```
-
-### SearchResult Schema
-
-Every result returned is a typed `SearchResult` instance containing:
-
-| Attribute | Type | Description | Example |
-| :--- | :--- | :--- | :--- |
-| `tile_name` | `str` | Filename identifier of the tile | `"tile_1.tif"` |
-| `image_path` | `str` | Relative file path to the GeoTIFF | `"data/tiles/tile_1.tif"` |
-| `score` | `float` | Cosine similarity score | `0.2814` |
-| `crs` | `str` | Coordinate Reference System | `"EPSG:4326"` |
-| `bounds` | `dict[str, float]` | Extent coordinates (`left`, `bottom`, `right`, `top`) | `{"left": 88.34, "bottom": 22.57, "right": 88.36, "top": 22.58}` |
-| `width` | `int` | Raster pixel width | `233` |
-| `height` | `int` | Raster pixel height | `191` |
-| `date` | `str` | Acquisition date (ISO 8601: `YYYY-MM-DD`) | `"2025-03-29"` |
-
----
-
-## FastAPI Integration Example (Role 3)
-
-Downstream backend services can easily expose semantic search endpoints:
-
-```python
-from fastapi import FastAPI, HTTPException, Query
 from semantic_search import search
 
-app = FastAPI(title="TriNetraAI Semantic Search API")
+# Query with text description and optional geographic bounding box
+results = search(
+    query="buildings near a river",
+    bbox={"left": 88.34, "bottom": 22.57, "right": 88.36, "top": 22.58},
+    top_k=5
+)
 
-@app.get("/api/search")
-def search_satellite_tiles(
-    q: str = Query(..., description="Natural language search query"),
-    top_k: int = Query(5, ge=1, le=50, description="Max results"),
-    min_lon: float | None = None,
-    min_lat: float | None = None,
-    max_lon: float | None = None,
-    max_lat: float | None = None,
-):
-    try:
-        bbox = None
-        if None not in (min_lon, min_lat, max_lon, max_lat):
-            bbox = {
-                "left": min_lon,
-                "bottom": min_lat,
-                "right": max_lon,
-                "top": max_lat,
-            }
-        results = search(query=q, bbox=bbox, top_k=top_k)
-        return {
-            "query": q,
-            "count": len(results),
-            "results": [r.to_dict() for r in results]
-        }
-    except ValueError as err:
-        raise HTTPException(status_code=400, detail=str(err))
-    except Exception as err:
-        raise HTTPException(status_code=500, detail=f"Search service error: {err}")
+for res in results:
+    print(f"Match: {res.tile_name} (Similarity Score: {res.score:.4f})")
+    print(f"  Path: {res.image_path} | CRS: {res.crs} | Bounds: {res.bounds}")
 ```
 
 ---
 
-## Evaluation & Benchmarks
-
-The project includes an objective evaluation suite measuring search retrieval quality and CPU performance:
+#### C. 🛡️ QA & Cloud Masking Pipeline (Role 4)
+Run quality assurance and false-alarm suppression across multi-year scenes:
 
 ```bash
-# 1. Evaluate retrieval metrics (MRR, Precision@K, Hit@K) against human ground truth
-python -m scripts.evaluate_metrics
+python run_qa_pipeline.py
+```
 
-# 2. Evaluate prompt expansion / ensembling experiments
-python -m scripts.evaluate_ensemble
+Outputs clean masks, statistics, and cloud-suppressed RGB imagery in `qa_outputs/`.
 
-# 3. Profile CPU latency and caching speedups
-python -m scripts.benchmark_search
+---
 
-# 4. Validate query robustness across whitespace, casing, and complex strings
-python -m scripts.evaluate_robustness
+#### D. ⚡ Offline Edge Computing Node (Role 4)
+Process raw 13-band Sentinel-2 imagery offline on an edge device using CPU:
 
-# 5. Run master system validation and production readiness audit
-python -m scripts.validate_production_readiness
+```bash
+python local_ingest.py
 ```
 
 ---
 
-## Testing
-
-Run the full automated test suite (76 unit and integration tests):
-
-```bash
-python -m pytest
-```
-
-To run a specific test module:
+#### E. 🌐 Discovery & K-Means Clustering (Role 4)
+Cluster terrain patches and search for visually similar sites:
 
 ```bash
-python -m pytest tests/test_integration_contract.py
+python run_clustering.py
 ```
 
+---
+
+## 📊 Evaluation & Verification Results
+
+- **Semantic AI Search**:
+  - **MRR (Mean Reciprocal Rank)**: `0.9333`
+  - **Top-1 Hit Rate (Hit@1)**: `86.67%`
+  - **Hit@3 / Hit@4**: `100.0%`
+- **Temporal Change Detective**:
+  - **Dual-Engine Precision**: Identifies bounding boxes with zero false speckle noise via morphological Open/Close filters.
+  - **Zero-Shot Semantic Classification**: Accurately maps transitions (*Vegetation &rarr; New Construction*, *Land Clearing*, *Infrastructure Expansion*) with confidence scores.
+
+---
+
+## 👥 Team Roles & Responsibilities
+
+| Role | Name | Responsibilities | Module |
+|---|---|---|---|
+| **Role 1** | Data Engineer | GeoTIFF ingestion, Sentinel-2 downloaders, tile slicing | `download.py`, `data/tiles/` |
+| **Role 2** | Semantic AI | RemoteCLIP vision-language encoder, Qdrant vector database, natural language search | `semantic_search/` |
+| **Role 3** | Temporal AI | Bitemporal change detection (BIT + Classical), Semantic change classifier | `src/`, `bit_core/`, `detective_api.py` |
+| **Role 4** | QA & Discovery | False-alarm cloud/shadow suppression, SCL filter, edge `s2cloudless`, K-Means clustering | `qa_mask.py`, `clustering.py`, `local_ingest.py` |
+| **Role 5** | Frontend Lead | FastAPI backend routers, Leaflet.js interactive map, analyst review queue | `docs/semantic_ai_integration.md` |
+
+---
+
+## 📄 License
+Internal Team Project for Smart India Hackathon (SIH) Earth Observation & Satellite Intelligence.

@@ -21,6 +21,8 @@ scratch/
 # Downloaded model checkpoints
 models/remoteclip/*
 !models/remoteclip/.gitkeep
+checkpoints/*
+!checkpoints/.gitkeep
 *.pt
 *.pth
 *.ckpt
@@ -36,7 +38,5 @@ qdrant_storage/
 data/tiles/*
 !data/tiles/.gitkeep
 data/raw/
-*.tif
-*.tiff
-*.geotiff
-
+outputs/*
+!outputs/.gitkeep
