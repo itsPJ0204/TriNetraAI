@@ -1,0 +1,9 @@
+﻿.venv/
+__pycache__/
+*.pyc
+database/*.sqlite
+data/raw/
+data/tiles/
+*.tif
+*.tiff
+data.zip

@@ -1,3 +1,145 @@
+# Bhuvan Satellite Data Scientist Module
+
+This module is the **data foundation** for an offline AI satellite search + temporal change-detection system.
+
+## Scope
+
+Input is only the **original Bhuvan/NRSC/ISRO GeoTIFF/COG** supplied to the project (`.tif` / `.tiff`). The pipeline does not generate fake satellite imagery.
+
+It performs:
+
+1. Source raster metadata extraction.
+2. 512x512 georeferenced tiling.
+3. Stable `tile_id` and `grid_key` creation.
+4. Incremental ingestion using SHA-256 so an already processed image is skipped.
+5. Complete tile registry in SQLite.
+6. CSV export as the handoff contract for the Semantic AI teammate.
+7. Spatial lookup and same-location cross-date tile pairing for Temporal AI.
+
+## Team contract
+
+The Data Scientist owns:
+
+```text
+Original TIFF -> tiles -> tile_registry.sqlite + tiles_metadata.csv
+```
+
+The Semantic AI teammate owns:
+
+```text
+tile_id + tile_path -> RemoteCLIP/CLIP -> embedding -> vector DB
+```
+
+The Temporal AI teammate owns:
+
+```text
+grid_key + date1/date2 -> before TIFF + after TIFF -> change detection
+```
+
+**Vector embeddings and the vector DB are intentionally not implemented here.** This module only provides the stable tile identity, actual TIFF path, geospatial metadata, and date needed by those downstream AI modules.
+
+## Output
+
+After ingesting an image:
+
+```text
+data/
+├── tiles/
+│   └── <source_name>/
+│       ├── <source>_r00000_c00000.tif
+│       └── ...
+└── tiles_metadata.csv
+
+database/
+└── tile_registry.sqlite
+```
+
+Each CSV/SQLite tile record contains:
+
+`tile_id, grid_key, date, source filename, actual TIFF path, bbox, width, height, pixel offsets, bands, dtype, nodata, CRS, transform`
+
+### Why `grid_key`?
+
+`grid_key` identifies the same spatial grid cell across different dates:
+
+```text
+2026-01 -> r00003_c00005
+2026-06 -> r00003_c00005
+```
+
+That lets Temporal AI pair the two actual TIFF tiles without guessing by filename.
+
+## Run
+
+```bash
+python -m pip install -r requirements.txt
+python main.py init-db
+python main.py ingest /path/to/original_bhuvan_image.tif
+```
+
+The ingest command prints the number of tiles and the path of `tiles_metadata.csv`.
+
+Useful commands:
+
+```bash
+python main.py list-tiles
+python main.py get-tile <tile_id>
+python main.py search-bbox 80 23 82 30
+python main.py export-csv
+```
+
+## Semantic AI handoff
+
+The Semantic AI teammate can read `tiles_metadata.csv` or query `tile_registry.sqlite`.
+
+Example logic:
+
+```python
+row = registry.get_tile(tile_id)
+image = load_tiff(row["filepath"])
+embedding = remote_clip.encode_image(image)
+vector_db.insert(id=row["tile_id"], vector=embedding)
+```
+
+The vector DB should keep `tile_id` as its ID. When search returns a tile ID, the registry resolves it back to the actual TIFF and geographic metadata.
+
+## Tests
+
+```bash
+pytest -q
+```
+
+Tests create temporary rasters only inside the test environment; those are not project inputs or demo satellite data.
+
+## Bhuvan BAND2-BAND5 folder input
+
+If a Bhuvan download contains separate files such as `BAND2.tif`, `BAND3.tif`, `BAND4.tif`, `BAND5.tif`, keep them together in one scene/date folder. The Data Scientist module can ingest that folder directly:
+
+```bash
+python main.py init-db
+python main.py ingest-folder data/raw/2024-06 --date 2024-06-15
+python main.py list-tiles
+python main.py export-csv
+```
+
+The module validates that all four bands have matching size, CRS and transform, then writes real multi-band GeoTIFF tiles. It does **not** generate synthetic satellite imagery. Re-running the same folder is skipped using a manifest hash, so ingestion remains incremental.
+
+Expected layout:
+
+```text
+data/raw/
+├── 2024-01/
+│   ├── BAND2.tif
+│   ├── BAND3.tif
+│   ├── BAND4.tif
+│   └── BAND5.tif
+└── 2024-06/
+    ├── BAND2.tif
+    ├── BAND3.tif
+    ├── BAND4.tif
+    └── BAND5.tif
+```
+
 # TriNetraAI
 
 Welcome to the **TriNetraAI** QA & Discovery pipeline! 
