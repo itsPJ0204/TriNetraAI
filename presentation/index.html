@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TriNetraAI — Interactive SIH Presentation</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Top Navigation & Control Bar -->
+  <header class="top-nav">
+    <div class="brand-badge">
+      <div class="logo-glow">3N</div>
+      <div class="brand-title">TriNetraAI Presentation System</div>
+    </div>
+
+    <nav class="nav-controls">
+      <div class="slide-tabs">
+        <button class="tab-btn active" data-slide="1">1. Proposed Solution</button>
+        <button class="tab-btn" data-slide="2">2. Technical Approach</button>
+        <button class="tab-btn" data-slide="3">3. Feasibility & Viability</button>
+        <button class="tab-btn" data-slide="4">4. Impact & Benefits</button>
+      </div>
+
+      <button id="fs-btn" class="action-btn" title="Toggle Fullscreen">
+        <span>⛶</span> Fullscreen
+      </button>
+      <button id="print-btn" class="action-btn" title="Export / Print to PDF Presentation">
+        <span>🖨️</span> Export PDF
+      </button>
+    </nav>
+  </header>
+
+  <!-- 16:9 Presentation Frame -->
+  <main class="presentation-viewport">
+
+    <!-- ========================================== -->
+    <!-- SLIDE 1: PROPOSED SOLUTION & INNOVATION    -->
+    <!-- ========================================== -->
+    <section class="slide active" id="slide-1">
+      <div class="sih-header">
+        <div class="team-pill">TriNetra AI</div>
+        <h1 class="slide-main-title">AI-Powered Satellite Search & Change Detective</h1>
+        <div class="sih-badge">
+          <div class="sih-logo-text">SMART INDIA<br>HACKATHON<br><span>2026</span></div>
+          <div class="sih-icon-box">💡</div>
+        </div>
+      </div>
+
+      <div class="slide-content grid-4-col">
+        <!-- Card 1: Proposed Solution -->
+        <div class="info-card">
+          <div class="card-header">
+            <div class="card-icon cyan">💻</div>
+            <div class="card-title">Proposed Solution</div>
+          </div>
+          <div class="card-body">
+            <div class="bullet-item">
+              <div class="bullet-dot"></div>
+              <div class="bullet-text"><strong>Natural Language Search:</strong> Search satellite tiles via text queries (<em>"buildings near river"</em>) without GPS coordinate inputs.</div>
+            </div>
+            <div class="bullet-item">
+              <div class="bullet-dot"></div>
+              <div class="bullet-text"><strong>Dual-Engine Temporal AI:</strong> Combines Deep Learning <strong>BIT Transformer</strong> with high-speed Classical CV.</div>
+            </div>
+            <div class="bullet-item">
+              <div class="bullet-dot"></div>
+              <div class="bullet-text"><strong>Semantic Transition Matrix:</strong> Identifies <em>where</em> change occurred and classifies <em>what</em> changed (e.g. <em>Vegetation &rarr; New Construction</em>).</div>
+            </div>
+            <div class="bullet-item">
+              <div class="bullet-dot"></div>
+              <div class="bullet-text"><strong>Zero-Internet Edge Node:</strong> Deploys on Raspberry Pi / field laptops with offline <code>s2cloudless</code>.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2: Problems Addressed -->
+        <div class="info-card">
+          <div class="card-header">
+            <div class="card-icon rose">⚠️</div>
+            <div class="card-title">Problems Addressed</div>
+          </div>
+          <div class="card-body">
+            <div class="bullet-item">
+              <div class="bullet-dot" style="background: var(--accent-rose);"></div>
+              <div class="bullet-text"><strong>False Alarm Fatigue:</strong> Clouds, shadows, and seasonal foliage trigger 80%+ false positives in standard pixel difference algorithms.</div>
+            </div>
+            <div class="bullet-item">
+              <div class="bullet-dot" style="background: var(--accent-rose);"></div>
+              <div class="bullet-text"><strong>Keyword Blindness:</strong> Legacy GIS tools require manual coordinate bounding boxes, unable to query by semantic descriptions.</div>
+            </div>
+            <div class="bullet-item">
+              <div class="bullet-dot" style="background: var(--accent-rose);"></div>
+              <div class="bullet-text"><strong>Manual Reconnaissance Lag:</strong> Human analysts spend days manually scanning gigabyte-scale GeoTIFFs to spot new structures.</div>
+            </div>
+            <div class="bullet-item">
+              <div class="bullet-dot" style="background: var(--accent-rose);"></div>
+              <div class="bullet-text"><strong>Cloud Lock-In:</strong> Defense and field teams lack cloud access in remote or air-gapped zones.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3: Novelty -->
+        <div class="info-card">
+          <div class="card-header">
+            <div class="card-icon amber">✨</div>
+            <div class="card-title">Novelty</div>
+          </div>
+          <div class="card-body">
+            <div class="bullet-item">
+              <div class="bullet-dot" style="background: var(--accent-amber);"></div>
+              <div class="bullet-text"><strong>RemoteCLIP ViT Grounding:</strong> Multimodal alignment mapping remote-sensing visual tokens directly to 512-D semantic space.</div>
+            </div>
+            <div class="bullet-item">
+              <div class="bullet-dot" style="background: var(--accent-amber);"></div>
+              <div class="bullet-text"><strong>Automated SCL Halo Erosion:</strong> 2-pixel morphological erosion removing false cloud boundary halos.</div>
+            </div>
+            <div class="bullet-item">
+              <div class="bullet-dot" style="background: var(--accent-amber);"></div>
+              <div class="bullet-text"><strong>Zero-Codependency Architecture:</strong> 5 isolated modules communicating via standardized JSON contracts.</div>
+            </div>
+            <div class="bullet-item">
+              <div class="bullet-dot" style="background: var(--accent-amber);"></div>
+              <div class="bullet-text"><strong>Bitemporal Contextual Attention:</strong> Spatial transformers invariant to sun elevation and seasonal variations.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 4: Innovation & Uniqueness -->
+        <div class="info-card">
+          <div class="card-header">
+            <div class="card-icon emerald">🏆</div>
+            <div class="card-title">Innovation & Uniqueness</div>
+          </div>
+          <div class="card-body">
+            <div class="compare-box">
+              <div class="compare-title-bad">❌ Existing GIS / CD Systems:</div>
+              <div>• Rigid coordinate-only queries</div>
+              <div>• Pixel difference floods false alerts</div>
+              <div>• High cloud compute & license fees</div>
+            </div>
+            <div class="compare-box" style="margin-top: 6px; border: 1px solid rgba(16, 185, 129, 0.3);">
+              <div class="compare-title-good">✅ TriNetraAI System:</div>
+              <div>• Natural Language Search (0.9333 MRR)</div>
+              <div>• Deep BIT Semantic Transition Matrix</div>
+              <div>• 100% Offline Edge & Air-Gapped Ready</div>
+              <div>• Automated Analyst Review Queue</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sih-footer">
+        <div>@SIH Idea Submission — TriNetraAI Geospatial Intelligence</div>
+        <div class="slide-counter">Page 2 / 5</div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- SLIDE 2: TECHNICAL APPROACH & ARCHITECTURE -->
+    <!-- ========================================== -->
+    <section class="slide" id="slide-2">
+      <div class="sih-header">
+        <div class="team-pill">TriNetra AI</div>
+        <h1 class="slide-main-title">Technical Approach & Process Flow Architecture</h1>
+        <div class="sih-badge">
+          <div class="sih-logo-text">SMART INDIA<br>HACKATHON<br><span>2026</span></div>
+          <div class="sih-icon-box">⚙️</div>
+        </div>
+      </div>
+
+      <div class="slide-content grid-2-col-tech">
+        <!-- Left: Technologies to be Used -->
+        <div class="info-card">
+          <div class="card-header">
+            <div class="card-icon cyan">🛠️</div>
+            <div class="card-title">Technologies to be Used</div>
+          </div>
+          <div class="card-body" style="gap: 10px;">
+            <div>
+              <strong style="color: var(--primary-cyan);">• Frontend & Visual Client:</strong>
+              <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">React.js / Leaflet.js / Chart.js — Map rendering, before-after slider, analyst review queue.</div>
+            </div>
+            <div>
+              <strong style="color: var(--primary-blue);">• Backend API & Gateway:</strong>
+              <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">FastAPI (Python 3.12) / Asynchronous REST Workers — High throughput tile streaming.</div>
+            </div>
+            <div>
+              <strong style="color: var(--accent-purple);">• AI & Deep Learning Models:</strong>
+              <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;"><strong>RemoteCLIP (ViT-B/32)</strong> (512-D Vision-Language), <strong>BIT Transformer</strong> (Bitemporal CD), <strong>s2cloudless</strong> (LightGBM).</div>
+            </div>
+            <div>
+              <strong style="color: var(--accent-amber);">• Vector & Spatial Databases:</strong>
+              <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;"><strong>Qdrant Vector DB</strong> (Cosine similarity + BBox spatial filtering), SQLite (R-Tree metadata).</div>
+            </div>
+            <div>
+              <strong style="color: var(--accent-emerald);">• Geospatial & Computer Vision Engine:</strong>
+              <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">Rasterio, OpenCV, GDAL, NumPy, SciPy, Scikit-Learn.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Process Flow Architecture (Interactive Flowchart) -->
+        <div class="flowchart-container">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <strong style="font-size: 13px; color: #FFFFFF; font-family: 'Space Grotesk', sans-serif;">
+              Interactive Pipeline Architecture (Click any node for deep dive)
+            </strong>
+            <span style="font-size: 10px; color: var(--primary-cyan); background: rgba(0, 229, 255, 0.1); padding: 2px 8px; border-radius: 4px;">
+              Live Interactive
+            </span>
+          </div>
+
+          <div class="flow-step-grid">
+            <!-- Node 1 -->
+            <div class="flow-node" onclick="showNodeModal('qa_filter')">
+              <span class="flow-node-badge role4">Role 4: QA Filter</span>
+              <div class="flow-node-title">SCL Cloud & Shadow Masking</div>
+              <div class="flow-node-desc">Zeros out clouds, shadows, and snow using SCL band & s2cloudless.</div>
+              <div class="flow-connector"></div>
+            </div>
+
+            <!-- Node 2 -->
+            <div class="flow-node" onclick="showNodeModal('tiling_grid')">
+              <span class="flow-node-badge role1">Role 1: Data Ingestion</span>
+              <div class="flow-node-title">Spatial Index & 512x512 Tiling</div>
+              <div class="flow-node-desc">CRS alignment, overlap intersection, and patch grid slicing.</div>
+              <div class="flow-connector"></div>
+            </div>
+
+            <!-- Node 3 -->
+            <div class="flow-node" onclick="showNodeModal('semantic_search')">
+              <span class="flow-node-badge role2">Role 2: Semantic AI</span>
+              <div class="flow-node-title">RemoteCLIP & Qdrant Search</div>
+              <div class="flow-node-desc">Natural language text query &rarr; 512-D vector similarity ranking.</div>
+              <div class="flow-connector"></div>
+            </div>
+
+            <!-- Node 4 -->
+            <div class="flow-node" onclick="showNodeModal('temporal_detective')">
+              <span class="flow-node-badge role3">Role 3: Temporal AI</span>
+              <div class="flow-node-title">BIT Detective & Classifier</div>
+              <div class="flow-node-desc">Dual-engine change detection + Semantic transition matrix.</div>
+            </div>
+          </div>
+
+          <!-- Bottom Output Bar -->
+          <div style="margin-top: 10px; background: rgba(18, 28, 56, 0.95); border: 1px solid rgba(0, 229, 255, 0.3); border-radius: 8px; padding: 8px 12px; display: flex; justify-content: space-between; align-items: center; cursor: pointer;" onclick="showNodeModal('frontend_hub')">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 14px;">🖥️</span>
+              <div>
+                <strong style="font-size: 11px; color: #FFFFFF;">Role 5: Analyst Command Dashboard & Review Queue</strong>
+                <div style="font-size: 10px; color: var(--text-muted);">FastAPI endpoints &bull; Leaflet.js interactive map &bull; Approve / Reject audit trail provenance</div>
+              </div>
+            </div>
+            <button style="padding: 4px 10px; background: var(--primary-cyan); border: none; border-radius: 4px; color: #070B19; font-weight: 700; font-size: 10px; cursor: pointer;">
+              Inspect UI &rarr;
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="sih-footer">
+        <div>@SIH Idea Submission — TriNetraAI Geospatial Intelligence</div>
+        <div class="slide-counter">Page 3 / 5</div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- SLIDE 3: FEASIBILITY AND VIABILITY         -->
+    <!-- ========================================== -->
+    <section class="slide" id="slide-3">
+      <div class="sih-header">
+        <div class="team-pill">TriNetra AI</div>
+        <h1 class="slide-main-title">Feasibility and Viability</h1>
+        <div class="sih-badge">
+          <div class="sih-logo-text">SMART INDIA<br>HACKATHON<br><span>2026</span></div>
+          <div class="sih-icon-box">📈</div>
+        </div>
+      </div>
+
+      <div class="slide-content grid-4-col">
+        <!-- Column 1: Feasibility -->
+        <div class="info-card">
+          <div class="card-header">
+            <div class="card-icon cyan">📊</div>
+            <div class="card-title">Feasibility</div>
+          </div>
+          <div class="card-body">
+            <div class="bullet-item">
+              <div class="bullet-dot"></div>
+              <div class="bullet-text"><strong>Decoupled Modularity:</strong> 5 independent functional blocks eliminate merge bottlenecks.</div>
+            </div>
+            <div class="bullet-item">
+              <div class="bullet-dot"></div>
+              <div class="bullet-text"><strong>Lightweight CPU Footprint:</strong> Pre-quantized PyTorch models run on standard laptops without GPU requirement.</div>
+            </div>
+            <div class="bullet-item">
+              <div class="bullet-dot"></div>
+              <div class="bullet-text"><strong>Universal Ingestion:</strong> Ingests Sentinel-2, Landsat, PlanetScope, and drone optical imagery.</div>
+            </div>
+            <div class="bullet-item">
+              <div class="bullet-dot"></div>
+              <div class="bullet-text"><strong>Production-Grade APIs:</strong> Pydantic domain models with OpenAPI schema validation.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Column 2: Challenges -->
+        <div class="info-card">
+          <div class="card-header">
+            <div class="card-icon rose">⚡</div>
+            <div class="card-title">Challenges</div>
+          </div>
+          <div class="card-body">
+            <div class="bullet-item">
+              <div class="bullet-dot" style="background: var(--accent-rose);"></div>
+              <div class="bullet-text"><strong>Illumination & Sun Angle:</strong> Varying sun azimuth creates false pixel brightness differences.</div>
+            </div>
+            <div class="bullet-item">
+              <div class="bullet-dot" style="background: var(--accent-rose);"></div>
+              <div class="bullet-text"><strong>Heavy Tropical Cloud Cover:</strong> Monsoon cloud occlusions hide ground terrain.</div>
+            </div>
+            <div class="bullet-item">
+              <div class="bullet-dot" style="background: var(--accent-rose);"></div>
+              <div class="bullet-text"><strong>Gigabyte Scene Memory Limits:</strong> Large GeoTIFFs cause RAM overflow during processing.</div>
+            </div>
+            <div class="bullet-item">
+              <div class="bullet-dot" style="background: var(--accent-rose);"></div>
+              <div class="bullet-text"><strong>Air-Gapped Operation:</strong> Defense units cannot call external cloud LLM APIs.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Column 3: Strategies -->
+        <div class="info-card">
+          <div class="card-header">
+            <div class="card-icon amber">🎯</div>
+            <div class="card-title">Strategies</div>
+          </div>
+          <div class="card-body">
+            <div class="bullet-item">
+              <div class="bullet-dot" style="background: var(--accent-amber);"></div>
+              <div class="bullet-text"><strong>Spatial Attention (BIT):</strong> Transformer attends to structural shapes, ignoring illumination shifts.</div>
+            </div>
+            <div class="bullet-item">
+              <div class="bullet-dot" style="background: var(--accent-amber);"></div>
+              <div class="bullet-text"><strong>SCL + Halo Erosion:</strong> Multi-band scene classification strips clouds before detection.</div>
+            </div>
+            <div class="bullet-item">
+              <div class="bullet-dot" style="background: var(--accent-amber);"></div>
+              <div class="bullet-text"><strong>Windowed Raster Streaming:</strong> Chunked 512x512 geographic grid tiling maintains low RAM usage.</div>
+            </div>
+            <div class="bullet-item">
+              <div class="bullet-dot" style="background: var(--accent-amber);"></div>
+              <div class="bullet-text"><strong>Local Embedded Vector DB:</strong> In-memory Qdrant & local RemoteCLIP weights.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Column 4: Viability Matrix -->
+        <div class="info-card">
+          <div class="card-header">
+            <div class="card-icon emerald">💎</div>
+            <div class="card-title">Viability Analysis</div>
+          </div>
+          <div class="card-body">
+            <div class="compare-box" style="border-left: 3px solid var(--primary-cyan);">
+              <strong style="color: var(--primary-cyan);">Technical Viability:</strong>
+              <div>Proven 0.9333 MRR & dual-engine fallback verified locally.</div>
+            </div>
+            <div class="compare-box" style="border-left: 3px solid var(--accent-emerald); margin-top: 4px;">
+              <strong style="color: var(--accent-emerald);">Operational Viability:</strong>
+              <div>One-click analyst Approve/Reject review with audit trail.</div>
+            </div>
+            <div class="compare-box" style="border-left: 3px solid var(--accent-amber); margin-top: 4px;">
+              <strong style="color: var(--accent-amber);">Economic Viability:</strong>
+              <div>100% open-source stack ($0 cloud API costs).</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sih-footer">
+        <div>@SIH Idea Submission — TriNetraAI Geospatial Intelligence</div>
+        <div class="slide-counter">Page 4 / 5</div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- SLIDE 4: IMPACT AND BENEFITS               -->
+    <!-- ========================================== -->
+    <section class="slide" id="slide-4">
+      <div class="sih-header">
+        <div class="team-pill">TriNetra AI</div>
+        <h1 class="slide-main-title">Impact and Benefits</h1>
+        <div class="sih-badge">
+          <div class="sih-logo-text">SMART INDIA<br>HACKATHON<br><span>2026</span></div>
+          <div class="sih-icon-box">🌟</div>
+        </div>
+      </div>
+
+      <div class="slide-content grid-3-col-impact">
+        <!-- Left: Target Audience Impact -->
+        <div class="info-card">
+          <div class="card-header">
+            <div class="card-icon cyan">👥</div>
+            <div class="card-title">Audience Impact</div>
+          </div>
+          <div class="card-body">
+            <div class="bullet-item">
+              <div class="bullet-dot"></div>
+              <div class="bullet-text"><strong>Defense & Border Security:</strong> Automated border runway, outpost, and vehicle concentration detection in seconds.</div>
+            </div>
+            <div class="bullet-item">
+              <div class="bullet-dot"></div>
+              <div class="bullet-text"><strong>Disaster Management (NDRF):</strong> Immediate flood extent mapping and landslide damage boundary extraction.</div>
+            </div>
+            <div class="bullet-item">
+              <div class="bullet-dot"></div>
+              <div class="bullet-text"><strong>Urban Municipalities:</strong> Real-time detection of unauthorized building construction & encroachment.</div>
+            </div>
+            <div class="bullet-item">
+              <div class="bullet-dot"></div>
+              <div class="bullet-text"><strong>Forestry & Environment:</strong> Tracking illegal deforestation, illegal mining, and water reservoir shrinkage.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Center: Interactive Core Features Wheel -->
+        <div class="info-card">
+          <div class="card-header" style="justify-content: center;">
+            <div class="card-icon purple">🎯</div>
+            <div class="card-title">Core System Features</div>
+          </div>
+          <div class="wheel-container">
+            <div class="central-hub">
+              <span>TriNetra AI</span>
+              <span style="font-size: 9px; color: var(--primary-cyan); margin-top: 2px;">Core Engine</span>
+            </div>
+
+            <div class="feature-pill-grid">
+              <div class="feature-pill" onclick="alert('NLP Search: Zero-shot natural language tile retrieval powered by RemoteCLIP.')">
+                <span style="color: var(--primary-cyan);">🔍</span> Natural Language Search
+              </div>
+              <div class="feature-pill" onclick="alert('False Alarm Filter: SCL band mask & s2cloudless strips weather noise.')">
+                <span style="color: var(--accent-amber);">🛡️</span> False Alarm Filter
+              </div>
+              <div class="feature-pill" onclick="alert('BIT Detective: Transformer-based bitemporal change detection.')">
+                <span style="color: var(--accent-rose);">🕵️‍♂️</span> BIT Change Detective
+              </div>
+              <div class="feature-pill" onclick="alert('Semantic Transition: Classifies what changed (e.g. Vegetation -> Building).')">
+                <span style="color: var(--accent-emerald);">🏷️</span> Semantic Classifier
+              </div>
+              <div class="feature-pill" onclick="alert('Offline Edge Node: Zero-internet CPU execution on field hardware.')">
+                <span style="color: var(--primary-blue);">⚡</span> Offline Edge Ingest
+              </div>
+              <div class="feature-pill" onclick="alert('Review Queue: Human-in-the-loop Approve/Reject verification log.')">
+                <span style="color: var(--accent-purple);">📋</span> Audit Provenance Log
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Multidimensional Benefits -->
+        <div class="info-card">
+          <div class="card-header">
+            <div class="card-icon emerald">📈</div>
+            <div class="card-title">Benefits of the Solution</div>
+          </div>
+          <div class="card-body">
+            <div class="compare-box" style="border-left: 3px solid var(--primary-cyan);">
+              <strong style="color: var(--primary-cyan);">🚀 Strategic Advantage:</strong>
+              <div>Reduces satellite surveillance turnaround from 72 hours to under 30 seconds.</div>
+            </div>
+            <div class="compare-box" style="border-left: 3px solid var(--accent-emerald); margin-top: 6px;">
+              <strong style="color: var(--accent-emerald);">💰 Economic Efficiency:</strong>
+              <div>Eliminates multi-million dollar proprietary GIS licenses and cloud egress costs.</div>
+            </div>
+            <div class="compare-box" style="border-left: 3px solid var(--accent-amber); margin-top: 6px;">
+              <strong style="color: var(--accent-amber);">🎯 Operational Precision:</strong>
+              <div>90%+ reduction in false-positive alerts, eradicating analyst cognitive fatigue.</div>
+            </div>
+            <div class="compare-box" style="border-left: 3px solid var(--accent-rose); margin-top: 6px;">
+              <strong style="color: var(--accent-rose);">🌱 Environmental Impact:</strong>
+              <div>Immediate alerts on forest clearing with verified photographic bounding boxes.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sih-footer">
+        <div>@SIH Idea Submission — TriNetraAI Geospatial Intelligence</div>
+        <div class="slide-counter">Page 5 / 5</div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Bottom Slide Navigation Arrows -->
+  <footer class="bottom-controls">
+    <button id="prev-btn" class="nav-arrow-btn" disabled title="Previous Slide (Left Arrow)">◀</button>
+    <div style="font-size: 13px; font-weight: 600; color: var(--text-muted);">
+      Use <strong>Left / Right Arrow Keys</strong> or click tabs to navigate
+    </div>
+    <button id="next-btn" class="nav-arrow-btn" title="Next Slide (Right Arrow)">▶</button>
+  </footer>
+
+  <!-- Interactive Deep-Dive Modal -->
+  <div class="modal-backdrop" id="info-modal" onclick="if(event.target===this) closeModal()">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeModal()">×</button>
+      <span id="modal-badge" style="font-size: 11px; font-weight: 700; text-transform: uppercase; background: rgba(0, 229, 255, 0.2); color: var(--primary-cyan); padding: 3px 10px; border-radius: 4px;">
+        Layer Inspection
+      </span>
+      <h2 id="modal-title" style="font-family: 'Space Grotesk', sans-serif; font-size: 20px; color: #FFFFFF; margin: 10px 0 6px 0;">
+        Node Title
+      </h2>
+      <p id="modal-desc" style="font-size: 13px; color: var(--text-muted); margin-bottom: 14px; line-height: 1.4;">
+        Node description
+      </p>
+      <div style="background: rgba(7, 11, 25, 0.7); border: 1px solid rgba(0, 229, 255, 0.2); border-radius: 8px; padding: 14px;">
+        <strong style="font-size: 12px; color: var(--primary-cyan); display: block; margin-bottom: 8px;">
+          Technical Specifications & Deliverables:
+        </strong>
+        <ul id="modal-list" style="padding-left: 18px; font-size: 12px; color: #E2E8F0;">
+        </ul>
+      </div>
+      <div style="margin-top: 16px; text-align: right;">
+        <button onclick="closeModal()" style="padding: 8px 18px; background: var(--primary-cyan); border: none; border-radius: 8px; color: #070B19; font-weight: 700; font-size: 12px; cursor: pointer;">
+          Close Inspection
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
