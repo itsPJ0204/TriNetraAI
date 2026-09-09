@@ -56,7 +56,7 @@ def test_semantic_search_unfiltered() -> None:
         assert isinstance(result.crs, str) and len(result.crs) > 0
         assert isinstance(result.width, int) and result.width > 0
         assert isinstance(result.height, int) and result.height > 0
-        assert isinstance(result.date, str) and result.date == "2025-03-29"
+        assert isinstance(result.date, str) and result.date == "2026-06-27"
 
         # Check bounds structure
         assert isinstance(result.bounds, dict)
@@ -79,53 +79,53 @@ def test_no_raw_qdrant_objects_exposed() -> None:
 
 
 def test_geographic_filter_tile_1() -> None:
-    """Test B: A bounding box covering only tile_1 returns only tile_1.tif as a SearchResult."""
+    """Test B: A bounding box covering only tile_1 returns only sentinel2_tile_1.tif as a SearchResult."""
     bbox_tile_1 = {
-        "left": 88.345,
-        "bottom": 22.572,
-        "right": 88.360,
-        "top": 22.585,
+        "left": 77.158,
+        "bottom": 28.645,
+        "right": 77.178,
+        "top": 28.662,
     }
     results = search("river", bbox=bbox_tile_1)
 
     assert isinstance(results, list)
     assert len(results) == 1
     assert isinstance(results[0], SearchResult)
-    assert results[0].tile_name == "tile_1.tif"
+    assert results[0].tile_name == "sentinel2_tile_1.tif"
     assert results[0].crs == "EPSG:4326"
-    assert results[0].date == "2025-03-29"
+    assert results[0].date == "2026-06-27"
 
 
-def test_geographic_filter_tile_4() -> None:
-    """Test C: A bounding box covering only tile_4 returns only tile_4.tif as a SearchResult."""
-    bbox_tile_4 = {
-        "left": 88.370,
-        "bottom": 22.556,
-        "right": 88.385,
-        "top": 22.569,
+def test_geographic_filter_tile_30() -> None:
+    """Test C: A bounding box covering only tile_30 returns only sentinel2_tile_30.tif as a SearchResult."""
+    bbox_tile_30 = {
+        "left": 77.2720,
+        "bottom": 28.573,
+        "right": 77.2723,
+        "top": 28.582,
     }
-    results = search("river", bbox=bbox_tile_4)
+    results = search("river", bbox=bbox_tile_30)
 
     assert isinstance(results, list)
     assert len(results) == 1
     assert isinstance(results[0], SearchResult)
-    assert results[0].tile_name == "tile_4.tif"
+    assert results[0].tile_name == "sentinel2_tile_30.tif"
 
 
 def test_geographic_filter_complete_source_area() -> None:
-    """Test D: A bounding box covering the entire source area returns all 4 tiles."""
+    """Test D: A bounding box covering the entire Sentinel-2 source area returns all 30 tiles."""
     bbox_full = {
-        "left": 88.34,
-        "bottom": 22.55,
-        "right": 88.39,
-        "top": 22.59,
+        "left": 77.15,
+        "bottom": 28.57,
+        "right": 77.28,
+        "top": 28.67,
     }
-    results = search("river", top_k=5, bbox=bbox_full)
+    results = search("river", top_k=30, bbox=bbox_full)
 
     assert isinstance(results, list)
-    assert len(results) == 4
+    assert len(results) == 30
     result_names = {r.tile_name for r in results}
-    assert result_names == {"tile_1.tif", "tile_2.tif", "tile_3.tif", "tile_4.tif"}
+    assert result_names == {f"sentinel2_tile_{i}.tif" for i in range(1, 31)}
 
 
 def test_geographic_filter_outside_area() -> None:

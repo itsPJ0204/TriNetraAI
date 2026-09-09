@@ -150,7 +150,7 @@ def text_to_embedding(query: str, use_cache: bool = True) -> np.ndarray:
 def search(
     query: str,
     bbox: dict[str, Any] | None = None,
-    top_k: int = 5,
+    top_k: int = 3,
     geographic_bbox: dict[str, Any] | None = None,
 ) -> list[SearchResult]:
     """
@@ -162,7 +162,7 @@ def search(
     Args:
         query: Non-empty search query string (e.g., 'river', 'urban area').
         bbox: Optional geographic bounding box dict with 'left', 'bottom', 'right', 'top'.
-        top_k: Positive integer maximum number of ranked results to return (default 5).
+        top_k: Positive integer maximum number of ranked results to return (default 3).
         geographic_bbox: Alias for bbox for backwards compatibility.
 
     Returns:

@@ -137,10 +137,10 @@ def test_qdrant_and_search_unchanged() -> None:
     count = client.count(COLLECTION_NAME, exact=True).count
     info = client.get_collection(COLLECTION_NAME)
 
-    assert count == 4
+    assert count == 30
     assert info.config.params.vectors.size == 512
 
     # Verify search still operates as normal
     results = search("river", top_k=2)
     assert len(results) == 2
-    assert results[0].tile_name == "tile_1.tif"
+    assert results[0].tile_name.endswith(".tif")

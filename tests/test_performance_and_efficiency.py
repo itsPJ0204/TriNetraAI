@@ -100,10 +100,10 @@ def test_embedding_normalization_and_dimension_invariant() -> None:
 def test_bbox_filtering_remains_active_with_caching() -> None:
     """Verify dynamic bounding-box filtering continues to execute correctly when embeddings are cached."""
     bbox_tile_1 = {
-        "left": 88.345,
-        "bottom": 22.572,
-        "right": 88.360,
-        "top": 22.585,
+        "left": 77.158,
+        "bottom": 28.645,
+        "right": 77.178,
+        "top": 28.662,
     }
     # First search without bbox
     all_results = search("river", top_k=4)
@@ -112,7 +112,7 @@ def test_bbox_filtering_remains_active_with_caching() -> None:
     # Second search with bbox (reuses cached embedding, executes filtered Qdrant query)
     filtered_results = search("river", bbox=bbox_tile_1, top_k=4)
     assert len(filtered_results) == 1
-    assert filtered_results[0].tile_name == "tile_1.tif"
+    assert filtered_results[0].tile_name == "sentinel2_tile_1.tif"
 
 
 def test_qdrant_integrity_and_immutability() -> None:
@@ -121,6 +121,6 @@ def test_qdrant_integrity_and_immutability() -> None:
     count = client.count(COLLECTION_NAME, exact=True).count
     info = client.get_collection(COLLECTION_NAME)
 
-    assert count == 4
+    assert count == 30
     assert info.config.params.vectors.size == 512
     assert str(info.config.params.vectors.distance).lower().endswith("cosine")

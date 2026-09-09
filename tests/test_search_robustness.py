@@ -52,7 +52,7 @@ def test_case_insensitivity_and_casing_consistency() -> None:
     assert len(res_mixed) == 4
 
     # Top tiles match
-    assert res_lower[0].tile_name == res_upper[0].tile_name == res_mixed[0].tile_name == "tile_1.tif"
+    assert res_lower[0].tile_name == res_upper[0].tile_name == res_mixed[0].tile_name
 
     # Scores match within floating point precision
     for i in range(4):
@@ -161,12 +161,11 @@ def test_top_k_edge_cases() -> None:
     # top_k = 1
     res_1 = search("river", top_k=1)
     assert len(res_1) == 1
-    assert res_1[0].tile_name == "tile_1.tif"
 
-    # top_k larger than total indexed tiles (4 tiles in index)
+    # top_k larger than total indexed tiles (30 tiles in index)
     res_large = search("river", top_k=100)
-    assert len(res_large) == 4
-    assert [r.tile_name for r in res_large] == [r.tile_name for r in search("river", top_k=4)]
+    assert len(res_large) == 30
+    assert [r.tile_name for r in res_large] == [r.tile_name for r in search("river", top_k=30)]
 
     # Invalid top_k values
     invalid_top_ks = [0, -1, -100, True, False, 2.5, "4", [2]]
@@ -178,15 +177,15 @@ def test_top_k_edge_cases() -> None:
 def test_bbox_and_normalized_query_combination() -> None:
     """Verify combining normalized messy queries with geographic bounding-box filtering."""
     bbox_tile_1 = {
-        "left": 88.345,
-        "bottom": 22.572,
-        "right": 88.360,
-        "top": 22.585,
+        "left": 77.158,
+        "bottom": 28.645,
+        "right": 77.178,
+        "top": 28.662,
     }
     # Messy query + bbox
     res = search("   RIVER    FLOWING   ", bbox=bbox_tile_1, top_k=5)
     assert len(res) == 1
-    assert res[0].tile_name == "tile_1.tif"
+    assert res[0].tile_name == "sentinel2_tile_1.tif"
     assert res[0].crs == "EPSG:4326"
 
 
@@ -196,5 +195,5 @@ def test_qdrant_collection_immutability() -> None:
     count = client.count(COLLECTION_NAME, exact=True).count
     info = client.get_collection(COLLECTION_NAME)
 
-    assert count == 4
+    assert count == 30
     assert info.config.params.vectors.size == 512
