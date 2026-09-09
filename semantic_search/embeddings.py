@@ -25,14 +25,25 @@ def find_one_satellite_tile() -> Path:
 
 
 def find_satellite_tiles() -> list[Path]:
-    """Return all TIFF tiles in a stable alphabetical order."""
+    """Return all TIFF tiles in a stable alphabetical order, supporting nested subdirectories and CSV registry."""
     if not TILES_DIRECTORY.is_dir():
         return []
 
+    # Check tiles_metadata.csv from Person 1 if available
+    csv_file = PROJECT_ROOT / "data" / "tiles_metadata.csv"
+    if csv_file.is_file():
+        import csv
+        with csv_file.open("r", encoding="utf-8") as handle:
+            reader = csv.DictReader(handle)
+            paths = [Path(row["filepath"]) for row in reader if "filepath" in row and Path(row["filepath"]).is_file()]
+            if paths:
+                return sorted(paths, key=lambda p: p.name.lower())
+
+    # Recursive scan to discover tiles in data/tiles/<scene_name>/
     return sorted(
         (
             path
-            for path in TILES_DIRECTORY.iterdir()
+            for path in TILES_DIRECTORY.rglob("*")
             if (
                 path.is_file()
                 and path.suffix.lower() in {".tif", ".tiff"}
@@ -46,7 +57,7 @@ def find_satellite_tiles() -> list[Path]:
 def image_to_embedding(
     image_path: str | Path, model=None, preprocess=None
 ) -> np.ndarray:
-    """Convert one satellite-image tile into a normalized float32 vector."""
+    """Convert one satellite-image tile into a normalized float32 vector with 16-bit percentile normalization."""
     path = Path(image_path)
     if not path.is_file():
         raise FileNotFoundError(f"Satellite image was not found: {path}")
@@ -56,9 +67,28 @@ def image_to_embedding(
     elif model is None or preprocess is None:
         raise ValueError("Provide both model and preprocess, or neither.")
 
-    with Image.open(path) as image:
-        rgb_image = image.convert("RGB")
-        image_tensor = preprocess(rgb_image).unsqueeze(0)
+    # Multi-band / 16-bit GeoTIFF robust reader
+    try:
+        import rasterio
+        with rasterio.open(path) as src:
+            if src.count >= 3:
+                arr = src.read([1, 2, 3]).astype(np.float32)
+                arr = np.transpose(arr, (1, 2, 0))
+            else:
+                arr = src.read(1).astype(np.float32)
+                arr = np.stack([arr, arr, arr], axis=-1)
+
+            p2, p98 = np.percentile(arr[arr > 0] if np.any(arr > 0) else arr, (2, 98))
+            if p98 > p2:
+                arr = np.clip((arr - p2) / (p98 - p2 + 1e-5) * 255.0, 0, 255).astype(np.uint8)
+            else:
+                arr = np.clip(arr / 10000.0 * 255.0, 0, 255).astype(np.uint8)
+            rgb_image = Image.fromarray(arr, mode="RGB")
+    except Exception:
+        with Image.open(path) as image:
+            rgb_image = image.convert("RGB")
+
+    image_tensor = preprocess(rgb_image).unsqueeze(0)
 
     with torch.no_grad():
         features = model.encode_image(image_tensor)
