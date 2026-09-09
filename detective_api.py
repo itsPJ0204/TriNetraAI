@@ -42,11 +42,11 @@ def _extract_qa_mask(tile_path: str, external_mask=None) -> np.ndarray:
         elif isinstance(external_mask, np.ndarray):
             return external_mask.astype(bool)
 
-    # Attempt SCL band extraction if GeoTIFF
+    # Attempt SCL / Optical extraction via Person 4's unified interface
     if tile_path.lower().endswith(('.tif', '.tiff')) and os.path.exists(tile_path):
         try:
-            from qa_mask import get_quality_mask_s2
-            mask, _ = get_quality_mask_s2(tile_path, scl_band_index=4, erode_pixels=2)
+            from qa_mask import get_quality_mask
+            mask = get_quality_mask(sensor_type="auto", tif_path=tile_path)
             return mask
         except Exception:
             pass
@@ -61,11 +61,13 @@ def compare_tiles(
     min_area: int = 100,
     qa_mask_t1 = None,
     qa_mask_t2 = None,
-    apply_qa_suppression: bool = True
+    apply_qa_suppression: bool = True,
+    cloud_occlusion_threshold: float = 15.0
 ) -> dict:
     """
     Compares two co-registered image tiles from Time 1 and Time 2:
     - During ingestion, Person 4's QA model is triggered on-demand to suppress clouds/shadows.
+    - Early-exit guard skips heavy inference if tile is heavily occluded by clouds (<15% valid ground).
     - Runs Dual-Engine BIT Transformer / Classical CV change detection.
     - Classifies WHAT the change is (Semantic AI transition matrix).
     """
@@ -97,6 +99,29 @@ def compare_tiles(
                 "valid_pixel_pct": valid_pct,
                 "suppressed_pixels": int((~joint_qa_mask).sum())
             }
+
+            # Early Exit Gate for high cloud occlusion (>85% cloud / <15% ground)
+            if valid_pct < cloud_occlusion_threshold:
+                base_name = os.path.splitext(os.path.basename(tile_t2_path))[0]
+                empty_mask = np.zeros(t1_arr.shape[:2], dtype=np.uint8)
+                mask_file = os.path.join(output_dir, f"{base_name}_mask.png")
+                overlay_file = os.path.join(output_dir, f"{base_name}_overlay.png")
+                cv2.imwrite(mask_file, empty_mask)
+                cv2.imwrite(overlay_file, cv2.cvtColor(t2_arr, cv2.COLOR_RGB2BGR))
+                return {
+                    "status": "skipped_excessive_cloud_cover",
+                    "mode_used": "qa_early_exit",
+                    "qa_suppression": qa_info,
+                    "has_change": False,
+                    "change_ratio": 0.0,
+                    "target_count": 0,
+                    "detected_targets": [],
+                    "message": f"Temporal inspection skipped: only {valid_pct}% valid ground visible due to heavy cloud occlusion.",
+                    "mask_path": mask_file,
+                    "overlay_path": overlay_file,
+                    "raw_mask_array": empty_mask,
+                    "overlay_array": t2_arr
+                }
 
     execution_mode = "classical"
     raw_mask = None
