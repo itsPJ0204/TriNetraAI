@@ -3,47 +3,49 @@ let currentSlide = 1;
 const totalSlides = 4;
 
 const nodeDetails = {
-  qa_filter: {
-    title: "🛡️ Layer 1: QA & False-Alarm Suppression (Role 4)",
-    badge: "Quality Assurance & Edge Node",
-    role: "Person 4 & Person 1",
-    desc: "Strips out invalid environmental artifacts before any change detection is executed.",
-    points: [
-      "Scene Classification Layer (SCL) filtering targeting Class 3 (Shadows), Class 8/9/10 (Clouds), and Class 11 (Snow/Ice).",
-      "Morphological binary erosion (2-pixel kernel) removing cloud boundary halos.",
-      "Offline s2cloudless gradient-boosted decision trees running directly on edge CPU devices."
-    ]
-  },
   tiling_grid: {
-    title: "🗺️ Layer 2: Spatial Indexing & Tiling (Role 1)",
+    title: "🗺️ Layer 1: Spatial Indexing & Tiling (Role 1)",
     badge: "Data Engineering / The Librarian",
-    role: "Person 1",
-    desc: "Transforms multi-gigabyte satellite scenes into rapid-access co-registered 512x512 patches.",
+    role: "Person 1 (Huzaifa)",
+    desc: "Transforms multi-gigabyte satellite scenes into rapid-access co-registered 512x512 patches with geospatial metadata.",
     points: [
       "Rasterio-based geographic CRS alignment across UTM and EPSG:4326 projections.",
-      "Calculates exact multi-temporal geographic bounding box intersection.",
-      "Maintains geospatial metadata schema (bounds, coordinates, resolution, timestamp)."
+      "Calculates multi-temporal geographic bounding box intersections and patch grid slicing.",
+      "Maintains geospatial metadata schema in SQLite (bounds, resolution, acquisition timestamps)."
     ]
   },
   semantic_search: {
-    title: "🔍 Layer 3: RemoteCLIP Vector Search (Role 2)",
+    title: "🔍 Layer 2: RemoteCLIP Vector Search (Role 2)",
     badge: "Semantic AI / The Translator",
     role: "Person 2 (Rahim)",
-    desc: "Enables zero-shot natural language retrieval across millions of satellite patches.",
+    desc: "Enables zero-shot natural language retrieval across satellite archives without coordinate inputs.",
     points: [
-      "RemoteCLIP (ViT-B/32) vision-language encoder trained on remote-sensing imagery.",
+      "RemoteCLIP (ViT-B/32) vision-language encoder trained on earth observation imagery.",
       "512-dimensional L2-normalized vector embeddings indexed in Qdrant Vector DB.",
-      "Evaluated against human ground truth achieving 0.9333 MRR and 86.7% Top-1 Accuracy."
+      "Achieves 0.9333 MRR and 86.7% Top-1 Accuracy on satellite semantic benchmarks."
+    ]
+  },
+  qa_filter: {
+    title: "🛡️ Layer 3: Just-In-Time QA False-Alarm Suppression (Role 4)",
+    badge: "Quality Assurance & JIT Suppression",
+    role: "Person 4 (Piyush)",
+    desc: "Applied Just-In-Time (JIT) directly at the input of Temporal Change Detection to eliminate environmental false positives efficiently.",
+    points: [
+      "On-Demand SCL Filtering: Runs specifically on queried bitemporal tile pairs (t1, t2) rather than wasting CPU cycles on millions of raw ingested tiles upfront.",
+      "Suppresses Scene Classification Layer (SCL) Class 3 (Shadows), Classes 8/9/10 (Clouds), and Class 11 (Snow/Ice).",
+      "Morphological binary halo erosion (2-pixel kernel) removing cloud boundary edge artifacts.",
+      "Offline s2cloudless gradient-boosted decision trees running on edge hardware."
     ]
   },
   temporal_detective: {
     title: "🕵️‍♂️ Layer 4: Temporal Change Detective & Classifier (Role 3)",
     badge: "Temporal AI / The Detective",
-    role: "Person 3 (You)",
-    desc: "Finds WHERE change occurred and classifies WHAT transitioned using Dual-Engine AI.",
+    role: "Person 3 (Krishna)",
+    desc: "Detects WHERE change occurred on QA-verified pixels and classifies WHAT transitioned.",
     points: [
-      "Dual-Engine: Deep Learning BIT Transformer + High-Speed Classical Gaussian Diff fallback.",
-      "Zero-Shot Semantic Transition Matrix (e.g., Vegetation -> Construction, Bare Soil -> Road).",
+      "Dual-Engine: Deep Learning Bitemporal Image Transformer (BIT) + High-Speed Classical Gaussian Diff fallback.",
+      "Applies Bitemporal Intersection: Clean Change = Raw BIT Change ∩ QA(t1) ∩ QA(t2).",
+      "Zero-Shot Semantic Transition Matrix (e.g., Vegetation -> Construction, Open Land -> Road).",
       "Automated morphological cleaning, sub-pixel contour bounding boxes, and 40% red overlay generation."
     ]
   },

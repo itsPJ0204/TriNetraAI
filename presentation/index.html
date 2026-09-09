@@ -214,22 +214,14 @@
 
           <div class="flow-step-grid">
             <!-- Node 1 -->
-            <div class="flow-node" onclick="showNodeModal('qa_filter')">
-              <span class="flow-node-badge role4">Role 4: QA Filter</span>
-              <div class="flow-node-title">SCL Cloud & Shadow Masking</div>
-              <div class="flow-node-desc">Zeros out clouds, shadows, and snow using SCL band & s2cloudless.</div>
+            <div class="flow-node" onclick="showNodeModal('tiling_grid')">
+              <span class="flow-node-badge role1">Role 1: Ingestion</span>
+              <div class="flow-node-title">Spatial Index & 512x512 Tiling</div>
+              <div class="flow-node-desc">CRS alignment, patch grid slicing, and SQLite metadata indexing.</div>
               <div class="flow-connector"></div>
             </div>
 
             <!-- Node 2 -->
-            <div class="flow-node" onclick="showNodeModal('tiling_grid')">
-              <span class="flow-node-badge role1">Role 1: Data Ingestion</span>
-              <div class="flow-node-title">Spatial Index & 512x512 Tiling</div>
-              <div class="flow-node-desc">CRS alignment, overlap intersection, and patch grid slicing.</div>
-              <div class="flow-connector"></div>
-            </div>
-
-            <!-- Node 3 -->
             <div class="flow-node" onclick="showNodeModal('semantic_search')">
               <span class="flow-node-badge role2">Role 2: Semantic AI</span>
               <div class="flow-node-title">RemoteCLIP & Qdrant Search</div>
@@ -237,11 +229,19 @@
               <div class="flow-connector"></div>
             </div>
 
+            <!-- Node 3 -->
+            <div class="flow-node" onclick="showNodeModal('qa_filter')">
+              <span class="flow-node-badge role4">Role 4: JIT QA Filter</span>
+              <div class="flow-node-title">Just-In-Time False Alarm Mask</div>
+              <div class="flow-node-desc">On-demand SCL & s2cloudless mask on (t1, t2) input to block noise.</div>
+              <div class="flow-connector"></div>
+            </div>
+
             <!-- Node 4 -->
             <div class="flow-node" onclick="showNodeModal('temporal_detective')">
               <span class="flow-node-badge role3">Role 3: Temporal AI</span>
               <div class="flow-node-title">BIT Detective & Classifier</div>
-              <div class="flow-node-desc">Dual-engine change detection + Semantic transition matrix.</div>
+              <div class="flow-node-desc">Dual-engine bitemporal change detection + Semantic transition matrix.</div>
             </div>
           </div>
 
