@@ -1,5 +1,6 @@
 """Semantic text search with optional geographic filtering over Qdrant satellite-tile vectors."""
 
+from pathlib import Path
 from typing import Any
 import numbers
 
@@ -147,46 +148,20 @@ def text_to_embedding(query: str, use_cache: bool = True) -> np.ndarray:
     return embedding
 
 
-def search(
-    query: str,
-    bbox: dict[str, Any] | None = None,
+def execute_vector_search(
+    query_vector: np.ndarray,
     top_k: int = 5,
+    bbox: dict[str, Any] | None = None,
     geographic_bbox: dict[str, Any] | None = None,
 ) -> list[SearchResult]:
     """
-    Public Semantic AI search interface.
-
-    Executes natural-language semantic search with optional 2D geographic bounding-box filtering
-    over indexed satellite tiles.
-
-    Args:
-        query: Non-empty search query string (e.g., 'river', 'urban area').
-        bbox: Optional geographic bounding box dict with 'left', 'bottom', 'right', 'top'.
-        top_k: Positive integer maximum number of ranked results to return (default 5).
-        geographic_bbox: Alias for bbox for backwards compatibility.
-
-    Returns:
-        List of SearchResult objects ranked by cosine similarity score.
-
-    Raises:
-        ValueError: If query is empty or invalid, top_k is non-positive or invalid, or bbox is invalid.
-        RuntimeError: If collection does not exist or RemoteCLIP cannot be loaded.
-        ConnectionError: If connection to Qdrant fails.
+    Internal execution helper: query Qdrant with a 512-dim vector and optional bounding-box filter.
     """
-    normalized_query = normalize_query(query)
-
-    # Support legacy positional top_k as 2nd parameter if passed
-    if isinstance(bbox, int) and not isinstance(bbox, bool):
-        top_k = bbox
-        bbox = None
-
     if isinstance(top_k, bool) or not isinstance(top_k, int) or top_k <= 0:
         raise ValueError("top_k must be a positive integer.")
 
     filter_box = bbox if bbox is not None else geographic_bbox
     query_filter = build_geographic_filter(filter_box) if filter_box is not None else None
-
-    text_embedding = text_to_embedding(normalized_query)
 
     try:
         client = get_qdrant_client()
@@ -202,7 +177,7 @@ def search(
 
         response = client.query_points(
             collection_name=COLLECTION_NAME,
-            query=text_embedding.tolist(),
+            query=query_vector.tolist(),
             query_filter=query_filter,
             limit=min(top_k, indexed_count),
             with_payload=True,
@@ -238,4 +213,256 @@ def search(
             )
         )
     return results
+
+
+def image_input_to_embedding(
+    image: Any,
+    model: Any = None,
+    preprocess: Any = None,
+) -> np.ndarray:
+    """
+    Convert a PIL.Image, file path, or Path object into a normalized 512-dim RemoteCLIP embedding.
+
+    Args:
+        image: PIL.Image.Image instance or valid file path (str | Path).
+        model: Optional preloaded RemoteCLIP model.
+        preprocess: Optional preloaded RemoteCLIP transform.
+
+    Returns:
+        1D float32 NumPy array of shape (512,) normalized to unit length.
+
+    Raises:
+        ValueError: If image is None or cannot be read.
+        TypeError: If image is not a PIL Image, str, or Path.
+        FileNotFoundError: If image file path does not exist on disk.
+    """
+    from PIL import Image
+
+    if image is None:
+        raise ValueError("Image input cannot be None.")
+
+    if isinstance(image, Image.Image):
+        pil_image = image.convert("RGB")
+    elif isinstance(image, (str, Path)):
+        path = Path(image)
+        if not path.is_file():
+            raise FileNotFoundError(f"Image file not found: {path}")
+        try:
+            with Image.open(path) as img:
+                pil_image = img.convert("RGB")
+        except Exception:
+            # Fallback for multi-band / uint16 GeoTIFFs using rasterio
+            import rasterio
+            from semantic_search.sentinel2 import normalize_uint16_to_uint8
+
+            try:
+                with rasterio.open(path) as src:
+                    count = src.count
+                    if count >= 3:
+                        raw_bands = [src.read(i) for i in range(1, 4)]
+                    elif count == 1:
+                        b1 = src.read(1)
+                        raw_bands = [b1, b1, b1]
+                    else:
+                        b1 = src.read(1)
+                        raw_bands = [b1, src.read(2), b1]
+
+                    norm_bands = [
+                        normalize_uint16_to_uint8(b) if b.dtype != np.uint8 else b
+                        for b in raw_bands
+                    ]
+                    rgb_array = np.stack(norm_bands, axis=-1)
+                    pil_image = Image.fromarray(rgb_array)
+            except Exception as err:
+                raise ValueError(f"Could not open image file: {path} ({err})") from err
+    else:
+        raise TypeError(
+            f"Invalid image type: expected PIL.Image.Image, str, or Path, got {type(image).__name__}."
+        )
+
+    if model is None or preprocess is None:
+        model, _, preprocess = load_remoteclip(device="cpu")
+
+    tensor = preprocess(pil_image).unsqueeze(0)
+    with torch.inference_mode():
+        features = model.encode_image(tensor)
+        normalized = torch.nn.functional.normalize(features, p=2, dim=-1)
+
+    embedding = normalized.squeeze(0).cpu().numpy().astype(np.float32)
+    return embedding
+
+
+def fuse_embeddings(
+    image_embedding: np.ndarray,
+    text_embedding: np.ndarray,
+    alpha: float = 0.5,
+    fusion_strategy: str = "weighted_sum",
+    image_weight: float | None = None,
+    text_weight: float | None = None,
+) -> np.ndarray:
+    """
+    Fuse image and text embeddings into a single normalized 512-dim query vector.
+
+    Args:
+        image_embedding: 512-dim float32 normalized image embedding vector.
+        text_embedding: 512-dim float32 normalized text embedding vector.
+        alpha: Weight assigned to image in weighted sum [0.0, 1.0]. Default 0.5.
+        fusion_strategy: Strategy for multimodal combination:
+            - 'weighted_sum': alpha * image + (1 - alpha) * text (or explicit weights).
+            - 'average': equal 50/50 weighting.
+            - 'image_only': image vector only.
+            - 'text_only': text vector only.
+        image_weight: Explicit image weight (overrides alpha if specified).
+        text_weight: Explicit text weight (overrides alpha if specified).
+
+    Returns:
+        Normalized 512-dim float32 vector.
+    """
+    strategy = fusion_strategy.lower().strip()
+    if strategy in {"image_only", "image"}:
+        return image_embedding.astype(np.float32)
+
+    if strategy in {"text_only", "text"}:
+        return text_embedding.astype(np.float32)
+
+    if strategy in {"average", "mean"}:
+        w_img, w_txt = 0.5, 0.5
+    elif strategy == "weighted_sum":
+        if image_weight is not None or text_weight is not None:
+            w_img = float(image_weight if image_weight is not None else (1.0 - (text_weight or 0.0)))
+            w_txt = float(text_weight if text_weight is not None else (1.0 - (image_weight or 0.0)))
+            if w_img < 0.0 or w_txt < 0.0:
+                raise ValueError(
+                    f"Weights must be non-negative, got image_weight={w_img}, text_weight={w_txt}"
+                )
+            total = w_img + w_txt
+            if total <= 0.0:
+                raise ValueError("Sum of image_weight and text_weight must be strictly positive.")
+            w_img /= total
+            w_txt /= total
+        else:
+            if not isinstance(alpha, (int, float)) or isinstance(alpha, bool) or not (0.0 <= alpha <= 1.0):
+                raise ValueError(f"alpha must be a real number between 0.0 and 1.0, got {alpha}")
+            w_img = float(alpha)
+            w_txt = 1.0 - w_img
+    else:
+        raise ValueError(
+            f"Unsupported fusion_strategy '{fusion_strategy}'. "
+            "Supported strategies: 'weighted_sum', 'average', 'image_only', 'text_only'."
+        )
+
+    fused = (w_img * image_embedding) + (w_txt * text_embedding)
+    norm = float(np.linalg.norm(fused))
+    if norm > 1e-12:
+        fused = fused / norm
+    else:
+        fused = image_embedding.copy()
+
+    return fused.astype(np.float32)
+
+
+def search(
+    query: str,
+    bbox: dict[str, Any] | None = None,
+    top_k: int = 3,
+    geographic_bbox: dict[str, Any] | None = None,
+) -> list[SearchResult]:
+    """
+    Public Semantic AI search interface.
+
+    Executes natural-language semantic search with optional 2D geographic bounding-box filtering
+    over indexed satellite tiles.
+
+    Args:
+        query: Non-empty search query string (e.g., 'river', 'urban area').
+        bbox: Optional geographic bounding box dict with 'left', 'bottom', 'right', 'top'.
+        top_k: Positive integer maximum number of ranked results to return (default 3).
+        geographic_bbox: Alias for bbox for backwards compatibility.
+
+    Returns:
+        List of SearchResult objects ranked by cosine similarity score.
+
+    Raises:
+        ValueError: If query is empty or invalid, top_k is non-positive or invalid, or bbox is invalid.
+        RuntimeError: If collection does not exist or RemoteCLIP cannot be loaded.
+        ConnectionError: If connection to Qdrant fails.
+    """
+    normalized_query = normalize_query(query)
+
+    # Support legacy positional top_k as 2nd parameter if passed
+    if isinstance(bbox, int) and not isinstance(bbox, bool):
+        top_k = bbox
+        bbox = None
+
+    text_embedding = text_to_embedding(normalized_query)
+    return execute_vector_search(
+        query_vector=text_embedding,
+        top_k=top_k,
+        bbox=bbox,
+        geographic_bbox=geographic_bbox,
+    )
+
+
+def search_by_image(
+    image: Any,
+    query: str | None = None,
+    top_k: int = 5,
+    bbox: dict[str, Any] | None = None,
+    alpha: float = 0.5,
+    fusion_strategy: str = "weighted_sum",
+    geographic_bbox: dict[str, Any] | None = None,
+    image_weight: float | None = None,
+    text_weight: float | None = None,
+) -> list[SearchResult]:
+    """
+    Search satellite tiles by query image (image-to-image) or multimodal query (image + text).
+
+    Args:
+        image: Query image as a PIL.Image.Image or a valid file path (str/Path).
+        query: Optional natural-language text description for multimodal fusion.
+               If None, executes pure image-to-image search.
+               If provided, fuses image and text embeddings into a joint query vector.
+        top_k: Positive integer maximum number of ranked results to return (default 5).
+        bbox: Optional geographic bounding box dict with 'left', 'bottom', 'right', 'top'.
+        alpha: Weight assigned to image in weighted sum [0.0, 1.0]. Default 0.5.
+        fusion_strategy: Strategy for multimodal combination ('weighted_sum', 'average', 'image_only', 'text_only').
+        geographic_bbox: Alias for bbox for backwards compatibility.
+        image_weight: Optional explicit image weight for multimodal fusion.
+        text_weight: Optional explicit text weight for multimodal fusion.
+
+    Returns:
+        List of SearchResult objects ranked by cosine similarity score.
+
+    Raises:
+        ValueError: If image is None or invalid, query is invalid/empty string, top_k <= 0, or bbox is invalid.
+        TypeError: If image is of an unsupported type.
+        FileNotFoundError: If image file path does not exist.
+        RuntimeError: If collection does not exist or RemoteCLIP cannot be loaded.
+        ConnectionError: If connection to Qdrant fails.
+    """
+    # 1. Encode image
+    image_embedding = image_input_to_embedding(image)
+
+    # 2. Determine query vector: pure image or multimodal fusion
+    if query is not None:
+        normalized_query = normalize_query(query)
+        text_embedding = text_to_embedding(normalized_query)
+        query_vector = fuse_embeddings(
+            image_embedding=image_embedding,
+            text_embedding=text_embedding,
+            alpha=alpha,
+            fusion_strategy=fusion_strategy,
+            image_weight=image_weight,
+            text_weight=text_weight,
+        )
+    else:
+        query_vector = image_embedding
+
+    # 3. Execute vector search with optional bbox
+    return execute_vector_search(
+        query_vector=query_vector,
+        top_k=top_k,
+        bbox=bbox,
+        geographic_bbox=geographic_bbox,
+    )
 

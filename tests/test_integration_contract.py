@@ -44,14 +44,14 @@ def test_public_search_top_k() -> None:
 def test_public_search_bbox() -> None:
     """Verify geographic bbox parameter filters results through public interface."""
     bbox_tile_1 = {
-        "left": 88.345,
-        "bottom": 22.572,
-        "right": 88.360,
-        "top": 22.585,
+        "left": 77.158,
+        "bottom": 28.645,
+        "right": 77.178,
+        "top": 28.662,
     }
     results = search("river", bbox=bbox_tile_1, top_k=5)
-    assert len(results) == 1
-    assert results[0].tile_name == "tile_1.tif"
+    assert len(results) >= 1
+    assert all(r.tile_name == "sentinel2_tile_1.tif" for r in results)
 
 
 def test_public_search_invalid_query() -> None:

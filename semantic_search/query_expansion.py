@@ -1,4 +1,4 @@
-﻿"""Query expansion and prompt ensemble experiment for Semantic AI search."""
+"""Query expansion and prompt ensemble experiment for Semantic AI search."""
 
 import csv
 import json
@@ -168,22 +168,23 @@ def compare_query_ensemble(
     for prompt in formulations:
         prompt_results = search(query=prompt, top_k=top_k)
         for r in prompt_results:
-            if r.tile_name not in tile_scores:
-                tile_scores[r.tile_name] = []
-                tile_meta[r.tile_name] = r
-            tile_scores[r.tile_name].append(float(r.score))
+            key = r.image_path if r.image_path else f"{r.tile_name}_{r.date}"
+            if key not in tile_scores:
+                tile_scores[key] = []
+                tile_meta[key] = r
+            tile_scores[key].append(float(r.score))
 
     # Mean score averaging
     num_formulations = len(formulations)
     ensemble_scored_tiles: list[dict[str, Any]] = []
 
-    for tile_name, scores in tile_scores.items():
+    for key, scores in tile_scores.items():
         # If tile was missing in some top_k, average over total formulations
         mean_score = sum(scores) / num_formulations
-        meta = tile_meta[tile_name]
+        meta = tile_meta[key]
         ensemble_scored_tiles.append(
             {
-                "tile_name": tile_name,
+                "tile_name": meta.tile_name,
                 "score": float(mean_score),
                 "image_path": meta.image_path,
                 "crs": meta.crs,

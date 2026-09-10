@@ -15,7 +15,7 @@ EMBEDDINGS_PATH = PROJECT_ROOT / "data" / "embeddings" / "image_embeddings.npy"
 import threading
 
 IMAGE_PATHS_PATH = PROJECT_ROOT / "data" / "embeddings" / "image_paths.json"
-DEFAULT_SCENE_DATE = "2025-03-29"
+DEFAULT_SCENE_DATE = "2026-06-27"
 
 _CLIENT_CACHE_LOCK = threading.Lock()
 _CLIENT_CACHE: dict[str, QdrantClient] = {}
@@ -40,7 +40,7 @@ def get_qdrant_client(url: str = QDRANT_URL, reload: bool = False) -> QdrantClie
 
 
 def extract_geospatial_metadata(image_path: str | Path) -> dict:
-    """Read CRS, bounding box, and pixel dimensions directly from a GeoTIFF using rasterio."""
+    """Read CRS, bounding box, pixel dimensions, and tags directly from a GeoTIFF using rasterio."""
     path = PROJECT_ROOT / image_path if not Path(image_path).is_absolute() else Path(image_path)
     if not path.is_file():
         raise FileNotFoundError(f"Tile image file not found: {path}")
@@ -55,12 +55,16 @@ def extract_geospatial_metadata(image_path: str | Path) -> dict:
         }
         width = int(src.width)
         height = int(src.height)
+        tags = src.tags()
+        date = tags.get("date") or DEFAULT_SCENE_DATE
 
     return {
         "crs": crs_str,
         "bounds": bounds,
         "width": width,
         "height": height,
+        "date": date,
+        "tags": tags,
     }
 
 
@@ -106,12 +110,15 @@ def upload_embeddings(
     client: QdrantClient,
     embeddings: np.ndarray,
     image_paths: list[str],
-    date: str = DEFAULT_SCENE_DATE,
+    date: str | None = None,
 ) -> None:
     """Upsert vectors with stable IDs and geospatial metadata, preserving embeddings[i] -> paths[i]."""
     for point_id, (embedding, image_path) in enumerate(zip(embeddings, image_paths)):
         print(f"Uploading vector {point_id + 1}/{len(embeddings)}: {image_path}")
         geo_meta = extract_geospatial_metadata(image_path)
+        tags = geo_meta.get("tags", {})
+        tile_date = date or geo_meta.get("date") or tags.get("date") or DEFAULT_SCENE_DATE
+
         payload = {
             "image_path": image_path,
             "tile_name": Path(image_path).name,
@@ -119,7 +126,12 @@ def upload_embeddings(
             "bounds": geo_meta["bounds"],
             "width": geo_meta["width"],
             "height": geo_meta["height"],
-            "date": date,
+            "date": tile_date,
+            "provenance": tags.get("provenance", "Sentinel-2 L2A"),
+            "r_band": tags.get("r_band", "B04"),
+            "g_band": tags.get("g_band", "B03"),
+            "b_band": tags.get("b_band", "B02"),
+            "bands": "B04 (Red), B03 (Green), B02 (Blue)",
         }
         client.upsert(
             collection_name=COLLECTION_NAME,
@@ -135,9 +147,13 @@ def upload_embeddings(
 
 
 def remove_stale_points(client: QdrantClient, image_paths: list[str]) -> int:
-    """Remove points whose image paths are absent from the current manifest."""
+    """Remove points whose image paths are absent from the current manifest or whose IDs exceed current count."""
+    if not client.collection_exists(COLLECTION_NAME):
+        return 0
+
     current_paths = set(image_paths)
-    stale_point_ids: list[int] = []
+    current_count = len(image_paths)
+    stale_point_ids: list[int | str] = []
     offset = None
 
     while True:
@@ -148,11 +164,11 @@ def remove_stale_points(client: QdrantClient, image_paths: list[str]) -> int:
             with_payload=True,
             with_vectors=False,
         )
-        stale_point_ids.extend(
-            point.id
-            for point in points
-            if point.payload.get("image_path") not in current_paths
-        )
+        for point in points:
+            path = point.payload.get("image_path") if point.payload else None
+            if path not in current_paths or (isinstance(point.id, int) and point.id >= current_count):
+                stale_point_ids.append(point.id)
+
         if next_offset is None:
             break
         offset = next_offset
