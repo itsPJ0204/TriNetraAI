@@ -13,10 +13,12 @@ from semantic_search.schemas import SearchResult
 from semantic_search.vector_store import COLLECTION_NAME, get_qdrant_client
 
 
-def validate_bbox(bbox: dict[str, Any]) -> dict[str, float]:
-    """Validate bounding-box dictionary and return sanitized float coordinates."""
-    if not isinstance(bbox, dict):
-        raise ValueError("Bounding box must be a dictionary with 'left', 'bottom', 'right', and 'top' keys.")
+def validate_bbox(bbox: dict[str, Any] | tuple[float, float, float, float] | list[float]) -> dict[str, float]:
+    """Validate bounding-box dictionary or tuple/list and return sanitized float coordinates."""
+    if isinstance(bbox, (tuple, list)) and len(bbox) == 4:
+        bbox = {"left": bbox[0], "bottom": bbox[1], "right": bbox[2], "top": bbox[3]}
+    elif not isinstance(bbox, dict):
+        raise ValueError("Bounding box must be a dictionary with 'left', 'bottom', 'right', and 'top' keys or a 4-element sequence.")
 
     required_keys = ("left", "bottom", "right", "top")
     for key in required_keys:

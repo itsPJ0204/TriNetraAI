@@ -111,7 +111,7 @@ def main() -> int:
             from semantic_search.search import search
             bbox_tuple = tuple(args.bbox) if args.bbox else None
             results = search(query=args.query, bbox=bbox_tuple, top_k=args.top_k)
-            print(f"\n🔍 Search Results for: '{args.query}' (Top {len(results)} matches)")
+            print(f"\n[Semantic Search] Results for: '{args.query}' (Top {len(results)} matches)")
             print("=" * 60)
             for idx, r in enumerate(results, 1):
                 print(f"{idx}. Tile: {r.tile_name}")
@@ -122,7 +122,7 @@ def main() -> int:
         # Role 3 & Role 4: Temporal Detective with JIT QA Suppression
         elif args.command == "compare":
             from detective_api import compare_tiles
-            print(f"\n🕵️‍♂️ Comparing tiles with Just-In-Time QA False-Alarm Suppression...")
+            print(f"\n[Detective] Comparing tiles with Just-In-Time QA False-Alarm Suppression...")
             print(f"   T1 (Before): {args.t1_path}")
             print(f"   T2 (After) : {args.t2_path}")
             report = compare_tiles(
@@ -139,7 +139,7 @@ def main() -> int:
         # Role 4: Clustering
         elif args.command == "cluster":
             from clustering import run_clustering_pipeline
-            print(f"\n🌐 Running K-Means clustering (k={args.k})...")
+            print(f"\n[Clustering] Running K-Means clustering (k={args.k})...")
             summary = run_clustering_pipeline(k=args.k)
             print("Clustering completed successfully.")
 
