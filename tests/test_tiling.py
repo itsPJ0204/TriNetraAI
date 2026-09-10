@@ -1,3 +1,6 @@
+"""Phase 6.5 verification for Rasterio GeoTIFF tiling."""
+
+import pytest
 import rasterio
 
 from ingestion.tiling import create_tiles

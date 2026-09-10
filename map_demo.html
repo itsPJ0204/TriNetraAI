@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Semantic Search Map Demo</title>
+
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+
+    <style>
+        #map {
+            height: 600px;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+
+<h2>Semantic Search Result</h2>
+<div id="map"></div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+    // Tumhare SearchResult se aane wale bounds
+   
+    const bounds= {'left': 88.344498, 'bottom': 22.570773000000003, 'right': 88.3654405, 'top': 22.586632};
+    // Map center
+    const centerLat = (bounds.top + bounds.bottom) / 2;
+    const centerLon = (bounds.left + bounds.right) / 2;
+
+    const map = L.map('map').setView(
+        [centerLat, centerLon],
+        14
+    );
+
+    // OpenStreetMap background
+    L.tileLayer(
+        'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+        {
+            maxZoom: 19,
+            attribution: '&copy; OpenStreetMap contributors'
+        }
+    ).addTo(map);
+
+    // Leaflet format:
+    // [[south, west], [north, east]]
+    const tileBounds = [
+        [bounds.bottom, bounds.left],
+        [bounds.top, bounds.right]
+    ];
+
+    // Highlight tile
+    const rectangle = L.rectangle(tileBounds, {
+        weight: 3,
+        fillOpacity: 0.25
+    }).addTo(map);
+
+    rectangle.bindPopup(`
+        <b>Tile:</b> tile_1.tif<br>
+        <b>Date:</b> 2025-03-29
+    `);
+
+    // Map ko automatically tile par zoom karo
+    map.fitBounds(tileBounds);
+</script>
+
+</body>
+</html>

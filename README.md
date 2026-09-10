@@ -1,11 +1,12 @@
 # 🛰️ TriNetraAI — Unified Earth Observation & Satellite Intelligence Engine
 
-**Smart India Hackathon (SIH 2026)** — *Automated Natural Language Search, False-Alarm Suppression & Semantic Change Detective for Multi-Temporal Earth Observation Archives.*
+**Smart India Hackathon (SIH 2026)** — *Automated Natural Language & Multimodal Search, False-Alarm Suppression & Semantic Change Detective for Multi-Temporal Earth Observation Archives.*
 
 [![Architecture](https://img.shields.io/badge/Architecture-5--Layer%20Decoupled-00E5FF)](presentation/index.html)
 [![Semantic Search MRR](https://img.shields.io/badge/Semantic%20MRR-0.9333-10B981)](data/evaluation/retrieval_metrics.json)
 [![Temporal Model](https://img.shields.io/badge/Temporal%20AI-BIT%20Transformer-8B5CF6)](src/neural_cd.py)
 [![False Alarm Filter](https://img.shields.io/badge/QA%20Suppression-Just--In--Time%20SCL-F59E0B)](qa_mask.py)
+[![Multimodal Search](https://img.shields.io/badge/Search-Text%20%2B%20Image%20Fusion-EC4899)](scripts/search_by_image.py)
 [![Offline Ready](https://img.shields.io/badge/Deployment-100%25%20Air--Gapped%20Edge-3B82F6)](local_ingest.py)
 
 ---
@@ -29,12 +30,13 @@ TriNetraAI operates as an on-premises, multi-modal pipeline with zero external c
                     ┌──────────────────┴──────────────────┐
                     ▼                                     ▼
  ┌───────────────────────────────────────┐  ┌──────────────────────────────────┐
- │ LAYER 2: SEMANTIC SEARCH              │  │ TERRAIN SIMILARITY CLUSTERING    │
+ │ LAYER 2: MULTIMODAL SEMANTIC SEARCH   │  │ TERRAIN SIMILARITY CLUSTERING    │
  │ (Role 2 — Rahim)                      │  │ (Role 4 — Piyush)                │
  │ • RemoteCLIP (ViT-B/32, 512-D)        │  │ • PCA-50 + K-Means (k=5) Groups  │
- │ • Qdrant Vector DB (Cosine Similarity)│  │ • Similar tile discovery         │
- │ • Domain Query Expansion (search.py)  │  │ • clustering.py                  │
- │ • 0.9333 MRR / 86.7% Top-1 Accuracy   │  └──────────────────────────────────┘
+ │ • Text-to-Image & Image-to-Image Query│  │ • Similar tile discovery         │
+ │ • Qdrant Vector DB (Cosine Similarity)│  │ • clustering.py                  │
+ │ • Domain Query Expansion (search.py)  │  └──────────────────────────────────┘
+ │ • 0.9333 MRR / 86.7% Top-1 Accuracy   │
  └──────────────────┬────────────────────┘
                     │
                     │ Analyst selects bitemporal pair (t1, t2) for inspection
@@ -77,25 +79,10 @@ TriNetraAI operates as an on-premises, multi-modal pipeline with zero external c
 | Role | Responsibility | Core Deliverables | Status |
 |:---|:---|:---|:---:|
 | **Role 1: Data Engineering** *(Md Huzaifa Hayat)* | Ingestion, 512×512 grid tiling, CRS alignment, SQLite metadata database, CSV handoff contract. | `ingestion/tiling.py`, `ingestion/db.py`, `ingestion/ingest.py`, `spatial/queries.py` | ✅ **Complete** |
-| **Role 2: Semantic AI** *(Rahim)* | Vision-Language foundation model (RemoteCLIP ViT-B/32), 512-D vector embeddings, Qdrant vector retrieval, query expansion. | `semantic_search/model.py`, `semantic_search/embeddings.py`, `semantic_search/vector_store.py`, `semantic_search/search.py` | ✅ **Complete** |
+| **Role 2: Semantic AI** *(Rahim)* | Vision-Language foundation model (RemoteCLIP ViT-B/32), 512-D vector embeddings, Qdrant vector retrieval, text & **image-to-image** search, query expansion. | `semantic_search/model.py`, `semantic_search/embeddings.py`, `semantic_search/vector_store.py`, `semantic_search/search.py`, `scripts/search_by_image.py` | ✅ **Complete** |
 | **Role 3: Temporal AI** *(Krishna)* | Dual-Engine BIT Transformer + Classical CV fallback, Zero-Shot Semantic Transition Matrix, BBox extraction, overlays. | `detective_api.py`, `src/neural_cd.py`, `src/classical_cd.py`, `src/semantic_classifier.py`, `src/postprocessor.py` | ✅ **Complete** |
 | **Role 4: QA & False-Alarm AI** *(Piyush)* | Just-In-Time SCL cloud/shadow suppression, adaptive halo erosion, offline `s2cloudless` edge node, K-Means clustering. | `qa_mask.py`, `local_ingest.py`, `clustering.py`, `run_qa_pipeline.py` | ✅ **Complete** |
 | **Role 5: Frontend & Integration** *(Lead)* | Interactive SIH presentation deck, unified CLI, REST API endpoints, Leaflet map client, review audit trail. | `main.py`, `presentation/index.html`, `presentation/app.js`, `presentation/styles.css` | ✅ **Complete** |
-
----
-
-## 🔍 Subsystem Junction Audits & Implemented Fixes
-
-### 1. Person 1 (Ingestion) &harr; Person 2 (Semantic AI) Junction
-- **Fixed Subdirectory Traversal:** Upgraded shallow `iterdir()` in `semantic_search/embeddings.py` to recursive `rglob("*")` with direct binding to `data/tiles_metadata.csv`.
-- **Fixed 16-Bit / Multi-Band Radiometric Scaling:** Replaced standard PIL `Image.open().convert('RGB')` with `rasterio` 2%–98% percentile contrast normalization, preventing pitch-black embedding corruption.
-- **Fixed Air-Gapped Qdrant Fallback:** Enabled local disk/in-memory embedded storage (`path="data/qdrant_local"`) when an external Docker daemon is absent.
-
-### 2. Person 4 (QA Filter) &harr; Person 3 (Temporal Detective) Junction
-- **Just-In-Time (JIT) Execution:** QA filtering is executed solely for requested comparison pairs on-demand ($O(k)$ complexity instead of $O(N)$ batch overhead).
-- **Dynamic SCL Band Fallback:** Replaced fixed `scl_band_index=4` with automatic raster inspection; if bands $< 5$, dynamically activates optical cloud variance thresholding.
-- **Early-Exit Occlusion Gate:** If valid ground $< 15\%$ due to heavy clouds, skips expensive BIT inference immediately, logging `skipped_excessive_cloud_cover`.
-- **Adaptive Halo Erosion:** Kernel scales dynamically: $\text{erode\_pixels} = \max(2, \min(H, W) // 128)$.
 
 ---
 
@@ -122,19 +109,31 @@ python main.py cluster --k 5
 
 ---
 
-### 2. Python Programmatic API
+### 2. Multimodal & Image-to-Image Search (Role 2)
 
-#### A. Natural Language Semantic Search (Role 2)
-```python
-from semantic_search.search import search
+```bash
+# 1. Image-to-Image Search (Find tiles visually matching a query image)
+python -m scripts.search_by_image sample_pairs/tile_000_t1.tif --top-k 5
 
-results = search(query="coastal harbor and shipping port", top_k=5)
-for r in results:
-    print(f"Match: {r.tile_name} | Score: {r.score:.4f} | Date: {r.date}")
+# 2. Multimodal Fusion Search (Image + Text Query with 50/50 weighting)
+python -m scripts.search_by_image sample_pairs/tile_000_t1.tif --query "dense vegetation" --alpha 0.5
 ```
 
-#### B. Temporal Change Detective with JIT QA Masking (Role 3 & Role 4)
+---
+
+### 3. Programmatic Python API
+
 ```python
+# A. Multimodal Search
+from semantic_search.search import search, search_by_image
+
+# Natural Language Search
+results = search(query="coastal harbor and shipping port", top_k=5)
+
+# Image-to-Image Similarity Search
+img_results = search_by_image(image="query_crop.png", top_k=5)
+
+# B. Temporal Change Detective with JIT QA Masking
 from detective_api import compare_tiles
 
 report = compare_tiles(
@@ -145,7 +144,6 @@ report = compare_tiles(
 )
 
 print(f"Mode Used: {report['mode_used']}")
-print(f"QA Suppressed Pixels: {report['qa_suppression']['suppressed_pixels']}")
 print(f"Changes Detected: {report['target_count']}")
 for target in report['detected_targets']:
     print(f" - BBox: {target['bbox']} | Transition: {target['semantic_transition']['transition']}")
@@ -153,18 +151,11 @@ for target in report['detected_targets']:
 
 ---
 
-## 📊 Evaluation & Benchmarks
-
-- **Semantic Retrieval:** **0.9333 MRR** / **86.7% Top-1 Accuracy** across human-annotated ground-truth test collections ([`data/evaluation/retrieval_metrics.json`](data/evaluation/retrieval_metrics.json)).
-- **Temporal Detection:** Sub-pixel contour extraction with zero cloud-edge false alarms verified on multi-year Sentinel-2 pairs (2024–2026).
-- **Inference Speed:** Pre-quantized PyTorch BIT Transformer + RemoteCLIP runs under 1.2s on standard multi-core laptop CPUs ($0 cloud compute cost).
-
----
-
 ## 📄 Interactive Presentation & Technical Reports
 
 - **Interactive Presentation Deck:** Open [`presentation/index.html`](presentation/index.html) in any browser (16:9 interactive SIH slide deck with live modals & PDF export).
-- **Junction Audit PDF Report:** [`TriNetraAI_Complete_Junction_Audit.pdf`](TriNetraAI_Complete_Junction_Audit.pdf).
+- **Master Junction Audit PDF:** [`TriNetraAI_Complete_Junction_Audit.pdf`](TriNetraAI_Complete_Junction_Audit.pdf).
+- **Defense Project Flow & 3D Web Prompt PDF:** [`TriNetraAI_Project_Flow_and_3D_Defense_Prompt.pdf`](TriNetraAI_Project_Flow_and_3D_Defense_Prompt.pdf).
 
 ---
 *Built with ❤️ for Smart India Hackathon 2026.*
