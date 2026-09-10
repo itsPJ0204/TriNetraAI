@@ -1,0 +1,1416 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>TRINETRA AI // त्रिनेत्र AI — BHARAT SAT-INTEL</title>
+<!-- Google Fonts: Space Grotesk & JetBrains Mono & Inter -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;family=Space+Grotesk:wght@500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS CDN with forms and container queries -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration verbatim as mandated -->
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface-dim": "#0c1320",
+            "secondary": "#4edea3",
+            "error": "#ffb4ab",
+            "surface-tint": "#00daf3",
+            "surface-variant": "#2e3543",
+            "primary-fixed": "#9cf0ff",
+            "surface-container": "#19202d",
+            "inverse-primary": "#006875",
+            "inverse-surface": "#dce2f5",
+            "on-primary-fixed": "#001f24",
+            "on-primary": "#00363d",
+            "primary-fixed-dim": "#00daf3",
+            "on-secondary": "#003824",
+            "tertiary": "#ffecbb",
+            "on-primary-container": "#00626e",
+            "surface-bright": "#323948",
+            "tertiary-container": "#f4cd52",
+            "on-tertiary": "#3c2f00",
+            "on-error-container": "#ffdad6",
+            "on-error": "#690005",
+            "inverse-on-surface": "#2a303f",
+            "error-container": "#93000a",
+            "secondary-container": "#00a572",
+            "on-surface": "#dce2f5",
+            "on-background": "#dce2f5",
+            "primary-container": "#00e5ff",
+            "on-primary-fixed-variant": "#004f58",
+            "outline-variant": "#3b494c",
+            "surface": "#0c1320",
+            "on-tertiary-container": "#6d5600",
+            "tertiary-fixed-dim": "#e9c349",
+            "on-secondary-container": "#00311f",
+            "on-tertiary-fixed": "#241a00",
+            "on-secondary-fixed-variant": "#005236",
+            "surface-container-high": "#232a38",
+            "secondary-fixed-dim": "#4edea3",
+            "on-surface-variant": "#bac9cc",
+            "surface-container-low": "#151c29",
+            "primary": "#c3f5ff",
+            "on-tertiary-fixed-variant": "#574500",
+            "background": "#0c1320",
+            "surface-container-lowest": "#070e1b",
+            "tertiary-fixed": "#ffe088",
+            "outline": "#849396",
+            "surface-container-highest": "#2e3543",
+            "secondary-fixed": "#6ffbbe",
+            "on-secondary-fixed": "#002113"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "unit-xl": "1.5rem",
+            "telemetry-panel-width": "24rem",
+            "unit-lg": "1rem",
+            "unit-md": "0.75rem",
+            "unit-2xl": "2rem",
+            "grid-gutter": "0.5rem",
+            "unit-xs": "0.25rem",
+            "unit-sm": "0.5rem",
+            "unit-2xs": "0.125rem",
+            "grid-margin": "1rem",
+            "hud-rail-width": "3.5rem"
+          },
+          "fontFamily": {
+            "headline-xl": ["Space Grotesk"],
+            "body-lg": ["Inter"],
+            "label-lg": ["JetBrains Mono"],
+            "headline-xl-mobile": ["Space Grotesk"],
+            "code-telemetry": ["JetBrains Mono"],
+            "label-md": ["JetBrains Mono"],
+            "headline-md": ["Space Grotesk"],
+            "headline-lg": ["Space Grotesk"],
+            "body-sm": ["Inter"],
+            "headline-lg-mobile": ["Space Grotesk"],
+            "label-sm": ["JetBrains Mono"],
+            "body-md": ["Inter"]
+          },
+          "fontSize": {
+            "headline-xl": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+            "label-lg": ["13px", { "lineHeight": "18px", "letterSpacing": "0.06em", "fontWeight": "500" }],
+            "headline-xl-mobile": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+            "code-telemetry": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "400" }],
+            "label-md": ["11px", { "lineHeight": "16px", "letterSpacing": "0.08em", "fontWeight": "500" }],
+            "headline-md": ["22px", { "lineHeight": "28px", "letterSpacing": "0em", "fontWeight": "600" }],
+            "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+            "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+            "label-sm": ["10px", { "lineHeight": "14px", "letterSpacing": "0.1em", "fontWeight": "600" }],
+            "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    /* Custom scanline HUD aesthetics */
+    .hud-grid-bg {
+      background-size: 32px 32px;
+      background-image: 
+        linear-gradient(to right, rgba(0, 229, 255, 0.04) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0, 229, 255, 0.04) 1px, transparent 1px);
+    }
+    .hud-bracket-tl {
+      position: relative;
+    }
+    .hud-bracket-tl::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      width: 8px;
+      height: 8px;
+      border-top: 2px solid #00e5ff;
+      border-left: 2px solid #00e5ff;
+      pointer-events: none;
+    }
+    .hud-bracket-br::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      right: -2px;
+      width: 8px;
+      height: 8px;
+      border-bottom: 2px solid #00e5ff;
+      border-right: 2px solid #00e5ff;
+      pointer-events: none;
+    }
+    .terminal-cursor {
+      display: inline-block;
+      width: 7px;
+      height: 14px;
+      background-color: #00e5ff;
+      animation: blink 1s step-start infinite;
+      vertical-align: middle;
+      margin-left: 4px;
+    }
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+    /* Draggable change comparison slider thumb styling */
+    input[type=range]::-webkit-slider-thumb {
+      appearance: none;
+      width: 28px;
+      height: 28px;
+      background: #00e5ff;
+      border: 2px solid #070e1b;
+      cursor: ew-resize;
+      box-shadow: 0 0 12px #00e5ff;
+      border-radius: 2px;
+    }
+  </style>
+</head>
+<body class="bg-surface-container-lowest text-on-surface antialiased selection:bg-primary-container selection:text-surface-container-lowest min-h-screen relative font-body-md overflow-x-hidden">
+<!-- ==================== TOP NAVIGATION BAR ==================== -->
+<header class="fixed top-0 left-0 w-full z-50 flex flex-col justify-between items-center px-4 py-2 bg-surface-dim/90 backdrop-blur-md border-b border-outline-variant/40 shadow-[0_4px_24px_rgba(0,229,255,0.06)]">
+<div class="w-full flex items-center justify-between gap-4">
+<!-- Brand & Indian Tri-Services Insignia Badge -->
+<div class="flex items-center gap-3">
+<!-- Tricolour Emblem Anchor -->
+<div class="flex items-center space-x-0.5 px-2 py-1 bg-surface-container-lowest border border-outline-variant/50 rounded-sm">
+<div class="w-1.5 h-4 bg-[#FF9933] rounded-2xs"></div>
+<div class="w-1.5 h-4 bg-[#FFFFFF] flex items-center justify-center">
+<span class="w-1 h-1 rounded-full bg-[#000080]"></span>
+</div>
+<div class="w-1.5 h-4 bg-[#128807] rounded-2xs"></div>
+<span class="font-label-sm text-label-sm text-primary-fixed ml-2 tracking-widest uppercase font-bold">BHARAT SAT-INTEL</span>
+</div>
+<div class="h-4 w-px bg-outline-variant/50 hidden sm:block"></div>
+<span class="font-headline-md text-headline-md font-bold tracking-wider text-primary uppercase hidden md:inline">
+          TRINETRA AI // त्रिनेत्र AI
+        </span>
+</div>
+<!-- Center Desktop Navigation cluster -->
+<nav class="hidden xl:flex items-center gap-6">
+<a class="border-b-2 border-primary-container text-primary-container font-semibold font-label-md text-label-md py-1" href="#hero">
+          Mission Overview
+        </a>
+<a class="text-on-surface-variant hover:text-primary font-medium tracking-wide font-label-md text-label-md py-1 transition-colors duration-150" href="#semantic-search">
+          Vector Search
+        </a>
+<a class="text-on-surface-variant hover:text-primary font-medium tracking-wide font-label-md text-label-md py-1 transition-colors duration-150" href="#candidate-tiles" onclick="ensureSuiteVisibleAndScroll('candidate-tiles')">
+          Candidate Tiles
+        </a>
+<a class="text-on-surface-variant hover:text-primary font-medium tracking-wide font-label-md text-label-md py-1 transition-colors duration-150" href="#image-search">
+          Image Search
+        </a>
+<a class="text-on-surface-variant hover:text-primary font-medium tracking-wide font-label-md text-label-md py-1 transition-colors duration-150" href="#image-viewer" onclick="ensureSuiteVisibleAndScroll('image-viewer')">
+          Target Classification
+        </a>
+<a class="text-on-surface-variant hover:text-primary font-medium tracking-wide font-label-md text-label-md py-1 transition-colors duration-150" href="#change-wiper" onclick="ensureSuiteVisibleAndScroll('change-wiper')">
+          Temporal Wiper
+        </a>
+<a class="text-on-surface-variant hover:text-primary font-medium tracking-wide font-label-md text-label-md py-1 transition-colors duration-150" href="#audit-log" onclick="ensureSuiteVisibleAndScroll('audit-log')">
+          Audit Log
+        </a>
+</nav>
+<!-- Trailing Status Badges & Quick Action -->
+<div class="flex items-center gap-2 sm:gap-3">
+<!-- Air-Gap Status Indicator -->
+<div class="hidden sm:flex items-center gap-1.5 px-2.5 py-1 bg-surface-container-high/60 border border-secondary-container/40 rounded-sm">
+<span class="w-2 h-2 rounded-full bg-secondary-fixed animate-pulse"></span>
+<span class="font-label-sm text-label-sm text-secondary tracking-wider font-semibold">● OFFLINE SYSTEM ACTIVE</span>
+</div>
+<!-- DEFCON Status Pill -->
+<div class="px-2.5 py-1 bg-surface-container-lowest border border-primary-container/40 rounded-sm">
+<span class="font-label-sm text-label-sm text-primary-container tracking-widest font-semibold">DEFCON 2 // ENGAGE</span>
+</div>
+<!-- Trailing System Icon Actions -->
+<div class="flex items-center gap-1 text-on-surface-variant">
+<button class="p-1.5 hover:bg-surface-container-high/60 hover:text-primary rounded-sm transition-colors duration-150" title="Security Enclave">
+<span class="material-symbols-outlined text-[18px]">security</span>
+</button>
+<button class="p-1.5 hover:bg-surface-container-high/60 hover:text-primary rounded-sm transition-colors duration-150" title="Satellite Constellation Link">
+<span class="material-symbols-outlined text-[18px]">satellite_alt</span>
+</button>
+<button class="p-1.5 hover:bg-surface-container-high/60 hover:text-primary rounded-sm transition-colors duration-150" title="Direct Target Terminal">
+<span class="material-symbols-outlined text-[18px]">terminal</span>
+</button>
+</div>
+</div>
+</div>
+</header>
+<!-- ==================== SECTION 1: HERO VIEWPORT (CINEMATIC ORBITAL INSIGHT ARCHITECTURE) ==================== -->
+<section class="relative w-full min-h-screen pt-20 flex flex-col justify-between overflow-hidden bg-surface-container-lowest border-b border-outline-variant/30" id="hero">
+<!-- Photorealistic Earth Horizon & Constellation Image Layer -->
+<div class="absolute inset-0 z-0">
+<img alt="Cinematic Earth Horizon from Orbit with Indian Subcontinent and Reconnaissance Satellites" class="w-full h-full object-cover object-center opacity-85 scale-100 filter brightness-95 contrast-110" src="public/images/hero_earth.png" onerror="this.src='images/hero_earth.png'"/>
+<!-- Gradient Overlays: Top dark void blend and bottom telemetry blend -->
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-dim/40 to-surface-container-lowest/80"></div>
+<div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_transparent_20%,_rgba(7,14,27,0.75)_80%)]"></div>
+</div>
+<!-- Atmospheric Grid Reticle Canvas HUD Lines -->
+<div class="absolute inset-0 z-10 pointer-events-none hud-grid-bg opacity-30"></div>
+<!-- Center Hero Content Container -->
+<div class="relative z-20 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-20 my-auto flex flex-col items-center text-center">
+<!-- Classification Banner -->
+<div class="inline-flex items-center gap-2 px-3 py-1 bg-surface-container-lowest/90 border border-primary-container/40 rounded-sm mb-6 backdrop-blur-md shadow-[0_0_15px_rgba(0,229,255,0.15)]">
+<span class="material-symbols-outlined text-primary-container text-sm">lock</span>
+<span class="font-label-sm text-label-sm text-primary-fixed uppercase tracking-widest font-semibold">
+          RESTRICTED C4ISR // DEFENCE SPACE AGENCY AIR-GAPPED WORKSTATION
+        </span>
+</div>
+<!-- Main Typography Hierarchy -->
+<h1 class="font-headline-xl md:text-[68px] md:leading-[74px] text-headline-xl-mobile font-bold tracking-tight text-white mb-3 drop-shadow-[0_4px_16px_rgba(0,0,0,0.8)]">
+        TriNetra AI
+      </h1>
+<p class="font-label-lg text-label-lg tracking-[0.15em] text-primary uppercase font-semibold mb-6">
+        Semantic Retrieval and Multi-Temporal Change Analysis of Satellite Imagery
+      </p>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-3xl mb-10 leading-relaxed drop-shadow-md">
+        Autonomous Space-Based Multi-Spectral Intelligence, Real-Time Bitemporal Change Wiper, and Air-Gapped Geospatial Vector Search for National Reconnaissance.
+      </p>
+<!-- Command CTA Cluster -->
+<div class="flex flex-wrap items-center justify-center gap-4 mb-12">
+<a class="hud-bracket-tl hud-bracket-br relative px-8 py-3.5 bg-primary-container/15 hover:bg-primary-container text-primary-container hover:text-surface-container-lowest border border-primary-container font-label-md text-label-md font-bold tracking-widest uppercase transition-all duration-200 shadow-[0_0_20px_rgba(0,229,255,0.25)] flex items-center gap-2 group" href="#semantic-search">
+<span class="material-symbols-outlined text-[18px] group-hover:rotate-45 transition-transform duration-300">file_download_done</span>
+          [ ENTER COMMAND CENTER ]
+        </a>
+<a class="px-8 py-3.5 bg-surface-container/60 hover:bg-surface-container-high border border-outline-variant/60 text-on-surface hover:text-primary font-label-md text-label-md font-semibold tracking-wider uppercase backdrop-blur-md transition-all duration-150 flex items-center gap-2" href="#image-search">
+<span class="material-symbols-outlined text-[18px]">image_search</span>
+          [ IMAGE SEARCH ]
+        </a>
+</div>
+<!-- Hero Telemetry Status Strip -->
+<div class="w-full max-w-4xl bg-surface-container-lowest/80 border border-outline-variant/50 backdrop-blur-md py-2.5 px-6 rounded-sm flex flex-wrap items-center justify-between gap-4 font-code-telemetry text-code-telemetry text-on-surface-variant">
+<div class="flex items-center gap-2">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span>
+<span>FAISS VECTORS: <strong class="text-primary">68,920 TILES INDEXED</strong></span>
+</div>
+<div class="hidden sm:block text-outline-variant">|</div>
+<div class="flex items-center gap-2">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+<span>RES: <strong class="text-on-surface">SUB-0.25M / 10M MSI</strong></span>
+</div>
+<div class="hidden sm:block text-outline-variant">|</div>
+<div class="flex items-center gap-2">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary-fixed"></span>
+<span>AIR-GAP STATE: <strong class="text-secondary-fixed">ISOLATED ENCLAVE</strong></span>
+</div>
+</div>
+</div>
+<!-- Orbital Telemetry Bottom Readouts -->
+<div class="relative z-20 w-full bg-surface-dim/90 border-t border-outline-variant/30 px-6 py-2 flex flex-wrap justify-between items-center font-code-telemetry text-code-telemetry text-outline">
+<div class="flex items-center gap-4">
+<span>CONSTELLATION: CARTOSAT-3 / RISAT-2BR1 / SENTINEL-2A</span>
+<span class="hidden md:inline text-outline-variant">•</span>
+<span class="hidden md:inline">SUB-SATELLITE POINT: 18°55'N 72°50'E</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="text-primary-container">SAR ACTIVE // POLAR X-BAND</span>
+<span class="text-secondary">ORBIT VELOCITY: 7.62 KM/S</span>
+</div>
+</div>
+</section>
+<!-- ==================== SECTION 2: NATURAL LANGUAGE SEMANTIC SEARCH & 8-STAGE PIPELINE ==================== -->
+<section class="w-full py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-b border-outline-variant/20" id="semantic-search">
+<!-- Section Header Micro-badge -->
+<div class="flex items-center justify-between mb-8 pb-3 border-b border-outline-variant/30">
+<div>
+<div class="flex items-center gap-2 mb-1">
+<span class="w-2 h-2 bg-primary-container"></span>
+<span class="font-label-sm text-label-sm text-primary-container uppercase tracking-widest font-semibold">MODULE // 01</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg font-bold text-white tracking-tight">
+          Natural Language Semantic Vector Search
+        </h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">
+          Translate complex military reconnaissance queries into sub-second FAISS geospatial vector searches entirely offline.
+        </p>
+</div>
+<div class="hidden lg:flex items-center gap-3 font-code-telemetry text-code-telemetry text-primary-fixed bg-surface-container-high/40 px-3 py-1.5 border border-outline-variant/40 rounded-sm">
+<span class="material-symbols-outlined text-sm text-primary-container">memory</span>
+        EMBEDDING MODEL: CLIP-ViT-L/14 MIL-GEOINT
+      </div>
+</div>
+<!-- Interactive Terminal Search Bar -->
+<div class="hud-bracket-tl hud-bracket-br relative bg-surface-container-low/90 border border-primary-container/40 p-3 sm:p-4 rounded-sm mb-6 backdrop-blur-xl shadow-[0_0_24px_rgba(0,229,255,0.08)]">
+<div class="flex flex-col md:flex-row items-stretch md:items-center gap-3">
+<!-- Terminal Prompt Glyph -->
+<div class="flex items-center gap-2 text-primary-container font-code-telemetry text-sm px-2">
+<span class="material-symbols-outlined text-[20px]">terminal</span>
+<span class="font-bold">QUERY_MGRS&gt;</span>
+</div>
+<!-- Input Display with Pre-filled string -->
+<div class="flex-1 bg-surface-container-lowest/80 border border-outline-variant/40 px-4 py-2.5 rounded-sm flex items-center">
+<input class="bg-transparent border-0 text-white font-code-telemetry text-code-telemetry sm:text-body-md w-full focus:ring-0 focus:outline-none p-0 tracking-wide select-all" readonly="" type="text" value="Find large camps and tanks near rivers from 2020 to 2023"/>
+<span class="terminal-cursor"></span>
+</div>
+<!-- Execute Vector Search Button -->
+<button onclick="executeVectorSearch()" class="px-6 py-2.5 bg-primary-container hover:bg-primary text-surface-container-lowest font-label-md text-label-md font-bold tracking-widest uppercase transition-all duration-150 flex items-center justify-center gap-2 shadow-[0_0_12px_rgba(0,229,255,0.3)] cursor-pointer">
+<span class="material-symbols-outlined text-base">saved_search</span>
+          [ VECTOR EXECUTE ]
+        </button>
+</div>
+</div>
+<!-- Preset Query Badges -->
+<div class="flex flex-wrap items-center gap-2 mb-6 font-code-telemetry text-[11px]">
+  <span class="text-outline uppercase text-[10px]">PRESETS:</span>
+  <button onclick="executeVectorSearch('Find large camps and tanks near rivers from 2020 to 2023')" class="px-2.5 py-1 bg-surface-container border border-outline-variant/40 hover:border-primary-container text-on-surface-variant hover:text-primary rounded-sm transition-colors cursor-pointer">
+    "Find large camps and tanks near rivers from 2020 to 2023"
+  </button>
+  <button onclick="executeVectorSearch('Detect artillery revetments within 1km of LAC')" class="px-2.5 py-1 bg-surface-container border border-outline-variant/40 hover:border-primary-container text-on-surface-variant hover:text-primary rounded-sm transition-colors cursor-pointer">
+    "Detect artillery revetments within 1km of LAC"
+  </button>
+  <button onclick="executeVectorSearch('Monitor forward airstrip and runway apron expansions')" class="px-2.5 py-1 bg-surface-container border border-outline-variant/40 hover:border-primary-container text-on-surface-variant hover:text-primary rounded-sm transition-colors cursor-pointer">
+    "Monitor forward airstrip and runway apron expansions"
+  </button>
+</div>
+<!-- Visual Query Understanding Decomposition Breakdown -->
+<div class="bg-surface-container-lowest border border-outline-variant/30 p-4 rounded-sm mb-12">
+<div class="flex items-center justify-between mb-3">
+<span class="font-label-sm text-label-sm text-outline uppercase tracking-wider font-semibold">
+          AI QUERY INTENT EXTRACTION &amp; TOKENIZED CONSTRAINTS
+        </span>
+<span class="font-code-telemetry text-label-sm text-secondary">4 SLOTS RESOLVED</span>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+<!-- Chip 1: Objects -->
+<div class="p-3 bg-surface-container-low border-l-2 border-primary-container border-t border-r border-b border-outline-variant/30">
+<div class="font-label-sm text-label-sm text-outline-variant uppercase">Target Class</div>
+<div class="font-label-md text-label-md text-primary-fixed mt-1 font-bold">[Camp, Armor / Tank]</div>
+</div>
+<!-- Chip 2: Scale -->
+<div class="p-3 bg-surface-container-low border-l-2 border-primary-container border-t border-r border-b border-outline-variant/30">
+<div class="font-label-sm text-label-sm text-outline-variant uppercase">Formation Scale</div>
+<div class="font-label-md text-label-md text-primary-fixed mt-1 font-bold">[Large Formations &gt; 12 Bldgs]</div>
+</div>
+<!-- Chip 3: Temporal Range -->
+<div class="p-3 bg-surface-container-low border-l-2 border-secondary-container border-t border-r border-b border-outline-variant/30">
+<div class="font-label-sm text-label-sm text-outline-variant uppercase">Temporal Epoch</div>
+<div class="font-label-md text-label-md text-secondary mt-1 font-bold">[2020-01-01 to 2023-12-31]</div>
+</div>
+<!-- Chip 4: Spatial Constraint -->
+<div class="p-3 bg-surface-container-low border-l-2 border-tertiary-container border-t border-r border-b border-outline-variant/30">
+<div class="font-label-sm text-label-sm text-outline-variant uppercase">GIS Riparian Buffer</div>
+<div class="font-label-md text-label-md text-tertiary mt-1 font-bold">[River Channel &lt; 500m]</div>
+</div>
+</div>
+</div>
+<!-- 8-Stage Processing Pipeline Horizontal Stepper Grid -->
+<div>
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-primary-container text-sm">conversion_path</span>
+<h3 class="font-headline-md text-headline-md font-semibold text-white">8-Stage Autonomous Pipeline Architecture</h3>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+<!-- Stage 1 -->
+<div class="p-3 bg-surface-container-low/60 border border-outline-variant/40 rounded-sm hover:border-primary-container/50 transition-colors">
+<div class="flex items-center justify-between text-outline mb-1.5">
+<span class="font-code-telemetry text-label-sm text-primary-container font-bold">01 // NLP</span>
+<span class="material-symbols-outlined text-xs text-secondary">check_circle</span>
+</div>
+<h4 class="font-label-md text-label-md text-white font-bold">Query Parsing</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Extracts named entities, temporal clauses, and spatial attributes.</p>
+</div>
+<!-- Stage 2 -->
+<div class="p-3 bg-surface-container-low/60 border border-outline-variant/40 rounded-sm hover:border-primary-container/50 transition-colors">
+<div class="flex items-center justify-between text-outline mb-1.5">
+<span class="font-code-telemetry text-label-sm text-primary-container font-bold">02 // EMBED</span>
+<span class="material-symbols-outlined text-xs text-secondary">check_circle</span>
+</div>
+<h4 class="font-label-md text-label-md text-white font-bold">Vector Tokenizer</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Generates 768-dimensional multimodal tactical space embeddings.</p>
+</div>
+<!-- Stage 3 -->
+<div class="p-3 bg-surface-container-low/60 border border-outline-variant/40 rounded-sm hover:border-primary-container/50 transition-colors">
+<div class="flex items-center justify-between text-outline mb-1.5">
+<span class="font-code-telemetry text-label-sm text-primary-container font-bold">03 // INDEX</span>
+<span class="material-symbols-outlined text-xs text-secondary">check_circle</span>
+</div>
+<h4 class="font-label-md text-label-md text-white font-bold">FAISS Vector Search</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Scans 68,920 local HNSW graph nodes in under 42 milliseconds.</p>
+</div>
+<!-- Stage 4 -->
+<div class="p-3 bg-surface-container-low/60 border border-outline-variant/40 rounded-sm hover:border-primary-container/50 transition-colors">
+<div class="flex items-center justify-between text-outline mb-1.5">
+<span class="font-code-telemetry text-label-sm text-primary-container font-bold">04 // GRID</span>
+<span class="material-symbols-outlined text-xs text-secondary">check_circle</span>
+</div>
+<h4 class="font-label-md text-label-md text-white font-bold">MGRS Geospatial Filter</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Spatial bounding box clipping across UTM zones 43N &amp; 44N.</p>
+</div>
+<!-- Stage 5 -->
+<div class="p-3 bg-surface-container-low/60 border border-outline-variant/40 rounded-sm hover:border-primary-container/50 transition-colors">
+<div class="flex items-center justify-between text-outline mb-1.5">
+<span class="font-code-telemetry text-label-sm text-primary-container font-bold">05 // HYDRO</span>
+<span class="material-symbols-outlined text-xs text-secondary">check_circle</span>
+</div>
+<h4 class="font-label-md text-label-md text-white font-bold">GIS Proximity Buffer</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Executes rasterized NDWI river channel boundary radius masking.</p>
+</div>
+<!-- Stage 6 -->
+<div class="p-3 bg-surface-container-low/60 border border-outline-variant/40 rounded-sm hover:border-primary-container/50 transition-colors">
+<div class="flex items-center justify-between text-outline mb-1.5">
+<span class="font-code-telemetry text-label-sm text-primary-container font-bold">06 // TIME</span>
+<span class="material-symbols-outlined text-xs text-secondary">check_circle</span>
+</div>
+<h4 class="font-label-md text-label-md text-white font-bold">Bitemporal Match</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Correlates baseline T0 (2020) imagery with current T1 (2023) pass.</p>
+</div>
+<!-- Stage 7 -->
+<div class="p-3 bg-surface-container-low/60 border border-outline-variant/40 rounded-sm hover:border-primary-container/50 transition-colors">
+<div class="flex items-center justify-between text-outline mb-1.5">
+<span class="font-code-telemetry text-label-sm text-primary-container font-bold">07 // INFER</span>
+<span class="material-symbols-outlined text-xs text-secondary">check_circle</span>
+</div>
+<h4 class="font-label-md text-label-md text-white font-bold">YOLOv8 Optical Detector</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Multi-class military asset identification and pixel bounding boxes.</p>
+</div>
+<!-- Stage 8 -->
+<div class="p-3 bg-surface-container-low/60 border border-outline-variant/40 rounded-sm hover:border-primary-container/50 transition-colors">
+<div class="flex items-center justify-between text-outline mb-1.5">
+<span class="font-code-telemetry text-label-sm text-primary-container font-bold">08 // AUDIT</span>
+<span class="material-symbols-outlined text-xs text-secondary">check_circle</span>
+</div>
+<h4 class="font-label-md text-label-md text-white font-bold">Provenance &amp; QA Ledger</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Air-gap SHA-256 cryptographic verification for analyst review.</p>
+</div>
+</div>
+</section>
+<!-- ==================== SECTION 3: CANDIDATE TILES & GEOSPATIAL INTELLIGENCE (COMES BEFORE IMAGE SEARCH) ==================== -->
+<div id="candidate-tiles-container" class="hidden">
+<section class="w-full py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-b border-outline-variant/20" id="candidate-tiles">
+<!-- Controls Bar -->
+<div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-8 pb-4 border-b border-outline-variant/30">
+<div>
+<div class="flex items-center gap-2 mb-1">
+<span class="w-2 h-2 bg-primary-container"></span>
+<span class="font-label-sm text-label-sm text-primary-container uppercase tracking-widest font-semibold">MODULE // 02</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg font-bold text-white tracking-tight">
+          Ranked Candidate Tiles // Geospatial Grid
+        </h2>
+</div>
+<!-- Tactical Mode & Presets -->
+<div class="flex flex-wrap items-center gap-3">
+<!-- Theater Presets -->
+<div class="flex items-center gap-1.5 overflow-x-auto">
+<button class="px-2.5 py-1 bg-surface-container-high border border-primary-container/50 text-primary font-label-sm text-label-sm">
+            Ladakh LAC
+          </button>
+<button class="px-2.5 py-1 bg-surface-container-lowest border border-outline-variant/40 text-on-surface-variant hover:text-white font-label-sm text-label-sm">
+            Arunachal LAC
+          </button>
+<button class="px-2.5 py-1 bg-surface-container-lowest border border-outline-variant/40 text-on-surface-variant hover:text-white font-label-sm text-label-sm">
+            Sir Creek
+          </button>
+<button class="px-2.5 py-1 bg-surface-container-lowest border border-outline-variant/40 text-on-surface-variant hover:text-white font-label-sm text-label-sm">
+            Doklam
+          </button>
+</div>
+</div>
+</div>
+<!-- Candidate Tiles Bento Cards Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Tile 1: T027 (Sentinel-2 MSI) -->
+<div class="hud-bracket-tl hud-bracket-br relative bg-surface-container-low/70 border border-primary-container/40 p-4 rounded-sm flex flex-col justify-between backdrop-blur-md hover:border-primary-container transition-all">
+<div>
+<div class="flex items-center justify-between pb-3 border-b border-outline-variant/30 mb-3">
+<div class="flex items-center gap-2">
+<span class="font-code-telemetry text-primary-container font-bold">TILE ID: T027</span>
+<span class="px-1.5 py-0.5 bg-secondary-container/20 text-secondary border border-secondary-container/40 font-label-sm text-[9px] uppercase font-bold">VERIFIED</span>
+</div>
+<span class="font-code-telemetry text-label-md text-primary font-bold">92% SIMILARITY</span>
+</div>
+<!-- Synthetic HUD Satellite preview tile graphic -->
+<div class="relative w-full h-40 bg-surface-container-lowest border border-outline-variant/40 mb-4 overflow-hidden flex items-center justify-center">
+<div class="absolute inset-0 hud-grid-bg opacity-40"></div>
+<!-- Crosshair vector lines -->
+<div class="absolute inset-x-0 top-1/2 h-px bg-primary-container/20"></div>
+<div class="absolute inset-y-0 left-1/2 w-px bg-primary-container/20"></div>
+<!-- Bounding indicator -->
+<div class="absolute w-20 h-16 border border-primary-container/80 bg-primary-container/10 flex flex-col justify-between p-1">
+<span class="text-[8px] font-code-telemetry text-primary-container">CAMP_CLUSTER</span>
+<span class="text-[8px] font-code-telemetry text-secondary self-end">91.4%</span>
+</div>
+<div class="absolute bottom-2 left-2 font-code-telemetry text-[10px] text-outline">
+              LAT 22.57°N / 88.36°E
+            </div>
+<div class="absolute top-2 right-2 px-1.5 py-0.5 bg-surface-dim/80 text-primary-container font-label-sm text-[9px] border border-primary-container/30">
+              SENTINEL-2 MSI
+            </div>
+</div>
+<div class="space-y-1.5 font-code-telemetry text-body-sm text-on-surface-variant mb-4">
+<div class="flex justify-between">
+<span class="text-outline">ACQUISITION:</span>
+<span class="text-white">14 JUN 2023</span>
+</div>
+<div class="flex justify-between">
+<span class="text-outline">DETECTED:</span>
+<span class="text-primary-fixed font-bold">18 Camps, 4 Tanks</span>
+</div>
+<div class="flex justify-between">
+<span class="text-outline">WATER PROXIMITY:</span>
+<span class="text-secondary font-bold">320m (COMPLIANT)</span>
+</div>
+</div>
+</div>
+<button onclick="ensureSuiteVisibleAndScroll('image-viewer')" class="w-full py-2 bg-surface-container hover:bg-primary-container hover:text-surface-container-lowest text-primary font-label-sm text-label-sm font-bold tracking-wider uppercase border border-primary-container/40 transition-colors flex items-center justify-center gap-1.5 cursor-pointer">
+<span class="material-symbols-outlined text-sm">visibility</span>
+          INSPECT TILE DETAILS
+        </button>
+</div>
+<!-- Tile 2: T084 (Cartosat-3 PAN) -->
+<div class="hud-bracket-tl hud-bracket-br relative bg-surface-container-low/70 border border-tertiary-container/40 p-4 rounded-sm flex flex-col justify-between backdrop-blur-md hover:border-tertiary-container transition-all">
+<div>
+<div class="flex items-center justify-between pb-3 border-b border-outline-variant/30 mb-3">
+<div class="flex items-center gap-2">
+<span class="font-code-telemetry text-tertiary-container font-bold">TILE ID: T084</span>
+<span class="px-1.5 py-0.5 bg-tertiary-container/20 text-tertiary border border-tertiary-container/40 font-label-sm text-[9px] uppercase font-bold">HIGH ANOMALY</span>
+</div>
+<span class="font-code-telemetry text-label-md text-tertiary font-bold">89% SIMILARITY</span>
+</div>
+<!-- Synthetic HUD Satellite preview tile graphic -->
+<div class="relative w-full h-40 bg-surface-container-lowest border border-outline-variant/40 mb-4 overflow-hidden flex items-center justify-center">
+<div class="absolute inset-0 hud-grid-bg opacity-40"></div>
+<div class="absolute inset-x-0 top-1/2 h-px bg-tertiary-container/20"></div>
+<div class="absolute inset-y-0 left-1/2 w-px bg-tertiary-container/20"></div>
+<!-- Bounding indicator -->
+<div class="absolute w-24 h-20 border border-tertiary-container/80 bg-tertiary-container/10 flex flex-col justify-between p-1">
+<span class="text-[8px] font-code-telemetry text-tertiary-container">FORTIFIED_STAGING</span>
+<span class="text-[8px] font-code-telemetry text-tertiary self-end">88.9%</span>
+</div>
+<div class="absolute bottom-2 left-2 font-code-telemetry text-[10px] text-outline">
+              LAT 34.15°N / 77.58°E
+            </div>
+<div class="absolute top-2 right-2 px-1.5 py-0.5 bg-surface-dim/80 text-tertiary font-label-sm text-[9px] border border-tertiary-container/30">
+              CARTOSAT-3 PAN
+            </div>
+</div>
+<div class="space-y-1.5 font-code-telemetry text-body-sm text-on-surface-variant mb-4">
+<div class="flex justify-between">
+<span class="text-outline">ACQUISITION:</span>
+<span class="text-white">08 MAY 2023</span>
+</div>
+<div class="flex justify-between">
+<span class="text-outline">DETECTED:</span>
+<span class="text-tertiary-fixed font-bold">Fortified Staging Grid</span>
+</div>
+<div class="flex justify-between">
+<span class="text-outline">WATER PROXIMITY:</span>
+<span class="text-secondary font-bold">410m (COMPLIANT)</span>
+</div>
+</div>
+</div>
+<button onclick="ensureSuiteVisibleAndScroll('image-viewer')" class="w-full py-2 bg-surface-container hover:bg-tertiary-container hover:text-surface-container-lowest text-tertiary font-label-sm text-label-sm font-bold tracking-wider uppercase border border-tertiary-container/40 transition-colors flex items-center justify-center gap-1.5 cursor-pointer">
+<span class="material-symbols-outlined text-sm">visibility</span>
+          INSPECT TILE DETAILS
+        </button>
+</div>
+<!-- Tile 3: T119 (RISAT-2BR1 SAR) -->
+<div class="hud-bracket-tl hud-bracket-br relative bg-surface-container-low/70 border border-outline-variant/40 p-4 rounded-sm flex flex-col justify-between backdrop-blur-md hover:border-primary-container transition-all">
+<div>
+<div class="flex items-center justify-between pb-3 border-b border-outline-variant/30 mb-3">
+<div class="flex items-center gap-2">
+<span class="font-code-telemetry text-primary-fixed font-bold">TILE ID: T119</span>
+<span class="px-1.5 py-0.5 bg-surface-container-high text-outline border border-outline-variant font-label-sm text-[9px] uppercase font-bold">MONITORED</span>
+</div>
+<span class="font-code-telemetry text-label-md text-primary font-bold">86% SIMILARITY</span>
+</div>
+<!-- Synthetic HUD Satellite preview tile graphic -->
+<div class="relative w-full h-40 bg-surface-container-lowest border border-outline-variant/40 mb-4 overflow-hidden flex items-center justify-center">
+<div class="absolute inset-0 hud-grid-bg opacity-40"></div>
+<div class="absolute inset-x-0 top-1/2 h-px bg-primary-container/20"></div>
+<div class="absolute inset-y-0 left-1/2 w-px bg-primary-container/20"></div>
+<!-- Bounding indicator -->
+<div class="absolute w-28 h-12 border border-primary-container/60 bg-primary-container/5 flex flex-col justify-between p-1">
+<span class="text-[8px] font-code-telemetry text-primary-fixed">REINFORCED_APRON</span>
+<span class="text-[8px] font-code-telemetry text-secondary self-end">86.1%</span>
+</div>
+<div class="absolute bottom-2 left-2 font-code-telemetry text-[10px] text-outline">
+              LAT 27.58°N / 91.86°E
+            </div>
+<div class="absolute top-2 right-2 px-1.5 py-0.5 bg-surface-dim/80 text-secondary font-label-sm text-[9px] border border-secondary/30">
+              RISAT-2BR1 SAR
+            </div>
+</div>
+<div class="space-y-1.5 font-code-telemetry text-body-sm text-on-surface-variant mb-4">
+<div class="flex justify-between">
+<span class="text-outline">ACQUISITION:</span>
+<span class="text-white">22 SEP 2022</span>
+</div>
+<div class="flex justify-between">
+<span class="text-outline">DETECTED:</span>
+<span class="text-white font-bold">Reinforced Apron + Revetments</span>
+</div>
+<div class="flex justify-between">
+<span class="text-outline">WATER PROXIMITY:</span>
+<span class="text-secondary font-bold">280m (COMPLIANT)</span>
+</div>
+</div>
+</div>
+<button onclick="ensureSuiteVisibleAndScroll('image-viewer')" class="w-full py-2 bg-surface-container hover:bg-primary-container hover:text-surface-container-lowest text-primary font-label-sm text-label-sm font-bold tracking-wider uppercase border border-outline-variant/50 transition-colors flex items-center justify-center gap-1.5 cursor-pointer">
+<span class="material-symbols-outlined text-sm">visibility</span>
+          INSPECT TILE DETAILS
+        </button>
+</div>
+</div>
+</section>
+</div>
+
+<!-- ==================== SECTION 4: IMAGE-TO-IMAGE SATELLITE SEARCH ==================== -->
+<section class="w-full py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-b border-outline-variant/20" id="image-search">
+  <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8 pb-3 border-b border-outline-variant/30">
+    <div>
+      <div class="flex items-center gap-2 mb-1">
+        <span class="w-2 h-2 bg-primary-container"></span>
+        <span class="font-label-sm text-label-sm text-primary-container uppercase tracking-widest font-semibold">MODULE // 06</span>
+      </div>
+      <h2 class="font-headline-lg text-headline-lg font-bold text-white tracking-tight">
+        Image-to-Image Satellite Search
+      </h2>
+      <p class="font-body-md text-body-md text-on-surface-variant mt-1">
+        Reverse visual search across 68,920 air-gapped satellite tiles using multimodal feature embeddings and FAISS nearest-neighbor matching.
+      </p>
+    </div>
+    <div class="flex items-center gap-2">
+      <span class="font-code-telemetry text-label-sm text-outline uppercase">TEST SAMPLES:</span>
+      <button type="button" onclick="loadSampleTile('encampment')" class="px-2.5 py-1 bg-surface-container border border-outline-variant/40 text-on-surface-variant hover:text-primary font-code-telemetry text-[10px] rounded-sm transition-colors cursor-pointer">
+        Encampment
+      </button>
+      <button type="button" onclick="loadSampleTile('outpost')" class="px-2.5 py-1 bg-surface-container border border-outline-variant/40 text-on-surface-variant hover:text-primary font-code-telemetry text-[10px] rounded-sm transition-colors cursor-pointer">
+        Mountain Outpost
+      </button>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+    <!-- Left: Drop & Upload Area -->
+    <div class="lg:col-span-5 flex flex-col justify-between">
+      <div id="drop-zone" onclick="document.getElementById('img-file-input').click()" class="hud-bracket-tl hud-bracket-br relative border-2 border-dashed border-outline-variant hover:border-primary-container bg-surface-container-low/60 rounded-sm p-8 flex flex-col items-center justify-center text-center cursor-pointer transition-all min-h-[300px]">
+        <input id="img-file-input" type="file" accept="image/*" class="hidden" onchange="handleStandaloneFile(this.files[0])" />
+        <div id="upload-prompt" class="flex flex-col items-center">
+          <div class="w-14 h-14 rounded-full bg-surface-container border border-primary-container/40 flex items-center justify-center mb-4 text-primary-container">
+            <span class="material-symbols-outlined text-3xl">cloud_upload</span>
+          </div>
+          <div class="font-label-lg text-label-lg font-bold text-white uppercase tracking-wider mb-1">
+            DROP SATELLITE IMAGE
+          </div>
+          <div class="font-code-telemetry text-[12px] text-primary-container mb-3">
+            + UPLOAD IMAGE
+          </div>
+          <p class="font-code-telemetry text-[11px] text-outline max-w-xs">
+            Supports GeoTIFF, PNG, or JPG. Air-gapped feature extraction executed locally.
+          </p>
+        </div>
+
+        <div id="upload-preview-box" class="hidden w-full flex-col items-center">
+          <div class="w-full h-48 bg-surface-container-lowest border border-outline-variant/40 rounded-sm overflow-hidden mb-3 relative flex items-center justify-center">
+            <img id="img-preview-tag" src="" alt="Uploaded Recon" class="w-full h-full object-contain" />
+            <div class="absolute inset-0 hud-grid-pattern opacity-30 pointer-events-none"></div>
+          </div>
+          <div class="w-full text-left font-code-telemetry text-[11px] text-on-surface-variant space-y-1 mb-3">
+            <div class="flex justify-between"><span class="text-outline">FILENAME:</span> <span id="img-filename" class="text-white font-semibold">recon_tile.png</span></div>
+            <div class="flex justify-between"><span class="text-outline">DIMENSIONS:</span> <span id="img-dims" class="text-primary-fixed">512 × 512 PX</span></div>
+          </div>
+          <div class="w-full flex gap-2">
+            <button type="button" onclick="event.stopPropagation(); document.getElementById('img-file-input').click()" class="flex-1 py-1.5 bg-surface-container border border-outline-variant/50 text-white font-label-sm text-[10px] rounded-sm uppercase font-semibold">REPLACE</button>
+            <button type="button" onclick="event.stopPropagation(); resetUploadedImg()" class="px-3 py-1.5 bg-error-container/20 border border-error text-error font-label-sm text-[10px] rounded-sm uppercase font-semibold">REMOVE</button>
+          </div>
+        </div>
+      </div>
+
+      <button id="btn-img-search" type="button" onclick="executeImageSearch()" class="w-full mt-4 py-3 bg-primary-container hover:bg-primary text-surface-container-lowest font-label-md text-label-md font-bold tracking-widest uppercase rounded-sm transition-all shadow-[0_0_15px_rgba(0,229,255,0.2)] flex items-center justify-center gap-2 cursor-pointer">
+        <span class="material-symbols-outlined text-base">auto_awesome</span>
+        [ SEARCH SIMILAR TILES ]
+      </button>
+    </div>
+
+    <!-- Right: Telemetry & Results -->
+    <div class="lg:col-span-7 flex flex-col justify-between">
+      <div class="bg-surface-container-low border border-outline-variant/40 p-4 rounded-sm mb-6">
+        <div class="flex items-center justify-between pb-2 mb-3 border-b border-outline-variant/30 font-code-telemetry text-[11px]">
+          <span class="text-outline uppercase font-bold">EMBEDDING PIPELINE TELEMETRY</span>
+          <span class="text-primary-container">FAISS INDEX: ACTIVE</span>
+        </div>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 font-code-telemetry text-[11px]">
+          <div id="step-loaded" class="p-2 bg-surface-container-lowest border border-outline-variant/30 rounded-sm text-outline flex items-center justify-between">
+            <span>IMAGE LOADED</span><span class="step-check"></span>
+          </div>
+          <div id="step-embed" class="p-2 bg-surface-container-lowest border border-outline-variant/30 rounded-sm text-outline flex items-center justify-between">
+            <span>EMBEDDING</span><span class="step-check"></span>
+          </div>
+          <div id="step-vector" class="p-2 bg-surface-container-lowest border border-outline-variant/30 rounded-sm text-outline flex items-center justify-between">
+            <span>VECTOR SEARCH</span><span class="step-check"></span>
+          </div>
+          <div id="step-found" class="p-2 bg-surface-container-lowest border border-outline-variant/30 rounded-sm text-outline flex items-center justify-between">
+            <span>TILES FOUND</span><span class="step-check"></span>
+          </div>
+        </div>
+      </div>
+
+      <div id="img-results-container" class="space-y-3">
+        <div class="bg-surface-container-low/40 border border-outline-variant/40 border-dashed rounded-sm p-8 text-center flex flex-col items-center justify-center min-h-[220px]">
+          <span class="material-symbols-outlined text-4xl text-outline mb-2">image_search</span>
+          <div class="font-label-md text-label-md text-white font-bold uppercase mb-1">AWAITING SATELLITE IMAGE QUERY</div>
+          <p class="font-code-telemetry text-[11px] text-outline max-w-sm">Upload a tile or select a sample above, then click [ SEARCH SIMILAR TILES ] to execute nearest-neighbor matching.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ==================== DEEP TARGET ANALYSIS & AUDIT SUITE (SHOWN ON QUERY) ==================== -->
+<div id="search-results-suite" class="hidden">
+<!-- ==================== SECTION 4: HIGH-RESOLUTION VIEWER & YOLO OPTICAL AI DETECTION ==================== -->
+<section class="w-full py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-b border-outline-variant/20" id="image-viewer">
+<div class="flex items-center gap-2 mb-2">
+<span class="w-2 h-2 bg-primary-container"></span>
+<span class="font-label-sm text-label-sm text-primary-container uppercase tracking-widest font-semibold">MODULE // 03</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg font-bold text-white tracking-tight mb-2">
+      High-Resolution Target Inspector &amp; Optical Detection
+    </h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-8">
+      Air-gapped sub-pixel convolutional segmentation with automated bounding boxes and military telemetry telemetry feed.
+    </p>
+<!-- Split View: Canvas Reticle Display (65%) & Metadata Inspector (35%) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+<!-- Left Inspector Canvas Container -->
+<div class="lg:col-span-8 hud-bracket-tl hud-bracket-br relative bg-surface-container-low border border-primary-container/30 rounded-sm p-4 backdrop-blur-md">
+<!-- Viewer Top Controls Strip -->
+<div class="flex flex-wrap items-center justify-between pb-3 mb-3 border-b border-outline-variant/30 text-xs font-code-telemetry text-on-surface-variant gap-2">
+<div class="flex items-center gap-2">
+<span class="text-primary-container font-bold">FOV: 1.2 KM × 1.2 KM</span>
+<span>•</span>
+<span>BAND: B04 (RED) / B03 (GREEN) / B02 (BLUE)</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 bg-surface-container border border-outline-variant/40 text-secondary">YOLOv8x ACTIVE</span>
+<span class="text-primary">ZOOM: 16.0×</span>
+</div>
+</div>
+<!-- Satellite Image Viewer with Bounding Boxes -->
+<div class="relative w-full h-[420px] sm:h-[480px] bg-[#0c1424] border border-outline-variant/40 overflow-hidden flex items-center justify-center">
+<!-- Synthetic Reconnaissance Satellite Ground Pattern -->
+<div class="absolute inset-0 bg-gradient-to-br from-[#121c2e] via-[#09111e] to-[#070d18] opacity-90"></div>
+<div class="absolute inset-0 hud-grid-bg opacity-30"></div>
+<!-- River channel simulation line -->
+<div class="absolute -left-10 top-1/3 w-[120%] h-14 bg-cyan-950/40 border-y border-cyan-500/20 -rotate-12 blur-[1px] flex items-center justify-center">
+<span class="font-code-telemetry text-[11px] text-primary-fixed tracking-widest opacity-60">GALWAN TRIBUTARY // RIPARIAN BUFFER ZONE</span>
+</div>
+<!-- Bounding Box 1: Camp Cluster -->
+<div class="absolute top-20 left-1/4 w-44 h-32 border-2 border-primary-container bg-primary-container/10 p-1.5 shadow-[0_0_12px_rgba(0,229,255,0.4)]">
+<div class="flex items-center justify-between bg-primary-container/90 px-1 py-0.5 text-surface-container-lowest font-code-telemetry text-[10px] font-bold">
+<span>CAMP_HQ_CLUSTER</span>
+<span>91.4%</span>
+</div>
+<div class="text-[9px] font-code-telemetry text-primary-fixed mt-1">12 Prefab Barracks</div>
+<!-- Crosshair center dot -->
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+<span class="w-1.5 h-1.5 bg-primary-container rounded-full"></span>
+</div>
+</div>
+<!-- Bounding Box 2: Armor Tank Column -->
+<div class="absolute bottom-24 right-1/3 w-36 h-24 border-2 border-[#10B981] bg-[#10B981]/10 p-1.5 shadow-[0_0_12px_rgba(16,185,129,0.3)]">
+<div class="flex items-center justify-between bg-[#10B981] px-1 py-0.5 text-surface-container-lowest font-code-telemetry text-[10px] font-bold">
+<span>ARMOR_COL_T90</span>
+<span>87.2%</span>
+</div>
+<div class="text-[9px] font-code-telemetry text-[#A7F3D0] mt-1">4 Tracked Armor Units</div>
+</div>
+<!-- Bounding Box 3: Bunker Artillery -->
+<div class="absolute top-36 right-16 w-32 h-20 border-2 border-[#F59E0B] bg-[#F59E0B]/10 p-1.5 shadow-[0_0_12px_rgba(245,158,11,0.3)]">
+<div class="flex items-center justify-between bg-[#F59E0B] px-1 py-0.5 text-surface-container-lowest font-code-telemetry text-[10px] font-bold">
+<span>BUNKER_ARTILLERY</span>
+<span>93.8%</span>
+</div>
+<div class="text-[9px] font-code-telemetry text-tertiary mt-1">Hardened Revetment</div>
+</div>
+<!-- Canvas Reticle Coordinate Overlays -->
+<div class="absolute top-4 left-4 font-code-telemetry text-[11px] text-primary-container bg-surface-container-lowest/80 px-2 py-1 border border-outline-variant/40">
+            LOC: 34°15'24.8"N 77°58'12.4"E
+          </div>
+<div class="absolute bottom-4 left-4 font-code-telemetry text-[10px] text-outline bg-surface-container-lowest/80 px-2 py-1 border border-outline-variant/40">
+            ALT: 4,820M AMSL // ELEVATION ANGLE: 68.4°
+          </div>
+<!-- HUD Circular Compass Heading -->
+<div class="absolute top-4 right-4 w-12 h-12 rounded-full border border-primary-container/40 flex items-center justify-center font-code-telemetry text-[9px] text-primary-fixed">
+<span class="absolute top-0.5">N</span>
+<span class="w-2 h-2 rounded-full bg-primary-container"></span>
+</div>
+</div>
+<!-- Viewer Bottom Bar -->
+<div class="flex flex-wrap items-center justify-between pt-3 mt-3 border-t border-outline-variant/30 text-xs font-code-telemetry text-outline">
+<span>AIR-GAP INTEGRITY: UNCOMPROMISED LOCAL CACHE</span>
+<span class="text-secondary font-semibold">ALL SENSOR CHECKS NOMINAL</span>
+</div>
+</div>
+<!-- Right Metadata & Intelligence Panel (35%) -->
+<div class="lg:col-span-4 flex flex-col justify-between gap-4">
+<!-- Sensor Meta Card -->
+<div class="bg-surface-container-low border border-outline-variant/40 p-4 rounded-sm">
+<div class="flex items-center justify-between pb-2 mb-3 border-b border-outline-variant/30">
+<span class="font-label-sm text-label-sm text-primary uppercase tracking-wider font-bold">SENSOR TELEMETRY METADATA</span>
+<span class="material-symbols-outlined text-primary text-sm">satellite</span>
+</div>
+<div class="space-y-2.5 font-code-telemetry text-code-telemetry">
+<div class="flex justify-between">
+<span class="text-outline">PRIMARY SENSOR:</span>
+<span class="text-white font-semibold">Cartosat-3 Optical / MSI</span>
+</div>
+<div class="flex justify-between">
+<span class="text-outline">GROUND SAMPLE DIST:</span>
+<span class="text-primary font-semibold">0.25m PAN / 1.0m VNIR</span>
+</div>
+<div class="flex justify-between">
+<span class="text-outline">PROJECTION / CRS:</span>
+<span class="text-white">EPSG:4326 (WGS-84) / 43N</span>
+</div>
+<div class="flex justify-between">
+<span class="text-outline">SOLAR ZENITH:</span>
+<span class="text-white">34.2° AZIMUTH: 148.6°</span>
+</div>
+<div class="flex justify-between">
+<span class="text-outline">CLOUD COVER:</span>
+<span class="text-secondary font-bold">0.0% (PRISTINE)</span>
+</div>
+<div class="flex justify-between">
+<span class="text-outline">OFF-NADIR ANGLE:</span>
+<span class="text-white">4.8°</span>
+</div>
+</div>
+</div>
+<!-- AI Confidence & Enclave Verification Card -->
+<div class="bg-surface-container-low border border-outline-variant/40 p-4 rounded-sm flex-1 flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between pb-2 mb-3 border-b border-outline-variant/30">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider font-bold">AI INFERENCE GAUGES</span>
+<span class="material-symbols-outlined text-secondary text-sm">psychology</span>
+</div>
+<!-- Metric Progress Bars -->
+<div class="space-y-3 mb-4">
+<div>
+<div class="flex justify-between font-code-telemetry text-xs mb-1">
+<span class="text-outline">CAMP DETECTION CONFIDENCE</span>
+<span class="text-primary font-bold">91.4%</span>
+</div>
+<div class="w-full bg-surface-container h-1.5 rounded-2xs overflow-hidden">
+<div class="bg-primary-container h-full w-[91.4%]"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between font-code-telemetry text-xs mb-1">
+<span class="text-outline">ARMOR SIGNATURE MATCH</span>
+<span class="text-secondary font-bold">87.2%</span>
+</div>
+<div class="w-full bg-surface-container h-1.5 rounded-2xs overflow-hidden">
+<div class="bg-secondary h-full w-[87.2%]"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between font-code-telemetry text-xs mb-1">
+<span class="text-outline">BUNKER HARDENING CONFIRMATION</span>
+<span class="text-tertiary-container font-bold">93.8%</span>
+</div>
+<div class="w-full bg-surface-container h-1.5 rounded-2xs overflow-hidden">
+<div class="bg-tertiary-container h-full w-[93.8%]"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Quality Badges -->
+<div class="pt-3 border-t border-outline-variant/30 flex items-center justify-between gap-2">
+<span class="px-2.5 py-1 bg-secondary-container/20 border border-secondary-container/40 text-secondary font-label-sm text-label-sm font-bold uppercase">
+              QA: PASSED
+            </span>
+<span class="px-2.5 py-1 bg-surface-container-high border border-outline-variant/50 text-primary-fixed font-label-sm text-label-sm font-bold uppercase">
+              AIR-GAP CERTIFIED
+            </span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- ==================== SECTION 5: TEMPORAL CHANGE DETECTION & COMPARISON WIPER ==================== -->
+<section class="w-full py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-b border-outline-variant/20" id="change-wiper">
+<div class="flex items-center gap-2 mb-2">
+<span class="w-2 h-2 bg-primary-container"></span>
+<span class="font-label-sm text-label-sm text-primary-container uppercase tracking-widest font-semibold">MODULE // 04</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg font-bold text-white tracking-tight mb-2">
+      Bitemporal Change Wiper &amp; GIS Proximity Buffer
+    </h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-8">
+      Pixel-aligned temporal differential engine demonstrating automated construction delta over 36 months.
+    </p>
+<!-- Comparison Wiper Interactive Container -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+<!-- Wiper Interactive Frame (8 cols) -->
+<div class="lg:col-span-8 hud-bracket-tl hud-bracket-br relative bg-surface-container-low border border-primary-container/40 p-4 rounded-sm backdrop-blur-md">
+<!-- Controls header -->
+<div class="flex flex-wrap items-center justify-between pb-3 mb-3 border-b border-outline-variant/30 text-xs font-code-telemetry gap-2">
+<div class="flex items-center gap-3">
+<span class="text-white font-bold">DRAGGABLE WIPER:</span>
+<span class="text-outline">T0 (OCT 2020)</span>
+<span class="text-primary-container font-bold">VS</span>
+<span class="text-secondary font-bold">T1 (NOV 2023)</span>
+</div>
+<div class="flex items-center gap-2">
+<button class="px-2.5 py-1 bg-surface-container-high border border-primary-container/40 hover:bg-primary-container hover:text-surface-container-lowest text-primary font-label-sm text-[10px] uppercase font-bold transition-all" id="toggle-mask">
+              TOGGLE HEATMAP MASK
+            </button>
+</div>
+</div>
+<!-- Draggable Wiper Simulator Container -->
+<div class="relative w-full h-[380px] sm:h-[440px] bg-surface-container-lowest border border-outline-variant/40 overflow-hidden select-none" id="wiper-container">
+<!-- Right: AFTER Image Simulation (Full Background) -->
+<div class="absolute inset-0 bg-[#141b2b] flex flex-col justify-between p-6">
+<div class="absolute inset-0 hud-grid-bg opacity-30"></div>
+<!-- Fortified Base Delta Visual Indicators (After) -->
+<div class="relative z-10 space-y-2">
+<div class="inline-block px-2.5 py-1 bg-[#F97316]/20 border border-[#F97316] text-[#F97316] font-code-telemetry text-xs font-bold">
+                AFTER: NOV 2023 // FORTIFIED MILITARY BASE DETECTED
+              </div>
+<p class="font-code-telemetry text-xs text-on-surface-variant max-w-xs">
+                Permanent concrete runways, radar domes, and perimeter revetments built.
+              </p>
+</div>
+<!-- Heatmap delta contour simulation overlay -->
+<div class="absolute inset-16 border-2 border-dashed border-[#F97316] bg-[#F97316]/15 rounded-sm flex items-center justify-center p-4" id="heatmap-overlay">
+<div class="text-center font-code-telemetry">
+<span class="text-[#F97316] font-bold text-sm block">DELTA FOOTPRINT: +4,280 m²</span>
+<span class="text-on-surface-variant text-xs">CONFIDENCE: 91.4% (PASS-MATCH)</span>
+</div>
+</div>
+<div class="relative z-10 self-end font-code-telemetry text-xs text-outline">
+              CARTOSAT-3 // RESOLUTION: 0.25M
+            </div>
+</div>
+<!-- Left: BEFORE Image Simulation (Clipped by slider width) -->
+<div class="absolute inset-0 bg-[#0b121e] border-r-2 border-primary-container flex flex-col justify-between p-6 overflow-hidden w-1/2" id="before-clip">
+<div class="absolute inset-0 hud-grid-bg opacity-20"></div>
+<!-- Natural Riparian Riverbank (Before) -->
+<div class="relative z-10 space-y-2">
+<div class="inline-block px-2.5 py-1 bg-secondary-container/20 border border-secondary-container text-secondary font-code-telemetry text-xs font-bold">
+                BEFORE: OCT 2020 // PRISTINE RIVERBANK
+              </div>
+<p class="font-code-telemetry text-xs text-on-surface-variant max-w-xs">
+                Undeveloped alluvial river plains. Zero man-made infrastructure.
+              </p>
+</div>
+<div class="relative z-10 font-code-telemetry text-xs text-outline">
+              SENTINEL-2 MSI ARCHIVE // T0 BASELINE
+            </div>
+</div>
+<!-- Slider HUD Reticle Divider Handle Bar -->
+<div class="absolute top-0 bottom-0 left-1/2 -ml-3.5 w-7 pointer-events-none flex flex-col items-center justify-center" id="wiper-handle">
+<div class="w-7 h-7 bg-primary-container text-surface-container-lowest flex items-center justify-center rounded-2xs shadow-[0_0_12px_#00e5ff]">
+<span class="material-symbols-outlined text-sm font-bold">compare_arrows</span>
+</div>
+</div>
+</div>
+<!-- Slider Range Controller -->
+<div class="mt-4 px-2">
+<input class="w-full h-1 bg-surface-container-high rounded-lg appearance-none cursor-ew-resize accent-primary-container" id="wiper-range" max="100" min="0" type="range" value="50"/>
+<div class="flex justify-between font-code-telemetry text-label-sm text-outline mt-1.5">
+<span>◄ 100% BASELINE (OCT 2020)</span>
+<span class="text-primary-container">DRAG TO INSPECT INFRASTRUCTURE CHANGE</span>
+<span>100% CURRENT (NOV 2023) ►</span>
+</div>
+</div>
+</div>
+<!-- Right GIS Spatial Proximity Verification (4 cols) -->
+<div class="lg:col-span-4 flex flex-col justify-between gap-4">
+<!-- GIS Measurement Panel -->
+<div class="bg-surface-container-low border border-outline-variant/40 p-4 rounded-sm">
+<div class="flex items-center justify-between pb-2 mb-3 border-b border-outline-variant/30">
+<span class="font-label-sm text-label-sm text-primary uppercase tracking-wider font-bold">GIS HYDROLOGIC BUFFER</span>
+<span class="material-symbols-outlined text-primary text-sm">water</span>
+</div>
+<div class="space-y-3 font-code-telemetry text-code-telemetry">
+<div>
+<span class="text-outline block text-xs">NEAREST WATERBODY:</span>
+<span class="text-white font-bold text-sm">River Galwan / Riparian Channel</span>
+</div>
+<div>
+<span class="text-outline block text-xs">MEASURED PROXIMITY DISTANCE:</span>
+<div class="flex items-center justify-between mt-0.5">
+<span class="text-secondary font-headline-md text-headline-md font-bold">350 METERS</span>
+<span class="text-outline">RAY-CAST GIS V8</span>
+</div>
+</div>
+<div>
+<span class="text-outline block text-xs">OPERATIONAL QUERY THRESHOLD:</span>
+<span class="text-tertiary font-bold text-xs">&lt; 500 METERS PERIMETER</span>
+</div>
+<!-- Pass Condition Box -->
+<div class="p-3 bg-secondary-container/15 border border-secondary-container/50 rounded-sm mt-3">
+<div class="flex items-center gap-2 text-secondary font-label-md text-label-md font-bold">
+<span class="material-symbols-outlined text-base">verified</span>
+<span>CONDITION: PASSED // COMPLIANT</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">
+                Asset cluster sits strictly inside the user's 500m river corridor constraint.
+              </p>
+</div>
+</div>
+</div>
+<!-- Delta Summary Card -->
+<div class="bg-surface-container-low border border-outline-variant/40 p-4 rounded-sm">
+<div class="flex items-center justify-between pb-2 mb-3 border-b border-outline-variant/30">
+<span class="font-label-sm text-label-sm text-white uppercase tracking-wider font-bold">TEMPORAL FOOTPRINT DELTA</span>
+<span class="material-symbols-outlined text-tertiary-container text-sm">trending_up</span>
+</div>
+<div class="grid grid-cols-2 gap-2 font-code-telemetry text-center">
+<div class="p-2 bg-surface-container-lowest border border-outline-variant/30">
+<div class="text-[10px] text-outline">NEW STRUCTURES</div>
+<div class="text-headline-md text-headline-md font-bold text-white mt-0.5">+22</div>
+</div>
+<div class="p-2 bg-surface-container-lowest border border-outline-variant/30">
+<div class="text-[10px] text-outline">EXCAVATED AREA</div>
+<div class="text-headline-md text-headline-md font-bold text-[#F97316] mt-0.5">4,280 m²</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- ==================== SECTION 6: ANALYST MISSION REVIEW & OFFLINE AUDIT LOG ==================== -->
+<section class="w-full py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto pb-28" id="audit-log">
+<div class="flex items-center gap-2 mb-2">
+<span class="w-2 h-2 bg-primary-container"></span>
+<span class="font-label-sm text-label-sm text-primary-container uppercase tracking-widest font-semibold">MODULE // 05</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg font-bold text-white tracking-tight mb-2">
+      Analyst Decision Queue &amp; Air-Gapped Provenance Ledger
+    </h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-8">
+      Cryptographic audit trail with instant triage escalation and local immutable verification.
+    </p>
+<!-- Operational Action Buttons Cluster -->
+<div class="bg-surface-container-low border border-outline-variant/40 p-4 sm:p-6 rounded-sm mb-8">
+<div class="flex flex-col md:flex-row items-center justify-between gap-4">
+<div>
+<h3 class="font-label-lg text-label-lg font-bold text-white uppercase tracking-wider">
+            MISSION TARGET TRIAGE // BATCH #IND-2023-OCT-09
+          </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+            Sign-off triggers offline export to tactical field terminals via secure air-gapped data diode.
+          </p>
+</div>
+<div class="flex flex-wrap items-center gap-3 w-full md:w-auto">
+<!-- Button 1: Approve Target -->
+<button class="px-5 py-2.5 bg-secondary-container hover:bg-secondary text-surface-container-lowest font-label-sm text-label-sm font-bold uppercase tracking-wider transition-all flex items-center gap-2 shadow-[0_0_12px_rgba(16,185,129,0.3)]">
+<span class="material-symbols-outlined text-base">check</span>
+            [ APPROVE TARGET INTEL ]
+          </button>
+<!-- Button 2: Reject False Positive -->
+<button class="px-5 py-2.5 bg-error-container/20 hover:bg-error-container/40 text-error border border-error-container font-label-sm text-label-sm font-bold uppercase tracking-wider transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-base">close</span>
+            [ REJECT FALSE POSITIVE ]
+          </button>
+<!-- Button 3: Escalate Recon -->
+<button class="px-5 py-2.5 bg-tertiary-container/20 hover:bg-tertiary-container/30 text-tertiary-fixed border border-tertiary-container/50 font-label-sm text-label-sm font-bold uppercase tracking-wider transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-base">flight_takeoff</span>
+            [ ESCALATE / AIR RECON ]
+          </button>
+</div>
+</div>
+</div>
+<!-- Offline Audit Logging Table -->
+<div class="bg-surface-container-low/80 border border-outline-variant/40 rounded-sm overflow-hidden">
+<div class="px-4 py-3 bg-surface-container border-b border-outline-variant/40 flex items-center justify-between font-label-sm text-label-sm text-outline">
+<span class="font-bold text-primary-fixed uppercase tracking-wider">OFFLINE PROVENANCE AUDIT LOG (LOCAL FAISS STORE)</span>
+<span>SECURITY ENCLAVE // LEVEL 4</span>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left font-code-telemetry text-code-telemetry">
+<thead class="bg-surface-container-lowest text-outline border-b border-outline-variant/30 uppercase text-[10px]">
+<tr>
+<th class="py-2.5 px-4">TIMESTAMP (IST)</th>
+<th class="py-2.5 px-4">TARGET ID</th>
+<th class="py-2.5 px-4">ANALYST SIGN-OFF</th>
+<th class="py-2.5 px-4">SHA-256 PROVENANCE HASH</th>
+<th class="py-2.5 px-4 text-right">STATUS</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/20 text-on-surface-variant">
+<tr class="hover:bg-surface-container-high/40 transition-colors">
+<td class="py-3 px-4 text-white">2023-11-04 14:22:18 IST</td>
+<td class="py-3 px-4 text-primary font-semibold">TGT-GALWAN-027</td>
+<td class="py-3 px-4">WG-CDR S. NAIR [DSA/AIR]</td>
+<td class="py-3 px-4 text-outline font-mono text-[11px]">8a7b9e0f31c4...9a2f1b74</td>
+<td class="py-3 px-4 text-right">
+<span class="px-2 py-0.5 bg-secondary-container/20 text-secondary border border-secondary-container/40 text-[10px] font-bold">APPROVED</span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-high/40 transition-colors">
+<td class="py-3 px-4 text-white">2023-11-04 13:48:02 IST</td>
+<td class="py-3 px-4 text-primary font-semibold">TGT-DAULAT-084</td>
+<td class="py-3 px-4">COL R. VERMA [HQ-IDS]</td>
+<td class="py-3 px-4 text-outline font-mono text-[11px]">4e2c81a95b3d...3f7d82cc</td>
+<td class="py-3 px-4 text-right">
+<span class="px-2 py-0.5 bg-tertiary-container/20 text-tertiary border border-tertiary-container/40 text-[10px] font-bold">ESCALATED</span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-high/40 transition-colors">
+<td class="py-3 px-4 text-white">2023-11-04 12:15:39 IST</td>
+<td class="py-3 px-4 text-primary font-semibold">TGT-TAWANG-119</td>
+<td class="py-3 px-4">SURV-INTEL-AUTO-DAEMON</td>
+<td class="py-3 px-4 text-outline font-mono text-[11px]">9d1f3b7e802a...a1c890ef</td>
+<td class="py-3 px-4 text-right">
+<span class="px-2 py-0.5 bg-surface-container text-outline border border-outline-variant text-[10px] font-bold">QUEUED</span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-high/40 transition-colors">
+<td class="py-3 px-4 text-white">2023-11-04 10:04:12 IST</td>
+<td class="py-3 px-4 text-primary font-semibold">TGT-CREEK-003</td>
+<td class="py-3 px-4">LT-CDR K. SHARMA [NAV-INT]</td>
+<td class="py-3 px-4 text-outline font-mono text-[11px]">1b6e4d9c22aa...5e8941bb</td>
+<td class="py-3 px-4 text-right">
+<span class="px-2 py-0.5 bg-error-container/20 text-error border border-error-container/40 text-[10px] font-bold">REJECTED FP</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+</div>
+<!-- ==================== PERSISTENT COMMAND HUD DOCK (FOOTER) ==================== -->
+<footer class="fixed bottom-0 left-0 w-full z-50 flex flex-wrap justify-between items-center px-4 py-1.5 bg-surface-container-lowest/90 backdrop-blur-md border-t border-outline-variant/30 shadow-[0_-4px_16px_rgba(0,0,0,0.6)] font-code-telemetry text-code-telemetry text-outline select-none">
+<!-- Left Engine State & FAISS Index Count -->
+<div class="flex items-center gap-3">
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+<span class="text-white font-semibold">SYSTEM STATUS: AI ENGINE READY</span>
+</div>
+<span class="hidden md:inline text-outline-variant">|</span>
+<div class="hidden md:flex items-center gap-1.5">
+<span>FAISS INDEX:</span>
+<span class="text-primary font-bold">68,920 TILES // LOCAL STORAGE</span>
+</div>
+<span class="hidden md:inline text-outline-variant">|</span>
+<div class="hidden md:block">
+        LATENCY: <strong class="text-secondary">42ms</strong>
+</div>
+</div>
+<!-- Center Air-Gap Node Declaration -->
+<div class="hidden xl:flex items-center gap-2 text-[11px] text-primary-fixed">
+<span class="material-symbols-outlined text-[15px] text-secondary">wifi_off</span>
+<span>OFFLINE MODE: ACTIVE (AIR-GAPPED HIGH SPEED SECURE NODE)</span>
+</div>
+<!-- Right Live UTC/IST & Coordinates Readout -->
+<div class="flex items-center gap-3">
+<span class="hidden sm:inline">28°36'48.2"N 77°13'49.1"E</span>
+<span class="hidden sm:inline text-outline-variant">|</span>
+<span class="text-white font-bold" id="live-clock">UTC +05:30 IST LIVE</span>
+</div>
+</footer>
+<!-- ==================== MICRO-INTERACTION SCRIPT ==================== -->
+<script>
+    // Wiper Comparison Slider Logic
+    const wiperRange = document.getElementById('wiper-range');
+    const beforeClip = document.getElementById('before-clip');
+    const wiperHandle = document.getElementById('wiper-handle');
+    const toggleMaskBtn = document.getElementById('toggle-mask');
+    const heatmapOverlay = document.getElementById('heatmap-overlay');
+
+    if (wiperRange && beforeClip && wiperHandle) {
+      wiperRange.addEventListener('input', (e) => {
+        const val = e.target.value;
+        beforeClip.style.width = val + '%';
+        wiperHandle.style.left = val + '%';
+      });
+    }
+
+    // Heatmap Mask Visibility Toggle
+    if (toggleMaskBtn && heatmapOverlay) {
+      toggleMaskBtn.addEventListener('click', () => {
+        if (heatmapOverlay.style.display === 'none') {
+          heatmapOverlay.style.display = 'flex';
+          toggleMaskBtn.classList.remove('bg-surface-container');
+          toggleMaskBtn.classList.add('bg-primary-container', 'text-surface-container-lowest');
+        } else {
+          heatmapOverlay.style.display = 'none';
+          toggleMaskBtn.classList.remove('bg-primary-container', 'text-surface-container-lowest');
+          toggleMaskBtn.classList.add('bg-surface-container');
+        }
+      });
+    }
+
+    // Standalone Image-to-Image Search Handlers
+    let currentUploadedImg = null;
+
+    function handleStandaloneFile(file) {
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        showPreview(e.target.result, file.name, "512 × 512 PX");
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function loadSampleTile(type) {
+      const canvas = document.createElement('canvas');
+      canvas.width = 512;
+      canvas.height = 512;
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = type === 'encampment' ? '#18293d' : '#272d38';
+      ctx.fillRect(0, 0, 512, 512);
+      ctx.strokeStyle = '#00e5ff';
+      ctx.lineWidth = 10;
+      ctx.beginPath();
+      ctx.moveTo(0, 180);
+      ctx.bezierCurveTo(150, 240, 300, 120, 512, 280);
+      ctx.stroke();
+      ctx.fillStyle = '#f59e0b';
+      for (let i = 0; i < 6; i++) {
+        ctx.fillRect(120 + (i % 3) * 60, 260 + Math.floor(i / 3) * 60, 36, 24);
+      }
+      showPreview(canvas.toDataURL(), `SAMPLE_${type.toUpperCase()}_RECON.PNG`, "512 × 512 PX");
+    }
+
+    function showPreview(url, name, dims) {
+      currentUploadedImg = url;
+      document.getElementById('upload-prompt').classList.add('hidden');
+      const box = document.getElementById('upload-preview-box');
+      box.classList.remove('hidden');
+      box.classList.add('flex');
+      document.getElementById('img-preview-tag').src = url;
+      document.getElementById('img-filename').textContent = name;
+      document.getElementById('img-dims').textContent = dims;
+      resetSteps();
+    }
+
+    function resetUploadedImg() {
+      currentUploadedImg = null;
+      document.getElementById('upload-prompt').classList.remove('hidden');
+      const box = document.getElementById('upload-preview-box');
+      box.classList.add('hidden');
+      box.classList.remove('flex');
+      document.getElementById('img-file-input').value = "";
+      resetSteps();
+      document.getElementById('img-results-container').innerHTML = `
+        <div class="bg-surface-container-low/40 border border-outline-variant/40 border-dashed rounded-sm p-8 text-center flex flex-col items-center justify-center min-h-[220px]">
+          <span class="material-symbols-outlined text-4xl text-outline mb-2">image_search</span>
+          <div class="font-label-md text-label-md text-white font-bold uppercase mb-1">AWAITING SATELLITE IMAGE QUERY</div>
+          <p class="font-code-telemetry text-[11px] text-outline max-w-sm">Upload a tile or select a sample above, then click [ SEARCH SIMILAR TILES ] to execute nearest-neighbor matching.</p>
+        </div>
+      `;
+    }
+
+    function resetSteps() {
+      ['step-loaded', 'step-embed', 'step-vector', 'step-found'].forEach(id => {
+        const el = document.getElementById(id);
+        el.className = 'p-2 bg-surface-container-lowest border border-outline-variant/30 rounded-sm text-outline flex items-center justify-between';
+        el.querySelector('.step-check').innerHTML = '';
+      });
+    }
+
+    function setStepDone(id, isFinal) {
+      const el = document.getElementById(id);
+      el.className = `p-2 ${isFinal ? 'bg-secondary-container/20 border-secondary text-secondary' : 'bg-primary-container/20 border-primary-container text-primary-container'} border rounded-sm flex items-center justify-between`;
+      el.querySelector('.step-check').innerHTML = '<span class="material-symbols-outlined text-xs">check_circle</span>';
+    }
+
+    function executeImageSearch() {
+      if (!currentUploadedImg) return;
+      resetSteps();
+      setStepDone('step-loaded', false);
+      setTimeout(() => setStepDone('step-embed', false), 250);
+      setTimeout(() => setStepDone('step-vector', false), 500);
+      setTimeout(() => {
+        setStepDone('step-found', true);
+        renderImageResults();
+      }, 800);
+    }
+
+    function renderImageResults() {
+      const matches = [
+        { id: "T027", sim: 94, sensor: "Sentinel-2 MSI", loc: "22.57° N, 88.36° E", feat: "18 Camps, 4 Tanks", date: "14 JUN 2023" },
+        { id: "T041", sim: 89, sensor: "Cartosat-3 PAN", loc: "34.15° N, 77.58° E", feat: "Fortified Staging Grid", date: "08 MAY 2023" },
+        { id: "T063", sim: 85, sensor: "RISAT-2BR1 SAR", loc: "27.58° N, 91.86° E", feat: "Reinforced Apron + Revetments", date: "22 SEP 2022" },
+        { id: "T091", sim: 81, sensor: "Oceansat-3 VNIR", loc: "23.75° N, 68.15° E", feat: "Riparian Embankment & Jetty", date: "18 FEB 2023" }
+      ];
+
+      const html = `
+        <div class="flex items-center justify-between font-code-telemetry text-[11px] text-outline mb-2">
+          <span>TOP RANKED NEAREST-NEIGHBOR TILES (COSINE METRIC):</span>
+          <span class="text-primary font-bold">4 CANDIDATES RESOLVED</span>
+        </div>
+        <div class="space-y-2.5">
+          ${matches.map(m => `
+            <div class="p-3 bg-surface-container-low hover:bg-surface-container border border-outline-variant/40 hover:border-primary-container rounded-sm transition-all flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 font-code-telemetry">
+              <div class="flex items-center gap-3">
+                <div class="w-11 h-11 bg-surface-container-lowest border border-primary-container/40 flex flex-col items-center justify-center text-center rounded-sm">
+                  <span class="text-[9px] text-outline">TILE</span>
+                  <span class="text-[12px] font-bold text-primary">${m.id}</span>
+                </div>
+                <div>
+                  <div class="flex items-center gap-2">
+                    <span class="text-white font-bold">${m.id}</span>
+                    <span class="text-primary font-bold">— ${m.sim}% MATCH</span>
+                    <span class="px-1.5 py-0.2 bg-surface-container-high text-primary-fixed text-[9px] rounded-sm">${m.sensor}</span>
+                  </div>
+                  <div class="text-[11px] text-outline mt-0.5">LOC: ${m.loc} • DATE: ${m.date}</div>
+                  <div class="text-[10px] text-secondary mt-0.5">FEATURES: ${m.feat}</div>
+                </div>
+              </div>
+              <div class="flex items-center gap-2 self-end sm:self-center">
+                <a href="#image-viewer" onclick="ensureSuiteVisibleAndScroll('image-viewer')" class="px-2.5 py-1.5 bg-surface-container hover:bg-primary-container hover:text-surface-container-lowest border border-primary-container/40 text-primary text-[10px] font-bold uppercase rounded-sm transition-colors">[ VIEW TILE ]</a>
+                <a href="#change-wiper" onclick="ensureSuiteVisibleAndScroll('change-wiper')" class="px-2.5 py-1.5 bg-primary-container hover:bg-primary text-surface-container-lowest text-[10px] font-bold uppercase rounded-sm transition-colors">[ ANALYZE ]</a>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+      document.getElementById('img-results-container').innerHTML = html;
+    }
+
+    // Dynamic Query Execution & Reveal Suite Logic
+    function ensureSuiteVisibleAndScroll(targetId) {
+      const candidateBox = document.getElementById('candidate-tiles-container');
+      if (candidateBox) {
+        candidateBox.classList.remove('hidden');
+      }
+      const suite = document.getElementById('search-results-suite');
+      if (suite) {
+        suite.classList.remove('hidden');
+      }
+      setTimeout(() => {
+        const el = document.getElementById(targetId);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }, 50);
+    }
+
+    function executeVectorSearch(query) {
+      ensureSuiteVisibleAndScroll('candidate-tiles');
+    }
+
+    // Live Tactical Clock Update
+    function updateClock() {
+      const clockElem = document.getElementById('live-clock');
+      if (clockElem) {
+        const now = new Date();
+        const istOffset = 5.5 * 60 * 60 * 1000;
+        const istDate = new Date(now.getTime() + (now.getTimezoneOffset() * 60000) + istOffset);
+        const hours = String(istDate.getHours()).padStart(2, '0');
+        const minutes = String(istDate.getMinutes()).padStart(2, '0');
+        const seconds = String(istDate.getSeconds()).padStart(2, '0');
+        clockElem.textContent = `${hours}:${minutes}:${seconds} IST LIVE`;
+      }
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+  </script>
+</body></html>
+
