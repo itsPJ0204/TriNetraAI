@@ -14,13 +14,44 @@ def find_band_files(folder: str | Path, bands: tuple[int, ...] = (2, 3, 4, 5)) -
     folder = Path(folder)
     if not folder.is_dir():
         raise FileNotFoundError(f"Band folder not found: {folder}")
+
+    all_tiffs = sorted(
+        [p for p in folder.iterdir() if p.is_file() and p.suffix.lower() in {".tif", ".tiff"}]
+    )
+    if not all_tiffs:
+        raise FileNotFoundError(f"No .tif or .tiff files found in {folder}")
+
+    # Check for Sentinel-2 naming (B04=Red, B03=Green, B02=Blue, optional B08=NIR)
+    s2_bands: dict[str, Path] = {}
+    for p in all_tiffs:
+        name_upper = p.name.upper()
+        for b_name in ("B04", "B03", "B02", "B08", "B4", "B3", "B2", "B8"):
+            if f"_{b_name}_" in name_upper or f"_{b_name}." in name_upper or f"_{b_name}(" in name_upper or name_upper.endswith(f"{b_name}.TIF") or name_upper.endswith(f"{b_name}.TIFF"):
+                canon = "B04" if b_name in ("B4", "B04") else ("B03" if b_name in ("B3", "B03") else ("B02" if b_name in ("B2", "B02") else "B08"))
+                s2_bands[canon] = p
+
+    if "B04" in s2_bands and "B03" in s2_bands and "B02" in s2_bands:
+        # Standard RGB (and optional NIR) order: Red (B04), Green (B03), Blue (B02), NIR (B08)
+        ordered = [s2_bands["B04"], s2_bands["B03"], s2_bands["B02"]]
+        if "B08" in s2_bands:
+            ordered.append(s2_bands["B08"])
+        return ordered
+
+    # Check for Bhuvan BAND{x} format
     files = []
+    has_all_requested = True
     for band in bands:
-        matches = sorted(folder.glob(f"BAND{band}.tif")) + sorted(folder.glob(f"BAND{band}.tiff"))
+        matches = sorted(folder.glob(f"*BAND{band}*.tif")) + sorted(folder.glob(f"*BAND{band}*.tiff"))
         if not matches:
-            raise FileNotFoundError(f"Missing BAND{band}.tif/.tiff in {folder}")
+            has_all_requested = False
+            break
         files.append(matches[0])
-    return files
+
+    if has_all_requested and files:
+        return files
+
+    # Fallback: return all discovered TIFF files in alphabetical order
+    return all_tiffs
 
 
 def band_manifest_hash(files: list[Path]) -> str:
