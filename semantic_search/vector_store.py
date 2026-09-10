@@ -28,13 +28,19 @@ def clear_client_cache() -> None:
 
 
 def get_qdrant_client(url: str = QDRANT_URL, reload: bool = False) -> QdrantClient:
-    """Connect to the local Qdrant server, verify it responds, and safely reuse client."""
+    """Connect to the local Qdrant server, verify it responds, or fallback to embedded disk storage for offline mode."""
     with _CLIENT_CACHE_LOCK:
         if not reload and url in _CLIENT_CACHE:
             return _CLIENT_CACHE[url]
 
-        client = QdrantClient(url=url)
-        client.get_collections()
+        try:
+            client = QdrantClient(url=url, timeout=1.5)
+            client.get_collections()
+        except Exception:
+            local_path = PROJECT_ROOT / "data" / "qdrant_local"
+            local_path.mkdir(parents=True, exist_ok=True)
+            client = QdrantClient(path=str(local_path))
+
         _CLIENT_CACHE[url] = client
         return client
 
