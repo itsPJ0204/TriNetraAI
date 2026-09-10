@@ -57,20 +57,31 @@ def find_satellite_tiles(tiles_dir: Path | str | None = None) -> list[Path]:
         except Exception:
             pass
 
-    target_dir = Path(tiles_dir) if tiles_dir is not None else TILES_DIRECTORY
-    if not target_dir.is_dir():
-        if LEGACY_TILES_DIRECTORY.is_dir():
-            target_dir = LEGACY_TILES_DIRECTORY
-        else:
-            return []
+    search_dirs: list[Path] = []
+    if tiles_dir is not None:
+        search_dirs.append(Path(tiles_dir))
+    else:
+        # Check standard locations in priority order
+        search_dirs.extend([
+            SENTINEL2_TILES_DIRECTORY,
+            LEGACY_TILES_DIRECTORY,
+            PROJECT_ROOT / "sample_pairs",
+            PROJECT_ROOT / "patches",
+        ])
 
-    # Recursively discover all .tif / .tiff files
-    candidate_tiles = [
-        p for p in target_dir.rglob("*")
-        if p.is_file() and p.suffix.lower() in {".tif", ".tiff"}
-        and p.name.lower() != "test_tile.tiff"
-        and not p.name.lower().endswith(("_full.tif", "_full.tiff"))
-    ]
+    candidate_tiles: list[Path] = []
+    for sdir in search_dirs:
+        if sdir.is_dir():
+            found = [
+                p for p in sdir.rglob("*")
+                if p.is_file() and p.suffix.lower() in {".tif", ".tiff"}
+                and p.name.lower() != "test_tile.tiff"
+                and not p.name.lower().endswith(("_full.tif", "_full.tiff"))
+            ]
+            if found:
+                candidate_tiles.extend(found)
+                if tiles_dir is not None:
+                    break
 
     unique_tiles = list(dict.fromkeys(candidate_tiles))
 
