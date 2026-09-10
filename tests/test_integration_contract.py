@@ -50,8 +50,8 @@ def test_public_search_bbox() -> None:
         "top": 28.662,
     }
     results = search("river", bbox=bbox_tile_1, top_k=5)
-    assert len(results) == 1
-    assert results[0].tile_name == "sentinel2_tile_1.tif"
+    assert len(results) >= 1
+    assert all(r.tile_name == "sentinel2_tile_1.tif" for r in results)
 
 
 def test_public_search_invalid_query() -> None:

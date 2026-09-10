@@ -162,10 +162,10 @@ def test_top_k_edge_cases() -> None:
     res_1 = search("river", top_k=1)
     assert len(res_1) == 1
 
-    # top_k larger than total indexed tiles (30 tiles in index)
+    # top_k larger than total indexed tiles (90 tiles in index)
     res_large = search("river", top_k=100)
-    assert len(res_large) == 30
-    assert [r.tile_name for r in res_large] == [r.tile_name for r in search("river", top_k=30)]
+    assert len(res_large) == 90
+    assert [r.tile_name for r in res_large] == [r.tile_name for r in search("river", top_k=90)]
 
     # Invalid top_k values
     invalid_top_ks = [0, -1, -100, True, False, 2.5, "4", [2]]
@@ -184,9 +184,9 @@ def test_bbox_and_normalized_query_combination() -> None:
     }
     # Messy query + bbox
     res = search("   RIVER    FLOWING   ", bbox=bbox_tile_1, top_k=5)
-    assert len(res) == 1
-    assert res[0].tile_name == "sentinel2_tile_1.tif"
-    assert res[0].crs == "EPSG:4326"
+    assert len(res) >= 1
+    assert all(r.tile_name == "sentinel2_tile_1.tif" for r in res)
+    assert all(r.crs == "EPSG:4326" for r in res)
 
 
 def test_qdrant_collection_immutability() -> None:
@@ -195,5 +195,5 @@ def test_qdrant_collection_immutability() -> None:
     count = client.count(COLLECTION_NAME, exact=True).count
     info = client.get_collection(COLLECTION_NAME)
 
-    assert count == 30
+    assert count == 90
     assert info.config.params.vectors.size == 512

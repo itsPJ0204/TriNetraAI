@@ -73,6 +73,11 @@ def find_sentinel2_bands(raw_dir: str | Path) -> dict[str, Path]:
         ]
     )
 
+    if not files:
+        date_dirs = discover_sentinel2_date_dirs(dir_path)
+        if date_dirs:
+            return find_sentinel2_bands(date_dirs[-1])
+
     band_paths: dict[str, Path] = {}
 
     for band in REQUIRED_BANDS:

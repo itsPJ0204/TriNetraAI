@@ -15,7 +15,7 @@ from semantic_search.model import load_remoteclip
 def test_multiple_embeddings() -> None:
     """Confirm available tiles produce normalized float32 vectors."""
     tiles = find_satellite_tiles()
-    assert len(tiles) == 30, f"Expected 30 Sentinel-2 tiles, found {len(tiles)}"
+    assert len(tiles) == 90, f"Expected 90 Sentinel-2 tiles, found {len(tiles)}"
 
     model, _, preprocess = load_remoteclip(device="cpu")
     sample_tiles = tiles[:4]
@@ -40,9 +40,9 @@ def test_saved_embeddings_and_paths_contract() -> None:
     embeddings = np.load(emb_path)
     paths = json.loads(paths_path.read_text(encoding="utf-8"))
 
-    # 1. Exactly 30 tiles
-    assert len(paths) == 30
-    assert embeddings.shape == (30, 512)
+    # 1. Exactly 90 tiles
+    assert len(paths) == 90
+    assert embeddings.shape == (90, 512)
     assert embeddings.dtype == np.float32
 
     # 2. All embeddings finite & non-zero
@@ -53,9 +53,10 @@ def test_saved_embeddings_and_paths_contract() -> None:
     norms = np.linalg.norm(embeddings, axis=1)
     assert np.allclose(norms, 1.0, atol=1e-4)
 
-    # 4. Correct tile ordering and alignment
+    # 4. Correct tile naming and alignment
     for idx, p in enumerate(paths, start=1):
-        expected_name = f"sentinel2_tile_{idx}.tif"
+        tile_num = ((idx - 1) % 30) + 1
+        expected_name = f"sentinel2_tile_{tile_num}.tif"
         assert p.endswith(expected_name), f"Tile {idx} path mismatch: expected {expected_name}, got {p}"
         full_tile_path = PROJECT_ROOT / p
         assert full_tile_path.is_file(), f"Tile file referenced in paths does not exist: {full_tile_path}"

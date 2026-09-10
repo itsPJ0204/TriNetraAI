@@ -24,14 +24,18 @@ from semantic_search.model import clear_model_cache, load_remoteclip
 from semantic_search.schemas import SearchResult
 from semantic_search.search import (
     clear_query_cache,
+    fuse_embeddings,
     get_query_cache_size,
     normalize_query,
     search,
+    search_by_image,
 )
 from semantic_search.vector_store import clear_client_cache, get_qdrant_client
 
 __all__ = [
     "search",
+    "search_by_image",
+    "fuse_embeddings",
     "normalize_query",
     "SearchResult",
     "BASELINE_QUERIES",

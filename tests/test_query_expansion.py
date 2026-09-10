@@ -174,5 +174,5 @@ def test_qdrant_and_existing_artifacts_preserved(tmp_path: Path) -> None:
     count_after = client.count(COLLECTION_NAME, exact=True).count
     info_after = client.get_collection(COLLECTION_NAME)
 
-    assert count_before == count_after == 30
+    assert count_before == count_after == 90
     assert info_before.config.params.vectors.size == info_after.config.params.vectors.size == 512

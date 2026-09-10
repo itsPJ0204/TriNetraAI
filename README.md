@@ -39,6 +39,8 @@ Under the hood, a shared text/image embedding space (**RemoteCLIP**) and a local
 | Feature | What it does |
 |---|---|
 | 🔎 **Natural-language search** | Query satellite imagery with free text |
+| 🖼️ **Image-to-image search** | Find visually similar satellite tiles using a reference image or tile |
+| 🔀 **Multimodal search** | Fuse query images and natural-language text in RemoteCLIP latent space |
 | 🧠 **RemoteCLIP embeddings** | Shared text/image representation tuned for remote sensing |
 | 📦 **Qdrant vector search** | 512-D cosine-similarity retrieval |
 | 🗺️ **Geographic filtering** | Restrict search to a lat/lon bounding box |
@@ -134,6 +136,7 @@ TriNetraAI/
 │   ├── index_embeddings.py
 │   ├── process_sentinel2.py
 │   ├── search.py
+│   ├── search_by_image.py
 │   ├── evaluate.py
 │   ├── evaluate_metrics.py
 │   ├── evaluate_ensemble.py
@@ -338,6 +341,8 @@ Stores each vector with metadata: `tile_name`, `image_path`, `date`, `CRS`, `bou
 
 ### CLI
 
+#### Text Search (`scripts.search`)
+
 ```bash
 python -m scripts.search "buildings near a river"
 python -m scripts.search "vegetation"
@@ -352,7 +357,29 @@ python -m scripts.search "roads through green areas"
 python -m scripts.search "urban area" --bbox 77.20 28.58 77.25 28.64
 ```
 
+#### Image & Multimodal Search (`scripts.search_by_image`)
+
+**Pure Image-to-Image search:**
+
+```bash
+python -m scripts.search_by_image data/tiles/sentinel2/2026-06-27/sentinel2_tile_1.tif --top-k 5
+```
+
+**Multimodal search (Image + Text query fusion):**
+
+```bash
+python -m scripts.search_by_image data/tiles/sentinel2/2026-06-27/sentinel2_tile_1.tif --query "dense vegetation" --alpha 0.6
+```
+
+**Multimodal search with geographic bounding box:**
+
+```bash
+python -m scripts.search_by_image data/tiles/sentinel2/2026-06-27/sentinel2_tile_1.tif --query "dense vegetation" --bbox 77.15 28.57 77.28 28.67 --top-k 3
+```
+
 ### Python API
+
+#### 1️⃣ Natural-Language Text Search (`search`)
 
 ```python
 from semantic_search import search, SearchResult
@@ -363,21 +390,54 @@ results: list[SearchResult] = search(
 )
 
 for result in results:
-    print(result.tile_name)
-    print(result.score)
-    print(result.date)
-    print(result.bounds)
+    print(result.tile_name, result.score, result.date)
 ```
 
-**With a bounding box:**
+**With a geographic bounding box:**
 
 ```python
-from semantic_search import search
-
 bbox = {"left": 77.20, "bottom": 28.58, "right": 77.25, "top": 28.64}
-
 results = search("urban area near water", bbox=bbox, top_k=5)
 ```
+
+#### 2️⃣ Image-to-Image Search (`search_by_image`)
+
+Find visually and semantically similar tiles by providing a reference image (`PIL.Image.Image`, file path string, or `pathlib.Path`):
+
+```python
+from PIL import Image
+from semantic_search import search_by_image
+
+# Pass a PIL image or a path to an RGB GeoTIFF/PNG/JPEG tile
+results = search_by_image(
+    image="data/tiles/sentinel2/2026-06-27/sentinel2_tile_1.tif",
+    top_k=5,
+)
+
+for result in results:
+    print(result.tile_name, result.score, result.date)
+```
+
+#### 3️⃣ Multimodal Search (Image + Text Fusion)
+
+Fuse a query image with a natural-language description in RemoteCLIP latent space:
+
+```python
+results = search_by_image(
+    image="data/tiles/sentinel2/2026-06-27/sentinel2_tile_1.tif",
+    query="dense green forest vegetation",
+    top_k=5,
+    alpha=0.6,                       # 60% image weight, 40% text weight
+    fusion_strategy="weighted_sum",   # 'weighted_sum', 'average', 'image_only', 'text_only'
+    bbox={"left": 77.15, "bottom": 28.57, "right": 77.28, "top": 28.67},
+)
+```
+
+**Fusion Strategies:**
+- `"weighted_sum"`: $\hat{v} = \text{normalize}(\alpha \cdot v_{\text{img}} + (1 - \alpha) \cdot v_{\text{txt}})$.
+- `"average"`: Equal 50/50 weighting ($\alpha = 0.5$).
+- Explicit weights: Provide `image_weight` and `text_weight` directly.
+- `"image_only"` / `"text_only"`: Single-modality retrieval using the unified interface.
 
 ---
 

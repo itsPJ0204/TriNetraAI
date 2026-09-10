@@ -56,7 +56,7 @@ def test_semantic_search_unfiltered() -> None:
         assert isinstance(result.crs, str) and len(result.crs) > 0
         assert isinstance(result.width, int) and result.width > 0
         assert isinstance(result.height, int) and result.height > 0
-        assert isinstance(result.date, str) and result.date == "2026-06-27"
+        assert isinstance(result.date, str) and len(result.date) == 10
 
         # Check bounds structure
         assert isinstance(result.bounds, dict)
@@ -79,7 +79,7 @@ def test_no_raw_qdrant_objects_exposed() -> None:
 
 
 def test_geographic_filter_tile_1() -> None:
-    """Test B: A bounding box covering only tile_1 returns only sentinel2_tile_1.tif as a SearchResult."""
+    """Test B: A bounding box covering only tile_1 returns sentinel2_tile_1.tif across indexed dates."""
     bbox_tile_1 = {
         "left": 77.158,
         "bottom": 28.645,
@@ -89,15 +89,14 @@ def test_geographic_filter_tile_1() -> None:
     results = search("river", bbox=bbox_tile_1)
 
     assert isinstance(results, list)
-    assert len(results) == 1
-    assert isinstance(results[0], SearchResult)
-    assert results[0].tile_name == "sentinel2_tile_1.tif"
-    assert results[0].crs == "EPSG:4326"
-    assert results[0].date == "2026-06-27"
+    assert len(results) >= 1
+    assert all(isinstance(r, SearchResult) for r in results)
+    assert all(r.tile_name == "sentinel2_tile_1.tif" for r in results)
+    assert all(r.crs == "EPSG:4326" for r in results)
 
 
 def test_geographic_filter_tile_30() -> None:
-    """Test C: A bounding box covering only tile_30 returns only sentinel2_tile_30.tif as a SearchResult."""
+    """Test C: A bounding box covering only tile_30 returns sentinel2_tile_30.tif across indexed dates."""
     bbox_tile_30 = {
         "left": 77.2720,
         "bottom": 28.573,
@@ -107,23 +106,23 @@ def test_geographic_filter_tile_30() -> None:
     results = search("river", bbox=bbox_tile_30)
 
     assert isinstance(results, list)
-    assert len(results) == 1
-    assert isinstance(results[0], SearchResult)
-    assert results[0].tile_name == "sentinel2_tile_30.tif"
+    assert len(results) >= 1
+    assert all(isinstance(r, SearchResult) for r in results)
+    assert all(r.tile_name == "sentinel2_tile_30.tif" for r in results)
 
 
 def test_geographic_filter_complete_source_area() -> None:
-    """Test D: A bounding box covering the entire Sentinel-2 source area returns all 30 tiles."""
+    """Test D: A bounding box covering the entire Sentinel-2 source area returns all 30 unique tile numbers."""
     bbox_full = {
         "left": 77.15,
         "bottom": 28.57,
         "right": 77.28,
         "top": 28.67,
     }
-    results = search("river", top_k=30, bbox=bbox_full)
+    results = search("river", top_k=90, bbox=bbox_full)
 
     assert isinstance(results, list)
-    assert len(results) == 30
+    assert len(results) == 90
     result_names = {r.tile_name for r in results}
     assert result_names == {f"sentinel2_tile_{i}.tif" for i in range(1, 31)}
 
