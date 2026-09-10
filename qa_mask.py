@@ -38,7 +38,10 @@ import os
 import matplotlib.patches as mpatches
 import matplotlib.pyplot as plt
 import numpy as np
-import tifffile
+try:
+    import tifffile
+except ImportError:
+    tifffile = None
 from scipy.ndimage import binary_erosion
 
 
