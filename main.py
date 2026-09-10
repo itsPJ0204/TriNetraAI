@@ -60,6 +60,12 @@ def build_parser() -> argparse.ArgumentParser:
     search_cmd.add_argument("--top-k", type=int, default=5, help="Number of results to return (default: 5)")
     search_cmd.add_argument("--bbox", nargs=4, type=float, default=None, metavar=('MINX', 'MINY', 'MAXX', 'MAXY'), help="Optional geographic bounding box filter")
 
+    search_img_cmd = sub.add_parser("search-image", help="Execute Image-to-Image / Multimodal Semantic Search")
+    search_img_cmd.add_argument("image", type=str, help="Path to query image (.png, .jpg, .tif)")
+    search_img_cmd.add_argument("--query", "-q", type=str, default=None, help="Optional text description for multimodal fusion")
+    search_img_cmd.add_argument("--top-k", type=int, default=5, help="Number of results to return (default: 5)")
+    search_img_cmd.add_argument("--bbox", nargs=4, type=float, default=None, metavar=('MINX', 'MINY', 'MAXX', 'MAXY'), help="Optional geographic bounding box filter")
+
     # 3. Temporal Change Detection (Role 3 & Role 4)
     compare_cmd = sub.add_parser("compare", help="Compare bitemporal tile pair with JIT QA False-Alarm Suppression")
     compare_cmd.add_argument("t1_path", type=str, help="Path to Time 1 (Before) tile")
@@ -106,12 +112,25 @@ def main() -> int:
             print(json.dumps(result, indent=2))
             print(f"Total tiles: {len(result)}")
 
-        # Role 2: Semantic Search
+        # Role 2: Semantic Search (Text or Image)
         elif args.command == "search":
             from semantic_search.search import search
             bbox_tuple = tuple(args.bbox) if args.bbox else None
             results = search(query=args.query, bbox=bbox_tuple, top_k=args.top_k)
             print(f"\n[Semantic Search] Results for: '{args.query}' (Top {len(results)} matches)")
+            print("=" * 60)
+            for idx, r in enumerate(results, 1):
+                print(f"{idx}. Tile: {r.tile_name}")
+                print(f"   Score: {r.score:.4f} | Date: {r.date} | Path: {r.image_path}")
+                print(f"   Bounds: {r.bounds}")
+                print("-" * 60)
+
+        elif args.command == "search-image":
+            from semantic_search.search import search_by_image
+            bbox_tuple = tuple(args.bbox) if args.bbox else None
+            results = search_by_image(image=args.image, query=args.query, bbox=bbox_tuple, top_k=args.top_k)
+            label = f"'{args.image}'" + (f" + '{args.query}'" if args.query else "")
+            print(f"\n[Image Search] Results for: {label} (Top {len(results)} matches)")
             print("=" * 60)
             for idx, r in enumerate(results, 1):
                 print(f"{idx}. Tile: {r.tile_name}")
