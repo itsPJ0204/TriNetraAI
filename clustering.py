@@ -39,13 +39,56 @@ import os
 import json
 
 import numpy as np
-import matplotlib.pyplot as plt
-import matplotlib.colors as mcolors
-import tifffile
 
-from sklearn.preprocessing import normalize
-from sklearn.decomposition import PCA
-from sklearn.cluster import KMeans
+try:
+    import matplotlib.pyplot as plt
+    import matplotlib.colors as mcolors
+except ImportError:
+    plt = None
+    mcolors = None
+
+try:
+    import tifffile
+except ImportError:
+    tifffile = None
+
+try:
+    from sklearn.preprocessing import normalize
+    from sklearn.decomposition import PCA
+    from sklearn.cluster import KMeans
+except ImportError:
+    def normalize(X, norm='l2', axis=1):
+        norm_val = np.linalg.norm(X, axis=axis, keepdims=True)
+        norm_val[norm_val == 0] = 1.0
+        return X / norm_val
+
+    class KMeans:
+        def __init__(self, n_clusters=5, random_state=42, n_init=10):
+            self.n_clusters = n_clusters
+            self.random_state = random_state
+            self.labels_ = None
+            self.cluster_centers_ = None
+
+        def fit(self, X):
+            np.random.seed(self.random_state)
+            idx = np.random.choice(len(X), size=min(self.n_clusters, len(X)), replace=False)
+            centers = X[idx].copy()
+            labels = np.zeros(len(X), dtype=int)
+            for _ in range(30):
+                dists = np.linalg.norm(X[:, np.newaxis] - centers, axis=2)
+                new_labels = np.argmin(dists, axis=1)
+                if np.array_equal(labels, new_labels):
+                    break
+                labels = new_labels
+                for k in range(self.n_clusters):
+                    members = X[labels == k]
+                    if len(members) > 0:
+                        centers[k] = np.mean(members, axis=0)
+            self.labels_ = labels
+            self.cluster_centers_ = centers
+            return self
+
+    PCA = None
 
 
 # ---------------------------------------------------------------------------
@@ -77,12 +120,20 @@ def tile_image(tif_path, tile_size=32, scl_band_index=4, min_valid_frac=0.3):
     """
     from qa_mask import BAD_SCL_CLASSES
 
-    img = tifffile.imread(tif_path)  # (H, W, bands)
+    if tifffile is not None:
+        img = tifffile.imread(tif_path)  # (H, W, bands)
+    else:
+        import rasterio
+        with rasterio.open(tif_path) as src:
+            # (bands, H, W) -> (H, W, bands)
+            img = np.transpose(src.read(), (1, 2, 0))
+
     H, W, C = img.shape
 
     # Spectral bands only (exclude SCL from embedding data)
-    spectral = img[:, :, :scl_band_index].astype(np.float32)  # (H, W, 4)
-    scl      = img[:, :, scl_band_index].astype(np.uint16)    # (H, W)
+    scl_idx = min(scl_band_index, C - 1)
+    spectral = img[:, :, :scl_idx].astype(np.float32)  # (H, W, bands)
+    scl = img[:, :, scl_idx].astype(np.uint16) if C > 1 else np.zeros((H, W), dtype=np.uint16)
 
     # Build per-pixel validity from SCL
     bad = np.zeros((H, W), dtype=bool)
