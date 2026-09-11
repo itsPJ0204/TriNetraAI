@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { UploadCloud, Image as ImageIcon, CheckCircle2, Trash2, RefreshCw, Eye, SlidersHorizontal, Sparkles } from 'lucide-react';
+import { UploadCloud, Image as ImageIcon, CheckCircle2, Trash2, RefreshCw, Eye, SlidersHorizontal, Sparkles, MessageSquare, Terminal } from 'lucide-react';
 
 const SIMILAR_MOCK_RESULTS = [
   {
@@ -48,6 +48,7 @@ export default function ImageToImageSearch({ onSelectTile }) {
   const [imageFile, setImageFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
   const [imageMeta, setImageMeta] = useState(null);
+  const [searchPrompt, setSearchPrompt] = useState("");
   const [processingStep, setProcessingStep] = useState(0); // 0: idle, 1..4: steps
   const [isSearching, setIsSearching] = useState(false);
   const [results, setResults] = useState(null);
@@ -123,7 +124,19 @@ export default function ImageToImageSearch({ onSelectTile }) {
   };
 
   const handleSearch = () => {
-    if (!previewUrl) return;
+    if (!previewUrl && !searchPrompt.trim()) return;
+
+    // Auto load sample if user supplied prompt but no image yet
+    if (!previewUrl && searchPrompt.trim()) {
+      const q = searchPrompt.toLowerCase();
+      if (q.includes('runway') || q.includes('apron') || q.includes('sar')) {
+        handleSampleSelect('runway');
+      } else if (q.includes('mountain') || q.includes('outpost') || q.includes('revetment')) {
+        handleSampleSelect('outpost');
+      } else {
+        handleSampleSelect('camps');
+      }
+    }
 
     setIsSearching(true);
     setResults(null);
@@ -134,7 +147,23 @@ export default function ImageToImageSearch({ onSelectTile }) {
     setTimeout(() => setProcessingStep(3), 650);
     setTimeout(() => {
       setProcessingStep(4);
-      setResults(SIMILAR_MOCK_RESULTS);
+
+      // Reorder results dynamically based on prompt keywords if provided
+      let ranked = [...SIMILAR_MOCK_RESULTS];
+      if (searchPrompt.trim()) {
+        const q = searchPrompt.toLowerCase();
+        if (q.includes('runway') || q.includes('apron') || q.includes('sar') || q.includes('aviation')) {
+          ranked = ranked.sort((a, b) => (b.id === 'T063' ? 1 : -1));
+        } else if (q.includes('staging') || q.includes('outpost') || q.includes('pan') || q.includes('mountain') || q.includes('revetment')) {
+          ranked = ranked.sort((a, b) => (b.id === 'T041' ? 1 : -1));
+        } else if (q.includes('embankment') || q.includes('jetty') || q.includes('coastal') || q.includes('creek')) {
+          ranked = ranked.sort((a, b) => (b.id === 'T091' ? 1 : -1));
+        } else if (q.includes('river') || q.includes('camp') || q.includes('tank') || q.includes('fortified')) {
+          ranked = ranked.sort((a, b) => (b.id === 'T027' ? 1 : -1));
+        }
+      }
+
+      setResults(ranked);
       setIsSearching(false);
     }, 1000);
   };
@@ -143,6 +172,7 @@ export default function ImageToImageSearch({ onSelectTile }) {
     setImageFile(null);
     setPreviewUrl(null);
     setImageMeta(null);
+    setSearchPrompt("");
     setResults(null);
     setProcessingStep(0);
     if (fileInputRef.current) fileInputRef.current.value = "";
@@ -156,7 +186,7 @@ export default function ImageToImageSearch({ onSelectTile }) {
 
   const handleAnalyze = (tileId) => {
     if (onSelectTile) onSelectTile(tileId);
-    const el = document.getElementById('change-wiper');
+    const el = document.getElementById('temporal-analysis') || document.getElementById('change-wiper');
     if (el) el.scrollIntoView({ behavior: 'smooth' });
   };
 
@@ -305,19 +335,73 @@ export default function ImageToImageSearch({ onSelectTile }) {
             </div>
           )}
 
+          {/* User Input Text Box for Target Guidance / Multimodal Query */}
+          <div className="mt-4 bg-[#0d1726] border border-[#1e293b] hover:border-[#00e5ff]/50 focus-within:border-[#00e5ff] rounded-sm p-3.5 transition-all shadow-[0_2px_12px_rgba(0,0,0,0.3)]">
+            <div className="flex items-center justify-between pb-2 mb-2 border-b border-[#1e293b]">
+              <label className="font-mono text-[11px] text-[#00e5ff] uppercase font-bold tracking-wider flex items-center gap-1.5">
+                <MessageSquare className="w-3.5 h-3.5 text-[#00e5ff]" />
+                TARGET GUIDANCE &amp; SEARCH QUERY
+              </label>
+              {searchPrompt && (
+                <button
+                  type="button"
+                  onClick={() => setSearchPrompt("")}
+                  className="font-mono text-[10px] text-[#64748b] hover:text-[#ef4444] transition-colors cursor-pointer"
+                >
+                  [ CLEAR ]
+                </button>
+              )}
+            </div>
+
+            <textarea
+              rows={2}
+              value={searchPrompt}
+              onChange={(e) => setSearchPrompt(e.target.value)}
+              placeholder="Enter target features, terrain cues, or tactical query (e.g., 'Find military encampments, armor clusters near riverbanks')..."
+              className="w-full bg-[#070e1b] border border-[#1e293b] focus:border-[#00e5ff]/80 text-white placeholder-[#475569] font-sans text-xs p-2.5 rounded-sm focus:outline-none resize-none transition-colors"
+            />
+
+            {/* Quick Preset Query Chips */}
+            <div className="flex flex-wrap items-center gap-1.5 mt-2.5 pt-2 border-t border-[#1e293b]/50 font-mono text-[10px]">
+              <span className="text-[#64748b] mr-1">PRESETS:</span>
+              {[
+                "Near riverbank",
+                "Armored vehicles & tanks",
+                "Fortified revetments",
+                "Mountain outpost",
+                "Aviation runway apron"
+              ].map((chip) => (
+                <button
+                  key={chip}
+                  type="button"
+                  onClick={() => setSearchPrompt(chip)}
+                  className="px-2 py-0.5 bg-[#131f33] hover:bg-[#00e5ff]/20 text-[#94a3b8] hover:text-[#00e5ff] border border-[#1e293b] hover:border-[#00e5ff]/50 rounded-[2px] transition-all cursor-pointer"
+                >
+                  +{chip}
+                </button>
+              ))}
+            </div>
+          </div>
+
           {/* Primary Trigger Button */}
           <button
             type="button"
-            disabled={!previewUrl || isSearching}
+            disabled={(!previewUrl && !searchPrompt.trim()) || isSearching}
             onClick={handleSearch}
             className={`w-full mt-4 py-3 font-mono text-[12px] font-bold tracking-widest uppercase transition-all rounded-sm flex items-center justify-center gap-2 cursor-pointer shadow-[0_0_15px_rgba(0,229,255,0.2)] ${
-              previewUrl && !isSearching
+              (previewUrl || searchPrompt.trim()) && !isSearching
                 ? 'bg-[#00e5ff] hover:bg-[#9cf0ff] text-[#070e1b]'
                 : 'bg-[#131f33] text-[#64748b] border border-[#1e293b] cursor-not-allowed opacity-60'
             }`}
           >
             <Sparkles className="w-4 h-4" />
-            {isSearching ? "[ EXTRACTING EMBEDDINGS... ]" : "[ SEARCH SIMILAR TILES ]"}
+            {isSearching
+              ? "[ EXTRACTING EMBEDDINGS... ]"
+              : previewUrl && searchPrompt.trim()
+              ? "[ SEARCH WITH IMAGE + TEXT GUIDANCE ]"
+              : previewUrl
+              ? "[ SEARCH SIMILAR TILES ]"
+              : "[ SEARCH TILES WITH TEXT GUIDANCE ]"}
           </button>
         </div>
 
@@ -344,7 +428,7 @@ export default function ImageToImageSearch({ onSelectTile }) {
                 processingStep >= 2 ? 'bg-[#00e5ff]/15 border-[#00e5ff] text-[#00e5ff]' : 'bg-[#070e1b] border-[#1e293b] text-[#64748b]'
               }`}>
                 <div className="flex items-center justify-between">
-                  <span>EMBEDDING</span>
+                  <span>{searchPrompt.trim() ? "MULTIMODAL EMBED" : "EMBEDDING"}</span>
                   {processingStep >= 2 && <CheckCircle2 className="w-3.5 h-3.5 text-[#10b981]" />}
                 </div>
               </div>
@@ -372,8 +456,15 @@ export default function ImageToImageSearch({ onSelectTile }) {
           {/* Ranked Results Cards */}
           {results ? (
             <div className="space-y-3">
-              <div className="flex items-center justify-between font-mono text-[11px] text-[#64748b]">
-                <span>TOP RANKED NEAREST-NEIGHBOR TILES (COSINE METRIC):</span>
+              <div className="flex flex-wrap items-center justify-between font-mono text-[11px] text-[#64748b] gap-2">
+                <div className="flex items-center gap-2">
+                  <span>TOP RANKED NEAREST-NEIGHBOR TILES:</span>
+                  {searchPrompt.trim() && (
+                    <span className="px-2 py-0.5 bg-[#00e5ff]/15 border border-[#00e5ff]/50 text-[#00e5ff] text-[10px] rounded-sm truncate max-w-[240px]">
+                      GUIDANCE: "{searchPrompt}"
+                    </span>
+                  )}
+                </div>
                 <span className="text-[#00e5ff] font-bold">4 CANDIDATES RESOLVED</span>
               </div>
 
