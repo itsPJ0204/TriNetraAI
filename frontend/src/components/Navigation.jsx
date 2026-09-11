@@ -62,13 +62,6 @@ export default function Navigation({ onNavigate }) {
             </span>
           </div>
 
-          {/* DEFCON Status Pill */}
-          <div className="px-2.5 py-1 bg-[#070e1b] border border-[#00e5ff]/40 rounded-sm">
-            <span className="font-mono text-[10px] text-[#00e5ff] tracking-widest font-semibold">
-              DEFCON 2 // ENGAGE
-            </span>
-          </div>
-
           {/* Quick Ingest Tile CTA */}
           <button 
             onClick={(e) => handleNavClick(e, 'data-ingestion')}
