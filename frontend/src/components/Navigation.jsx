@@ -44,14 +44,8 @@ export default function Navigation({ onNavigate }) {
           <a className="text-[#94a3b8] hover:text-[#00e5ff] font-medium py-1 transition-colors duration-150" href="#image-search" onClick={(e) => handleNavClick(e, 'image-search')}>
             Image Search
           </a>
-          <a className="text-[#94a3b8] hover:text-[#00e5ff] font-medium py-1 transition-colors duration-150" href="#image-viewer" onClick={(e) => handleNavClick(e, 'image-viewer')}>
-            Target Classification
-          </a>
           <a className="text-[#94a3b8] hover:text-[#00e5ff] font-medium py-1 transition-colors duration-150" href="#temporal-analysis" onClick={(e) => handleNavClick(e, 'temporal-analysis')}>
             Temporal Analysis
-          </a>
-          <a className="text-[#94a3b8] hover:text-[#00e5ff] font-medium py-1 transition-colors duration-150" href="#audit-log" onClick={(e) => handleNavClick(e, 'audit-log')}>
-            Audit Log
           </a>
           <a className="text-[#94a3b8] hover:text-[#00e5ff] font-medium py-1 transition-colors duration-150" href="#data-ingestion" onClick={(e) => handleNavClick(e, 'data-ingestion')}>
             Data Ingestion

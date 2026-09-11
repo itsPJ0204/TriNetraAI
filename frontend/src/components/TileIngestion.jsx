@@ -14,10 +14,22 @@ import {
   RefreshCw,
   HardDrive,
   Check,
-  Server
+  Server,
+  ArrowLeft,
+  Calendar,
+  MapPin,
+  Filter,
+  SlidersHorizontal,
+  ChevronDown,
+  Clock,
+  Plus,
+  X,
+  Target,
+  Image as ImageIcon,
+  Maximize2
 } from 'lucide-react';
 import { uploadTile, extractMetadata, processTile, getArchive } from '../services/api';
-import { DEFAULT_INGESTION_TILE, INITIAL_ARCHIVE } from '../data/mockData';
+import { DEFAULT_INGESTION_TILE, INITIAL_ARCHIVE, RELATIVE_SECTORS } from '../data/mockData';
 
 export default function TileIngestion({ onTileIngested, onViewTile, onSearchTile }) {
   // Wizard steps: 'upload' -> 'metadata' -> 'processing' -> 'record' -> 'success'
@@ -31,16 +43,18 @@ export default function TileIngestion({ onTileIngested, onViewTile, onSearchTile
 
   // Metadata form state
   const [metadata, setMetadata] = useState({
-    tileId: "T027",
-    sensor: "Landsat 8",
-    date: "2025-05-07",
-    lat: "22.57",
-    lng: "88.36",
-    bbox: "[22.45, 88.20, 22.70, 88.52]",
-    crs: "EPSG:4326",
-    resolution: "30 m",
-    cloudCover: "12%",
-    region: "Kolkata"
+    tileId: "T028",
+    relativeSector: RELATIVE_SECTORS[0].name,
+    sensor: "Landsat-8",
+    date: new Date().toISOString().slice(0, 10),
+    lat: String(RELATIVE_SECTORS[0].lat),
+    lng: String(RELATIVE_SECTORS[0].lng),
+    bbox: `[${(RELATIVE_SECTORS[0].lat - 0.12).toFixed(2)}, ${(RELATIVE_SECTORS[0].lng - 0.16).toFixed(2)}, ${(RELATIVE_SECTORS[0].lat + 0.13).toFixed(2)}, ${(RELATIVE_SECTORS[0].lng + 0.16).toFixed(2)}]`,
+    crs: RELATIVE_SECTORS[0].crs,
+    resolution: RELATIVE_SECTORS[0].resolution,
+    cloudCover: "4%",
+    region: RELATIVE_SECTORS[0].region,
+    image: RELATIVE_SECTORS[0].image
   });
   const [isExtracting, setIsExtracting] = useState(false);
 
@@ -53,6 +67,11 @@ export default function TileIngestion({ onTileIngested, onViewTile, onSearchTile
   const [savedTile, setSavedTile] = useState(null);
   const [archiveList, setArchiveList] = useState([]);
   const [searchFilter, setSearchFilter] = useState("");
+  const [selectedSensor, setSelectedSensor] = useState('ALL');
+  const [selectedDate, setSelectedDate] = useState('ALL');
+  const [selectedRegion, setSelectedRegion] = useState('ALL');
+  const [selectedDetailTile, setSelectedDetailTile] = useState(null);
+  const [archiveSuccessToast, setArchiveSuccessToast] = useState('');
 
   const PIPELINE_STAGES = [
     { id: 1, label: "VALIDATE FILE" },
@@ -74,6 +93,50 @@ export default function TileIngestion({ onTileIngested, onViewTile, onSearchTile
     if (res.success && res.tiles) {
       setArchiveList(res.tiles);
     }
+  };
+
+
+  // Open "MODULE // 07 : Add New Satellite Tile // Data Ingestion" directly on page from Archive
+  const handleOpenAddTile = () => {
+    const existingIds = archiveList
+      .map(t => parseInt(t.id?.replace(/\D/g, '') || '0', 10))
+      .filter(n => !isNaN(n));
+    const nextNum = existingIds.length > 0 ? Math.max(...existingIds) + 1 : archiveList.length + 1;
+    const nextId = `T${String(nextNum).padStart(3, '0')}`;
+    const baseSector = RELATIVE_SECTORS[0];
+
+    // Clear detail view, reset workbench
+    setSelectedDetailTile(null);
+    setCurrentStep('upload');
+    setFile(null);
+    setFileInfo(null);
+    setSavedTile(null);
+    setProcessProgress(0);
+    setActivePipelineStep(0);
+    if (fileInputRef.current) fileInputRef.current.value = "";
+
+    setMetadata({
+      tileId: nextId,
+      relativeSector: baseSector.name,
+      sensor: "Landsat-8",
+      date: new Date().toISOString().slice(0, 10),
+      lat: String(baseSector.lat),
+      lng: String(baseSector.lng),
+      bbox: `[${(baseSector.lat - 0.12).toFixed(2)}, ${(baseSector.lng - 0.16).toFixed(2)}, ${(baseSector.lat + 0.13).toFixed(2)}, ${(baseSector.lng + 0.16).toFixed(2)}]`,
+      crs: baseSector.crs,
+      resolution: baseSector.resolution,
+      cloudCover: "4%",
+      region: baseSector.region,
+      image: baseSector.image
+    });
+
+    // Scroll smoothly to MODULE // 07
+    setTimeout(() => {
+      const el = document.getElementById('data-ingestion');
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 60);
   };
 
   // Handle file selection
@@ -187,7 +250,25 @@ export default function TileIngestion({ onTileIngested, onViewTile, onSearchTile
       
       const result = await processTile(file, metadata);
       if (result.success && result.tileRecord) {
-        setSavedTile(result.tileRecord);
+        const matchedSector = RELATIVE_SECTORS.find(s => s.name === metadata.relativeSector) || RELATIVE_SECTORS[0];
+        const enriched = {
+          ...result.tileRecord,
+          image: metadata.image || matchedSector.image,
+          region: metadata.region || matchedSector.region,
+          location: metadata.region || matchedSector.region,
+          dateIso: metadata.date,
+          temporalPass: `${metadata.date?.slice(0, 4) || '2025'} // Newly Ingested Pass (${metadata.region || matchedSector.region})`
+        };
+        setSavedTile(enriched);
+        setArchiveList(prev => [enriched, ...prev.filter(t => t.id !== enriched.id)]);
+        try {
+          const stored = localStorage.getItem('sat_intel_archive_tiles');
+          const list = stored ? JSON.parse(stored) : [];
+          localStorage.setItem('sat_intel_archive_tiles', JSON.stringify([enriched, ...list.filter(t => t.id !== enriched.id)]));
+        } catch (err) {}
+        if (onTileIngested) {
+          onTileIngested(enriched);
+        }
         // Transition to database record preview
         setTimeout(() => {
           setCurrentStep('record');
@@ -205,30 +286,46 @@ export default function TileIngestion({ onTileIngested, onViewTile, onSearchTile
       if (onTileIngested) {
         onTileIngested(savedTile);
       }
+      setArchiveSuccessToast(`✓ Relative Tile ${savedTile.id} successfully ingested into SQLite Archive for ${savedTile.region}!`);
+      setTimeout(() => setArchiveSuccessToast(''), 6000);
     }
     setCurrentStep('success');
   };
 
   const handleAddAnother = () => {
-    setFile(null);
-    setFileInfo(null);
-    setSavedTile(null);
-    setCurrentStep('upload');
-    setProcessProgress(0);
-    setActivePipelineStep(0);
-    if (fileInputRef.current) fileInputRef.current.value = "";
+    handleOpenAddTile();
   };
 
   const filteredArchive = archiveList.filter(item => {
-    if (!searchFilter.trim()) return true;
-    const q = searchFilter.toLowerCase();
-    return (
-      item.id?.toLowerCase().includes(q) ||
-      item.sensor?.toLowerCase().includes(q) ||
-      item.region?.toLowerCase().includes(q) ||
-      item.date?.includes(q) ||
-      item.status?.toLowerCase().includes(q)
-    );
+    // Sensor filter
+    if (selectedSensor !== 'ALL') {
+      const s = (item.sensor || '').toLowerCase();
+      if (!s.includes(selectedSensor.toLowerCase())) return false;
+    }
+    // Date filter
+    if (selectedDate !== 'ALL') {
+      const d = (item.date || item.dateIso || '');
+      if (!d.includes(selectedDate)) return false;
+    }
+    // Region filter
+    if (selectedRegion !== 'ALL') {
+      const r = (item.region || item.location || '').toLowerCase();
+      if (!r.includes(selectedRegion.toLowerCase())) return false;
+    }
+    // Text search filter
+    if (searchFilter.trim()) {
+      const q = searchFilter.toLowerCase();
+      return (
+        item.id?.toLowerCase().includes(q) ||
+        item.sensor?.toLowerCase().includes(q) ||
+        item.region?.toLowerCase().includes(q) ||
+        item.location?.toLowerCase().includes(q) ||
+        item.date?.toLowerCase().includes(q) ||
+        item.dateIso?.toLowerCase().includes(q) ||
+        item.status?.toLowerCase().includes(q)
+      );
+    }
+    return true;
   });
 
   return (
@@ -250,8 +347,8 @@ export default function TileIngestion({ onTileIngested, onViewTile, onSearchTile
           </p>
         </div>
 
-        {/* Status badges */}
-        <div className="flex items-center gap-3 font-mono text-[11px]">
+        {/* Status badges & Quick Jump */}
+        <div className="flex items-center gap-3 font-mono text-[11px] flex-wrap">
           <div className="flex items-center gap-1.5 px-3 py-1.5 bg-[#0d1726] border border-[#00e5ff]/40 rounded-sm text-[#00e5ff]">
             <HardDrive className="w-3.5 h-3.5" />
             <span>STORAGE: LOCAL AIR-GAP</span>
@@ -260,6 +357,17 @@ export default function TileIngestion({ onTileIngested, onViewTile, onSearchTile
             <Server className="w-3.5 h-3.5" />
             <span>SQLITE &amp; FAISS: INCREMENTAL</span>
           </div>
+          <button
+            type="button"
+            onClick={() => {
+              const el = document.getElementById('archive-section');
+              if (el) el.scrollIntoView({ behavior: 'smooth' });
+            }}
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-[#131f33] hover:bg-[#1a2942] border border-[#1e293b] hover:border-[#00e5ff]/50 rounded-sm text-[#94a3b8] hover:text-[#00e5ff] transition-colors cursor-pointer"
+          >
+            <Database className="w-3.5 h-3.5" />
+            <span>[ ARCHIVE CATALOG ↓ ]</span>
+          </button>
         </div>
       </div>
 
@@ -644,14 +752,29 @@ export default function TileIngestion({ onTileIngested, onViewTile, onSearchTile
                 </div>
               </div>
 
-              <button
-                type="button"
-                onClick={handleSaveTile}
-                className="w-full py-3 bg-[#00e5ff] hover:bg-[#9cf0ff] text-[#070e1b] font-mono text-[12px] font-bold uppercase tracking-wider rounded-sm transition-all flex items-center justify-center gap-2 shadow-[0_0_15px_rgba(0,229,255,0.25)] cursor-pointer"
-              >
-                <Database className="w-4 h-4" />
-                <span>[ SAVE TILE ]</span>
-              </button>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <button
+                  type="button"
+                  onClick={handleSaveTile}
+                  className="py-3 bg-[#00e5ff] hover:bg-[#9cf0ff] text-[#070e1b] font-mono text-[12px] font-bold uppercase tracking-wider rounded-sm transition-all flex items-center justify-center gap-2 shadow-[0_0_15px_rgba(0,229,255,0.25)] cursor-pointer"
+                >
+                  <Database className="w-4 h-4" />
+                  <span>[ SAVE TILE ]</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    handleSaveTile();
+                    setSelectedDetailTile(savedTile);
+                    const el = document.getElementById('archive-section');
+                    if (el) el.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  className="py-3 bg-[#131f33] hover:bg-[#1a2942] border border-[#00e5ff]/50 text-[#00e5ff] font-mono text-[12px] font-bold uppercase tracking-wider rounded-sm transition-all flex items-center justify-center gap-2 cursor-pointer"
+                >
+                  <Database className="w-4 h-4" />
+                  <span>[ VIEW IN ARCHIVE ↓ ]</span>
+                </button>
+              </div>
             </div>
           )}
 
@@ -696,19 +819,33 @@ export default function TileIngestion({ onTileIngested, onViewTile, onSearchTile
               </div>
 
               {/* Action Buttons */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-2">
+              <div className="grid grid-cols-1 sm:grid-cols-4 gap-2 pt-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSelectedDetailTile(savedTile);
+                    setArchiveSuccessToast(`✓ Relative Tile ${savedTile.id} successfully ingested into SQLite Archive for ${savedTile.region}!`);
+                    const el = document.getElementById('archive-section');
+                    if (el) el.scrollIntoView({ behavior: 'smooth' });
+                    setTimeout(() => setArchiveSuccessToast(''), 6000);
+                  }}
+                  className="py-2.5 bg-[#00e5ff] hover:bg-[#9cf0ff] text-[#070e1b] font-mono text-[11px] font-bold uppercase rounded-sm transition-colors flex items-center justify-center gap-1.5 cursor-pointer shadow-[0_0_12px_rgba(0,229,255,0.25)]"
+                >
+                  <Database className="w-3.5 h-3.5" />
+                  [ VIEW IN ARCHIVE ]
+                </button>
                 <button
                   type="button"
                   onClick={() => onViewTile && onViewTile(savedTile.id)}
                   className="py-2.5 bg-[#131f33] hover:bg-[#00e5ff] hover:text-[#070e1b] border border-[#00e5ff]/40 text-[#00e5ff] font-mono text-[11px] font-bold uppercase rounded-sm transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
                 >
-                  <Eye className="w-3.5 h-3.5" />
-                  [ VIEW TILE ]
+                  <Clock className="w-3.5 h-3.5" />
+                  [ TEMPORAL COMPARE ]
                 </button>
                 <button
                   type="button"
                   onClick={() => onSearchTile && onSearchTile(savedTile.sensor + " " + savedTile.region)}
-                  className="py-2.5 bg-[#00e5ff] hover:bg-[#9cf0ff] text-[#070e1b] font-mono text-[11px] font-bold uppercase rounded-sm transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+                  className="py-2.5 bg-[#131f33] hover:bg-[#1a2942] border border-[#1e293b] text-white font-mono text-[11px] font-bold uppercase rounded-sm transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
                 >
                   <Search className="w-3.5 h-3.5" />
                   [ SEARCH THIS TILE ]
@@ -763,98 +900,443 @@ export default function TileIngestion({ onTileIngested, onViewTile, onSearchTile
 
       {/* DATABASE / ARCHIVE VIEW */}
       <div className="mt-8 pt-8 border-t border-[#1e293b]" id="archive-section">
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#00e5ff]"></span>
-              <h3 className="text-[20px] font-bold text-white font-mono">
-                Satellite Tile Archive &amp; SQLite Catalog
-              </h3>
+        {selectedDetailTile ? (
+          /* TILE DETAILS VIEW */
+          <div className="bg-[#0b1322] border border-[#00e5ff]/30 rounded-sm p-5 shadow-2xl relative overflow-hidden">
+            {/* Top Bar: ← BACK TO ARCHIVE ... TILE T027 */}
+            <div className="flex items-center justify-between border-b border-[#1e293b] pb-4 mb-6">
+              <button
+                type="button"
+                onClick={() => setSelectedDetailTile(null)}
+                className="flex items-center gap-2 px-3 py-1.5 bg-[#070e1b] hover:bg-[#131f33] text-[#00e5ff] hover:text-white border border-[#00e5ff]/30 rounded-sm font-mono text-[12px] font-bold uppercase transition-colors cursor-pointer"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                ← BACK TO ARCHIVE
+              </button>
+              <div className="flex items-center gap-2 font-mono">
+                <span className="w-2 h-2 rounded-full bg-[#10b981] animate-pulse"></span>
+                <span className="text-[16px] font-extrabold text-white tracking-wider">
+                  TILE {selectedDetailTile.id}
+                </span>
+              </div>
             </div>
-            <p className="text-[13px] text-[#94a3b8] font-mono mt-0.5">
-              Current local storage archive showing ingested tiles ready for semantic retrieval.
-            </p>
-          </div>
 
-          {/* Search filter */}
-          <div className="flex items-center gap-2">
-            <div className="relative">
-              <input
-                type="text"
-                value={searchFilter}
-                onChange={(e) => setSearchFilter(e.target.value)}
-                placeholder="Filter archive (e.g. Landsat, T027)..."
-                className="bg-[#070e1b] border border-[#1e293b] text-white font-mono text-[12px] px-3 py-1.5 rounded-sm focus:border-[#00e5ff] focus:outline-none w-64"
-              />
+            {/* Main 2-column info & visual grid */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+              {/* Left Col: Satellite Image visual box with relative sector tiles */}
+              <div className="lg:col-span-6 bg-[#070e1b] border border-[#1e293b] rounded-sm p-4 relative flex flex-col justify-between overflow-hidden group">
+                <div>
+                  {/* Header Labels */}
+                  <div className="w-full flex items-center justify-between text-[10px] font-mono text-[#64748b] uppercase tracking-wider mb-2 border-b border-[#1e293b]/60 pb-1.5">
+                    <span className="text-[#00e5ff] font-bold flex items-center gap-1.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#00e5ff]"></span>
+                      RELATIVE TILE // {selectedDetailTile.temporalPass || `${selectedDetailTile.dateIso || selectedDetailTile.date} Pass`}
+                    </span>
+                    <span className="text-white font-medium">{selectedDetailTile.sensor || 'Landsat-8'}</span>
+                  </div>
+
+                  <div className="relative w-full aspect-square max-w-[320px] mx-auto rounded-sm overflow-hidden border border-[#00e5ff]/30 shadow-inner my-2 bg-[#030712] flex items-center justify-center">
+                    <img 
+                      src={selectedDetailTile.image || "/satellite-tiles/T027_2023.jpg"}
+                      alt={`Satellite Tile ${selectedDetailTile.id}`}
+                      className="w-full h-full object-cover brightness-95 contrast-105 group-hover:scale-105 transition-transform duration-500"
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = "/satellite-tiles/T027_2023.jpg";
+                      }}
+                    />
+                    
+                    {/* Overlay Tactical Reticle */}
+                    <div className="absolute inset-0 border border-[#00e5ff]/20 pointer-events-none">
+                      <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-[#00e5ff]"></div>
+                      <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-[#00e5ff]"></div>
+                      <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-[#00e5ff]"></div>
+                      <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-[#00e5ff]"></div>
+                      
+                      {/* Center reticle */}
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="w-12 h-12 border border-[#00e5ff]/40 rounded-full flex items-center justify-center">
+                          <div className="w-1.5 h-1.5 bg-[#00e5ff] rounded-full"></div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Bottom telemetry overlay */}
+                    <div className="absolute bottom-2 left-2 right-2 bg-[#070e1b]/85 backdrop-blur-sm px-2.5 py-1 rounded border border-[#1e293b] flex items-center justify-between text-[9px] font-mono text-[#94a3b8]">
+                      <span>RES: {selectedDetailTile.resolution || '10m'}</span>
+                      <span>FOV: 512×512 PX</span>
+                      <span className="text-[#10b981]">GEOLINKED</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Relative Tiles In Same Sector */}
+                {(() => {
+                  const currentLoc = (selectedDetailTile.region || selectedDetailTile.location || 'Kolkata').toLowerCase();
+                  const relativeSectorTiles = archiveList.filter(t => {
+                    if (t.id === selectedDetailTile.id) return false;
+                    const r = (t.region || t.location || '').toLowerCase();
+                    return r.includes(currentLoc) || currentLoc.includes(r);
+                  });
+
+                  return (
+                    <div className="w-full mt-3 pt-3 border-t border-[#1e293b]/70">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-[10px] font-mono text-[#00e5ff] uppercase tracking-wider font-bold flex items-center gap-1.5">
+                          <Layers className="w-3.5 h-3.5 text-[#00e5ff]" />
+                          RELATIVE TILES // SAME GEOGRAPHIC SECTOR ({selectedDetailTile.region || 'Kolkata'})
+                        </span>
+                        <span className="text-[9px] font-mono text-[#64748b]">
+                          {relativeSectorTiles.length} RELATED PASSES
+                        </span>
+                      </div>
+                      {relativeSectorTiles.length > 0 ? (
+                        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                          {relativeSectorTiles.slice(0, 6).map((relTile) => (
+                            <button
+                              key={relTile.id}
+                              type="button"
+                              onClick={() => setSelectedDetailTile(relTile)}
+                              className="p-1.5 bg-[#0d1726] hover:bg-[#131f33] border border-[#1e293b] hover:border-[#00e5ff] rounded-sm text-left transition-all group cursor-pointer flex items-center gap-2"
+                            >
+                              <img
+                                src={relTile.image || "/satellite-tiles/T027_2023.jpg"}
+                                alt={relTile.id}
+                                className="w-8 h-8 rounded-sm object-cover border border-[#1e293b] shrink-0"
+                              />
+                              <div className="min-w-0 font-mono">
+                                <div className="text-[11px] font-bold text-white group-hover:text-[#00e5ff] truncate">
+                                  {relTile.id}
+                                </div>
+                                <div className="text-[9px] text-[#64748b] truncate">
+                                  {relTile.dateIso || relTile.date}
+                                </div>
+                              </div>
+                            </button>
+                          ))}
+                        </div>
+                      ) : (
+                        <div className="text-[10px] font-mono text-[#64748b] italic">
+                          Baseline pass for this sector. Additional passes will appear here.
+                        </div>
+                      )}
+                    </div>
+                  );
+                })()}
+              </div>
+
+              {/* Right Col: Tile Information */}
+              <div className="lg:col-span-6 bg-[#070e1b] border border-[#1e293b] rounded-sm p-5 flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center gap-2 border-b border-[#1e293b] pb-2.5 mb-4">
+                    <Database className="w-4 h-4 text-[#00e5ff]" />
+                    <h4 className="font-mono text-[13px] font-bold text-white uppercase tracking-wider">
+                      TILE INFORMATION
+                    </h4>
+                  </div>
+
+                  <div className="space-y-3 font-mono text-[12px]">
+                    <div className="flex justify-between py-1 border-b border-[#1e293b]/60">
+                      <span className="text-[#64748b]">Tile ID:</span>
+                      <span className="text-[#00e5ff] font-bold">{selectedDetailTile.id}</span>
+                    </div>
+                    <div className="flex justify-between py-1 border-b border-[#1e293b]/60">
+                      <span className="text-[#64748b]">Sensor:</span>
+                      <span className="text-white font-medium">{selectedDetailTile.sensor || 'Landsat-8'}</span>
+                    </div>
+                    <div className="flex justify-between py-1 border-b border-[#1e293b]/60">
+                      <span className="text-[#64748b]">Date:</span>
+                      <span className="text-white">{selectedDetailTile.dateIso || selectedDetailTile.date || '2023-05-18'}</span>
+                    </div>
+                    <div className="flex justify-between py-1 border-b border-[#1e293b]/60">
+                      <span className="text-[#64748b]">Region:</span>
+                      <span className="text-[#9cf0ff] font-medium">{selectedDetailTile.region || selectedDetailTile.location || 'Kolkata Urban'}</span>
+                    </div>
+                    <div className="flex justify-between py-1 border-b border-[#1e293b]/60">
+                      <span className="text-[#64748b]">Cloud Cover:</span>
+                      <span className="text-white">{selectedDetailTile.cloudCover || '6%'}</span>
+                    </div>
+                    <div className="flex justify-between py-1 border-b border-[#1e293b]/60">
+                      <span className="text-[#64748b]">Resolution:</span>
+                      <span className="text-white">{selectedDetailTile.resolution || '10m'}</span>
+                    </div>
+                    <div className="flex justify-between py-1 border-b border-[#1e293b]/60">
+                      <span className="text-[#64748b]">CRS:</span>
+                      <span className="text-[#94a3b8]">{selectedDetailTile.crs || 'EPSG:4326'}</span>
+                    </div>
+                    <div className="flex justify-between py-1">
+                      <span className="text-[#64748b]">Coordinates:</span>
+                      <span className="text-[#00e5ff]">{selectedDetailTile.coordinates || `${selectedDetailTile.lat || 22.5726}° N, ${selectedDetailTile.lng || 88.3639}° E`}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* PROCESSING STATUS Checklist */}
+            <div className="mt-6 border-t border-[#1e293b] pt-5">
+              <div className="text-[11px] font-mono text-[#64748b] uppercase tracking-wider mb-3">
+                PROCESSING STATUS
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-2.5">
+                <div className="flex items-center gap-2 p-2.5 bg-[#070e1b] border border-[#10b981]/30 rounded-sm font-mono text-[11px] text-[#10b981]">
+                  <Check className="w-3.5 h-3.5 text-[#10b981] shrink-0" />
+                  <span>Metadata Extracted</span>
+                </div>
+                <div className="flex items-center gap-2 p-2.5 bg-[#070e1b] border border-[#10b981]/30 rounded-sm font-mono text-[11px] text-[#10b981]">
+                  <Check className="w-3.5 h-3.5 text-[#10b981] shrink-0" />
+                  <span>Tile Generated</span>
+                </div>
+                <div className="flex items-center gap-2 p-2.5 bg-[#070e1b] border border-[#10b981]/30 rounded-sm font-mono text-[11px] text-[#10b981]">
+                  <Check className="w-3.5 h-3.5 text-[#10b981] shrink-0" />
+                  <span>Embedding Generated</span>
+                </div>
+                <div className="flex items-center gap-2 p-2.5 bg-[#070e1b] border border-[#10b981]/30 rounded-sm font-mono text-[11px] text-[#10b981]">
+                  <Check className="w-3.5 h-3.5 text-[#10b981] shrink-0" />
+                  <span>FAISS Indexed</span>
+                </div>
+                <div className="flex items-center gap-2 p-2.5 bg-[#070e1b] border border-[#10b981]/30 rounded-sm font-mono text-[11px] text-[#10b981]">
+                  <Check className="w-3.5 h-3.5 text-[#10b981] shrink-0" />
+                  <span>Available for Search</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Bottom Actions: [ Temporal Compare ] & [ Search Similar ] */}
+            <div className="mt-6 pt-5 border-t border-[#1e293b] flex flex-col sm:flex-row items-center justify-between gap-4">
+              <button
+                type="button"
+                onClick={() => {
+                  if (onViewTile) onViewTile(selectedDetailTile.id);
+                  setTimeout(() => {
+                    const el = document.getElementById('temporal-analysis');
+                    if (el) el.scrollIntoView({ behavior: 'smooth' });
+                  }, 120);
+                }}
+                className="w-full sm:w-auto px-6 py-2.5 bg-[#00e5ff] hover:bg-[#9cf0ff] text-[#070e1b] font-mono text-[12px] font-bold uppercase rounded-sm transition-all shadow-[0_0_15px_rgba(0,229,255,0.3)] cursor-pointer flex items-center justify-center gap-2"
+              >
+                <Clock className="w-4 h-4" />
+                [ Temporal Compare ]
+              </button>
+
+              <button
+                type="button"
+                onClick={() => onSearchTile && onSearchTile(selectedDetailTile.sensor + " " + (selectedDetailTile.region || selectedDetailTile.location))}
+                className="w-full sm:w-auto px-6 py-2.5 bg-[#131f33] hover:bg-[#1a2d4a] text-[#00e5ff] border border-[#00e5ff]/50 font-mono text-[12px] font-bold uppercase rounded-sm transition-all hover:border-[#00e5ff] cursor-pointer flex items-center justify-center gap-2"
+              >
+                <Search className="w-4 h-4" />
+                [ Search Similar ]
+              </button>
             </div>
           </div>
-        </div>
+        ) : (
+          /* ARCHIVE TABLE & FILTER VIEW */
+          <div className="bg-[#0b1322] border border-[#1e293b] rounded-sm p-5 shadow-xl">
+            {/* Header: Title + Offline Badge + [ + ADD NEW TILE ] Button */}
+            <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
+              <div className="flex items-center gap-2.5">
+                <Database className="w-5 h-5 text-[#00e5ff]" />
+                <h3 className="text-[18px] font-bold text-white font-mono uppercase tracking-wider">
+                  SATELLITE TILE ARCHIVE
+                </h3>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="text-[11px] font-mono text-[#64748b] hidden sm:block">
+                  OFFLINE SQLITE CATALOG // ZERO-CLOUD
+                </div>
+                <button
+                  type="button"
+                  onClick={handleOpenAddTile}
+                  className="flex items-center gap-1.5 px-3.5 py-1.5 bg-[#00e5ff] hover:bg-[#9cf0ff] text-[#070e1b] font-mono text-[12px] font-bold uppercase rounded-sm transition-all shadow-[0_0_12px_rgba(0,229,255,0.25)] cursor-pointer"
+                >
+                  <Plus className="w-4 h-4" />
+                  + ADD NEW TILE
+                </button>
+              </div>
+            </div>
 
-        {/* Database Table */}
-        <div className="overflow-x-auto border border-[#1e293b] rounded-sm bg-[#0d1726]">
-          <table className="w-full text-left font-mono text-[12px]">
-            <thead className="bg-[#070e1b] border-b border-[#1e293b] text-[#64748b] text-[10px] uppercase">
-              <tr>
-                <th className="py-3 px-4">TILE ID</th>
-                <th className="py-3 px-4">SENSOR</th>
-                <th className="py-3 px-4">ACQUISITION DATE</th>
-                <th className="py-3 px-4">REGION / COORDS</th>
-                <th className="py-3 px-4">RESOLUTION</th>
-                <th className="py-3 px-4">STATUS</th>
-                <th className="py-3 px-4 text-right">ACTIONS</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-[#1e293b]/60 text-white">
-              {filteredArchive.map((item, idx) => {
-                const isNew = item.id === savedTile?.id;
-                return (
-                  <tr 
-                    key={item.id || idx}
-                    className={`hover:bg-[#131f33] transition-colors ${isNew ? 'bg-[#00e5ff]/10' : ''}`}
-                  >
-                    <td className="py-3 px-4">
-                      <div className="flex items-center gap-2">
-                        <span className="font-bold text-[#00e5ff]">{item.id}</span>
-                        {isNew && (
-                          <span className="px-1.5 py-0.2 bg-[#00e5ff] text-[#070e1b] text-[9px] font-bold rounded-sm">
-                            NEW
-                          </span>
-                        )}
-                      </div>
-                    </td>
-                    <td className="py-3 px-4 text-white font-medium">{item.sensor}</td>
-                    <td className="py-3 px-4 text-[#94a3b8]">{item.date}</td>
-                    <td className="py-3 px-4 text-[#9cf0ff]">{item.region || "Sector"} ({item.lat}°N, {item.lng}°E)</td>
-                    <td className="py-3 px-4 text-[#64748b]">{item.resolution}</td>
-                    <td className="py-3 px-4">
-                      <span className="px-2 py-0.5 bg-[#10b981]/20 text-[#10b981] border border-[#10b981]/40 rounded-sm text-[10px] font-bold">
-                        ● {item.status || "ACTIVE"}
-                      </span>
-                    </td>
-                    <td className="py-3 px-4 text-right">
-                      <div className="flex items-center justify-end gap-2">
-                        <button
-                          type="button"
-                          onClick={() => onViewTile && onViewTile(item.id)}
-                          className="px-2.5 py-1 bg-[#131f33] hover:bg-[#00e5ff] hover:text-[#070e1b] border border-[#00e5ff]/40 text-[#00e5ff] text-[10px] font-bold uppercase rounded-sm transition-colors cursor-pointer"
-                        >
-                          INSPECT
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => onSearchTile && onSearchTile(`${item.sensor} ${item.region || ''}`)}
-                          className="px-2.5 py-1 bg-[#00e5ff] hover:bg-[#9cf0ff] text-[#070e1b] text-[10px] font-bold uppercase rounded-sm transition-colors cursor-pointer"
-                        >
-                          SEARCH
-                        </button>
-                      </div>
-                    </td>
+            {/* Success Notification Banner */}
+            {archiveSuccessToast && (
+              <div className="mb-4 p-3 bg-[#10b981]/15 border border-[#10b981]/40 rounded-sm font-mono text-[12px] text-[#10b981] flex items-center justify-between animate-in fade-in duration-200">
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-[#10b981]" />
+                  <span>{archiveSuccessToast}</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setArchiveSuccessToast('')}
+                  className="text-[#64748b] hover:text-white cursor-pointer"
+                >
+                  <X className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            )}
+
+            {/* Filter Bar: 🔎 Search tiles... | Sensor ▼ | Date ▼ | Region ▼ */}
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-3 mb-4 p-3 bg-[#070e1b] border border-[#1e293b] rounded-sm">
+              {/* Search */}
+              <div className="md:col-span-5 relative flex items-center">
+                <Search className="w-4 h-4 text-[#64748b] absolute left-3 pointer-events-none" />
+                <input
+                  type="text"
+                  value={searchFilter}
+                  onChange={(e) => setSearchFilter(e.target.value)}
+                  placeholder="🔎 Search tiles..."
+                  className="w-full bg-[#0d1726] border border-[#1e293b] text-white font-mono text-[12px] pl-9 pr-3 py-2 rounded-sm focus:border-[#00e5ff] focus:outline-none placeholder-[#64748b]"
+                />
+              </div>
+
+              {/* Sensor Dropdown */}
+              <div className="md:col-span-2 relative">
+                <select
+                  value={selectedSensor}
+                  onChange={(e) => setSelectedSensor(e.target.value)}
+                  className="w-full bg-[#0d1726] border border-[#1e293b] text-white font-mono text-[12px] px-3 py-2 rounded-sm focus:border-[#00e5ff] focus:outline-none appearance-none cursor-pointer"
+                >
+                  <option value="ALL">Sensor ▼ (All)</option>
+                  <option value="Landsat">Landsat</option>
+                  <option value="Sentinel">Sentinel</option>
+                  <option value="Cartosat">Cartosat</option>
+                </select>
+                <ChevronDown className="w-3.5 h-3.5 text-[#64748b] absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+              </div>
+
+              {/* Date Dropdown */}
+              <div className="md:col-span-2 relative">
+                <select
+                  value={selectedDate}
+                  onChange={(e) => setSelectedDate(e.target.value)}
+                  className="w-full bg-[#0d1726] border border-[#1e293b] text-white font-mono text-[12px] px-3 py-2 rounded-sm focus:border-[#00e5ff] focus:outline-none appearance-none cursor-pointer"
+                >
+                  <option value="ALL">Date ▼ (All)</option>
+                  <option value="2020">2020</option>
+                  <option value="2021">2021</option>
+                  <option value="2022">2022</option>
+                  <option value="2023">2023</option>
+                  <option value="2024">2024</option>
+                  <option value="2025">2025</option>
+                </select>
+                <ChevronDown className="w-3.5 h-3.5 text-[#64748b] absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+              </div>
+
+              {/* Region Dropdown */}
+              <div className="md:col-span-3 relative">
+                <select
+                  value={selectedRegion}
+                  onChange={(e) => setSelectedRegion(e.target.value)}
+                  className="w-full bg-[#0d1726] border border-[#1e293b] text-white font-mono text-[12px] px-3 py-2 rounded-sm focus:border-[#00e5ff] focus:outline-none appearance-none cursor-pointer"
+                >
+                  <option value="ALL">Region ▼ (All)</option>
+                  <option value="Kolkata">Kolkata</option>
+                  <option value="Ladakh">Ladakh</option>
+                  <option value="Arunachal">Arunachal</option>
+                  <option value="Galwan">Galwan</option>
+                </select>
+                <ChevronDown className="w-3.5 h-3.5 text-[#64748b] absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+              </div>
+            </div>
+
+            {/* Summary Metrics: Total Tiles | Sensors | Date Range | Regions */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4 p-4 bg-[#070e1b] border border-[#1e293b] rounded-sm font-mono text-center">
+              <div className="p-2 border-r border-[#1e293b]/60 last:border-r-0">
+                <div className="text-[11px] text-[#64748b] uppercase tracking-wider mb-1">Total Tiles</div>
+                <div className="text-[20px] font-extrabold text-[#00e5ff]">
+                  {248 + (archiveList.length > 6 ? archiveList.length - 6 : 0)}
+                </div>
+              </div>
+              <div className="p-2 border-r border-[#1e293b]/60 last:border-r-0">
+                <div className="text-[11px] text-[#64748b] uppercase tracking-wider mb-1">Sensors</div>
+                <div className="text-[17px] font-bold text-white">
+                  {selectedSensor === 'ALL' ? 'Landsat' : selectedSensor}
+                </div>
+              </div>
+              <div className="p-2 border-r border-[#1e293b]/60 last:border-r-0">
+                <div className="text-[11px] text-[#64748b] uppercase tracking-wider mb-1">Date Range</div>
+                <div className="text-[17px] font-bold text-[#9cf0ff]">2020 – 2025</div>
+              </div>
+              <div className="p-2">
+                <div className="text-[11px] text-[#64748b] uppercase tracking-wider mb-1">Regions</div>
+                <div className="text-[17px] font-bold text-white">
+                  {selectedRegion === 'ALL' ? 'Kolkata' : selectedRegion}
+                </div>
+              </div>
+            </div>
+
+            {/* Table: Tile ID | Date | Sensor | Location | Cloud | Status | Action */}
+            <div className="overflow-x-auto border border-[#1e293b] rounded-sm bg-[#070e1b]">
+              <table className="w-full text-left font-mono text-[12px]">
+                <thead className="bg-[#0b1322] border-b border-[#1e293b] text-[#64748b] text-[10px] uppercase">
+                  <tr>
+                    <th className="py-3 px-4">Tile ID</th>
+                    <th className="py-3 px-4">Date</th>
+                    <th className="py-3 px-4">Sensor</th>
+                    <th className="py-3 px-4">Location</th>
+                    <th className="py-3 px-4">Cloud</th>
+                    <th className="py-3 px-4">Status</th>
+                    <th className="py-3 px-4 text-center">Action</th>
                   </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
+                </thead>
+                <tbody className="divide-y divide-[#1e293b]/60 text-white">
+                  {filteredArchive.length === 0 ? (
+                    <tr>
+                      <td colSpan={7} className="py-8 text-center text-[#64748b]">
+                        No satellite tiles match current filter criteria.
+                      </td>
+                    </tr>
+                  ) : (
+                    filteredArchive.map((item, idx) => {
+                      const isNew = item.id === savedTile?.id;
+                      return (
+                        <tr 
+                          key={item.id || idx}
+                          className={`hover:bg-[#131f33]/70 transition-colors ${isNew ? 'bg-[#00e5ff]/10' : ''}`}
+                        >
+                          <td className="py-3 px-4 font-bold text-[#00e5ff]">
+                            <div className="flex items-center gap-1.5">
+                              <span>{item.id}</span>
+                              {isNew && (
+                                <span className="px-1.5 py-0.2 bg-[#00e5ff] text-[#070e1b] text-[8px] font-bold rounded-sm">
+                                  NEW
+                                </span>
+                              )}
+                            </div>
+                          </td>
+                          <td className="py-3 px-4 text-[#94a3b8]">
+                            {item.dateIso || item.date}
+                          </td>
+                          <td className="py-3 px-4 text-white font-medium">
+                            {item.sensor}
+                          </td>
+                          <td className="py-3 px-4 text-[#9cf0ff]">
+                            {item.location || item.region || "Kolkata"}
+                          </td>
+                          <td className="py-3 px-4 text-[#94a3b8]">
+                            {item.cloudCover || "08%"}
+                          </td>
+                          <td className="py-3 px-4">
+                            <span className="px-2 py-0.5 bg-[#10b981]/15 text-[#10b981] border border-[#10b981]/30 rounded-sm text-[10px] font-bold inline-flex items-center gap-1">
+                              <span className="w-1.5 h-1.5 rounded-full bg-[#10b981]"></span>
+                              {item.status || "READY"}
+                            </span>
+                          </td>
+                          <td className="py-3 px-4 text-center">
+                            <button
+                              type="button"
+                              onClick={() => setSelectedDetailTile(item)}
+                              className="px-3 py-1 bg-[#131f33] hover:bg-[#00e5ff] hover:text-[#070e1b] border border-[#00e5ff]/40 text-[#00e5ff] text-[11px] font-bold rounded-sm transition-all cursor-pointer shadow-sm"
+                            >
+                              [ Details ]
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    })
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
       </div>
     </section>
   );

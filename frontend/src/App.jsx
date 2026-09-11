@@ -4,9 +4,7 @@ import HeroSection from './components/HeroSection';
 import SemanticSearch from './components/SemanticSearch';
 import ImageToImageSearch from './components/ImageToImageSearch';
 import CandidateTilesGrid from './components/CandidateTilesGrid';
-import ImageInspector from './components/ImageInspector';
 import TemporalAnalysis from './components/TemporalAnalysis';
-import AnalystReview from './components/AnalystReview';
 import TileIngestion from './components/TileIngestion';
 import TelemetryDock from './components/TelemetryDock';
 import { CANDIDATE_TILES } from './data/mockData';
@@ -37,7 +35,7 @@ export default function App() {
     setSelectedTileId(tileId);
     setHasSearched(true);
     setTimeout(() => {
-      const el = document.getElementById('image-viewer');
+      const el = document.getElementById('temporal-analysis');
       if (el) el.scrollIntoView({ behavior: 'smooth' });
     }, 150);
   };
@@ -76,7 +74,7 @@ export default function App() {
   };
 
   const handleNavigate = (sectionId) => {
-    if (['candidate-tiles', 'image-viewer', 'temporal-analysis', 'change-wiper', 'audit-log'].includes(sectionId)) {
+    if (['candidate-tiles', 'temporal-analysis', 'change-wiper'].includes(sectionId)) {
       if (!hasSearched) {
         setHasSearched(true);
         if (!activeQuery) {
@@ -120,21 +118,12 @@ export default function App() {
         {/* Section 4: Image-to-Image Satellite Reverse Search */}
         <ImageToImageSearch onSelectTile={handleSelectTile} />
 
-        {/* Deep Target Analysis & Audit Suite */}
+        {/* Section 5: Dedicated Temporal Comparison & Multi-Year Change Detection */}
         {hasSearched && (
-          <>
-            {/* Section 5: High-Resolution Target Inspector & Optical AI Detection */}
-            <ImageInspector activeTile={activeTile} />
-
-            {/* Section 6: Dedicated Temporal Comparison & Multi-Year Change Detection */}
-            <TemporalAnalysis activeTile={activeTile} onSelectTile={handleSelectTile} />
-
-            {/* Section 7: Analyst Mission Review & Offline Audit Log */}
-            <AnalystReview activeTile={activeTile} />
-          </>
+          <TemporalAnalysis activeTile={activeTile} onSelectTile={handleSelectTile} />
         )}
 
-        {/* Section 8: Add New Satellite Tile // Data Ingestion & Live SQLite Archive */}
+        {/* Section 6: Add New Satellite Tile // Data Ingestion & Live SQLite Archive */}
         <TileIngestion 
           onTileIngested={handleTileIngested}
           onViewTile={handleViewTile}

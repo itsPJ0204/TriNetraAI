@@ -326,58 +326,303 @@ export const INITIAL_AUDIT_LOG = [
   }
 ];
 
+export const RELATIVE_SECTORS = [
+  {
+    name: "Kolkata Sector (T027 Baseline)",
+    region: "Kolkata Urban",
+    crs: "EPSG:4326",
+    lat: 22.5726,
+    lng: 88.3639,
+    coordinates: "22.5726° N, 88.3639° E",
+    resolution: "10m",
+    image: "/satellite-tiles/T027_2023.jpg",
+    description: "Multi-temporal riparian tactical corridor (2020–2025 passes)"
+  },
+  {
+    name: "Ladakh LAC Sector (T026 / T084)",
+    region: "Ladakh LAC",
+    crs: "EPSG:4326",
+    lat: 34.15,
+    lng: 77.58,
+    coordinates: "34.15° N, 77.58° E",
+    resolution: "10m",
+    image: "/satellite-tiles/T004.jpg",
+    description: "High-altitude mountainous LAC forward staging sector"
+  },
+  {
+    name: "Sir Creek Maritime Sector (T024)",
+    region: "Sir Creek",
+    crs: "EPSG:4326",
+    lat: 23.75,
+    lng: 68.15,
+    coordinates: "23.75° N, 68.15° E",
+    resolution: "0.25m",
+    image: "/satellite-tiles/T001.jpg",
+    description: "Tidal riverine estuary and littoral border marshes"
+  },
+  {
+    name: "Doklam Plateau Sector (T023)",
+    region: "Doklam Plateau",
+    crs: "EPSG:4326",
+    lat: 27.29,
+    lng: 88.92,
+    coordinates: "27.29° N, 88.92° E",
+    resolution: "1m",
+    image: "/satellite-tiles/T003.jpg",
+    description: "High-altitude tri-junction tactical ridge line"
+  }
+];
+
 export const INITIAL_ARCHIVE = [
+  {
+    id: "T001",
+    sensor: "Sentinel",
+    date: "2023-04-12",
+    dateIso: "2023-04-12",
+    status: "READY",
+    file: "S2A_MSIL2A_20230412.tif",
+    resolution: "10 m",
+    crs: "EPSG:4326",
+    lat: 22.57,
+    lng: 88.36,
+    coordinates: "22.5726° N, 88.3639° E",
+    cloudCover: "12%",
+    location: "Kolkata",
+    region: "Kolkata",
+    image: "/satellite-tiles/T027_2023.jpg",
+    temporalPass: "2023 // Structure Completed",
+    processingStatus: {
+      metadataExtracted: true,
+      tileGenerated: true,
+      embeddingGenerated: true,
+      faissIndexed: true,
+      availableForSearch: true
+    }
+  },
+  {
+    id: "T002",
+    sensor: "Landsat",
+    date: "2022-09-18",
+    dateIso: "2022-09-18",
+    status: "READY",
+    file: "LC08_L2SP_145044_20220918.tif",
+    resolution: "30 m",
+    crs: "EPSG:32645",
+    lat: 22.57,
+    lng: 88.36,
+    coordinates: "22.5726° N, 88.3639° E",
+    cloudCover: "05%",
+    location: "Kolkata",
+    region: "Kolkata",
+    image: "/satellite-tiles/T027_2022.jpg",
+    temporalPass: "2022 // Earthworks & Grading",
+    processingStatus: {
+      metadataExtracted: true,
+      tileGenerated: true,
+      embeddingGenerated: true,
+      faissIndexed: true,
+      availableForSearch: true
+    }
+  },
+  {
+    id: "T003",
+    sensor: "Sentinel",
+    date: "2021-03-02",
+    dateIso: "2021-03-02",
+    status: "READY",
+    file: "S2B_MSIL2A_20210302.tif",
+    resolution: "10 m",
+    crs: "EPSG:4326",
+    lat: 22.57,
+    lng: 88.36,
+    coordinates: "22.5726° N, 88.3639° E",
+    cloudCover: "20%",
+    location: "Kolkata",
+    region: "Kolkata",
+    image: "/satellite-tiles/T027_2020.jpg",
+    temporalPass: "2021 // Stable Riparian Buffer",
+    processingStatus: {
+      metadataExtracted: true,
+      tileGenerated: true,
+      embeddingGenerated: true,
+      faissIndexed: true,
+      availableForSearch: true
+    }
+  },
+  {
+    id: "T004",
+    sensor: "Sentinel",
+    date: "2024-01-15",
+    dateIso: "2024-01-15",
+    status: "READY",
+    file: "S2A_MSIL2A_20240115.tif",
+    resolution: "10 m",
+    crs: "EPSG:4326",
+    lat: 22.57,
+    lng: 88.36,
+    coordinates: "22.5726° N, 88.3639° E",
+    cloudCover: "00%",
+    location: "Kolkata",
+    region: "Kolkata",
+    image: "/satellite-tiles/T027_2024.jpg",
+    temporalPass: "2024 // Active Garrison & Operations",
+    processingStatus: {
+      metadataExtracted: true,
+      tileGenerated: true,
+      embeddingGenerated: true,
+      faissIndexed: true,
+      availableForSearch: true
+    }
+  },
+  {
+    id: "T005",
+    sensor: "Landsat",
+    date: "2020-11-20",
+    dateIso: "2020-11-20",
+    status: "READY",
+    file: "LC08_L2SP_145044_20201120.tif",
+    resolution: "30 m",
+    crs: "EPSG:32645",
+    lat: 22.57,
+    lng: 88.36,
+    coordinates: "22.5726° N, 88.3639° E",
+    cloudCover: "08%",
+    location: "Kolkata",
+    region: "Kolkata",
+    image: "/satellite-tiles/T027_2020.jpg",
+    temporalPass: "2020 // Pristine Baseline Riverbank",
+    processingStatus: {
+      metadataExtracted: true,
+      tileGenerated: true,
+      embeddingGenerated: true,
+      faissIndexed: true,
+      availableForSearch: true
+    }
+  },
+  {
+    id: "T027",
+    sensor: "Landsat-8",
+    date: "2023-05-18",
+    dateIso: "2023-05-18",
+    status: "READY",
+    file: "LC08_L2SP_145044_20230518.tif",
+    resolution: "10m",
+    crs: "EPSG:4326",
+    lat: 22.5726,
+    lng: 88.3639,
+    coordinates: "22.5726° N, 88.3639° E",
+    cloudCover: "6%",
+    location: "Kolkata Urban",
+    region: "Kolkata Urban",
+    image: "/satellite-tiles/T027_2023.jpg",
+    temporalPass: "2023 // High-Confidence Target Installation",
+    processingStatus: {
+      metadataExtracted: true,
+      tileGenerated: true,
+      embeddingGenerated: true,
+      faissIndexed: true,
+      availableForSearch: true
+    }
+  },
   {
     id: "T026",
     sensor: "Sentinel-2",
     date: "2025-04-19",
-    status: "ACTIVE",
+    dateIso: "2025-04-19",
+    status: "READY",
     file: "S2A_MSIL2A_20250419T054218.tif",
     resolution: "10 m",
     crs: "EPSG:4326",
     lat: 34.15,
     lng: 77.58,
+    coordinates: "34.15, 77.58",
     cloudCover: "2%",
-    region: "Ladakh LAC Sector"
+    location: "Ladakh LAC",
+    region: "Ladakh",
+    image: "/satellite-tiles/T004.jpg",
+    temporalPass: "2025 // High-Altitude Mountain Pass",
+    processingStatus: {
+      metadataExtracted: true,
+      tileGenerated: true,
+      embeddingGenerated: true,
+      faissIndexed: true,
+      availableForSearch: true
+    }
   },
   {
     id: "T025",
-    sensor: "Landsat 8",
+    sensor: "Landsat-8",
     date: "2025-03-12",
-    status: "ACTIVE",
+    dateIso: "2025-03-12",
+    status: "READY",
     file: "LC08_L2SP_145044_20250312.tif",
     resolution: "30 m",
     crs: "EPSG:4326",
     lat: 22.57,
     lng: 88.36,
+    coordinates: "22.57, 88.36",
     cloudCover: "8%",
-    region: "Kolkata Maritime"
+    location: "Kolkata",
+    region: "Kolkata",
+    image: "/satellite-tiles/T027_2024.jpg",
+    temporalPass: "2025 // Fortified Complex Update",
+    processingStatus: {
+      metadataExtracted: true,
+      tileGenerated: true,
+      embeddingGenerated: true,
+      faissIndexed: true,
+      availableForSearch: true
+    }
   },
   {
     id: "T024",
     sensor: "Cartosat-3 PAN",
     date: "2025-02-28",
-    status: "ACTIVE",
+    dateIso: "2025-02-28",
+    status: "READY",
     file: "CART3_PAN_20250228_WGS84.tif",
     resolution: "0.25 m",
     crs: "EPSG:4326",
     lat: 23.75,
     lng: 68.15,
+    coordinates: "23.75, 68.15",
     cloudCover: "0%",
-    region: "Sir Creek Tidal Flat"
+    location: "Sir Creek",
+    region: "Sir Creek",
+    image: "/satellite-tiles/T001.jpg",
+    temporalPass: "2025 // Littoral Tidal Flats",
+    processingStatus: {
+      metadataExtracted: true,
+      tileGenerated: true,
+      embeddingGenerated: true,
+      faissIndexed: true,
+      availableForSearch: true
+    }
   },
   {
     id: "T023",
     sensor: "RISAT-2BR1 SAR",
     date: "2025-01-15",
-    status: "ACTIVE",
+    dateIso: "2025-01-15",
+    status: "READY",
     file: "RISAT2BR1_SAR_20250115_POL.tif",
     resolution: "0.35 m",
     crs: "EPSG:4326",
     lat: 27.58,
     lng: 91.86,
-    cloudCover: "0% (All-Weather SAR)",
-    region: "Arunachal LAC Foothills"
+    coordinates: "27.58, 91.86",
+    cloudCover: "0%",
+    location: "Arunachal LAC",
+    region: "Arunachal",
+    image: "/satellite-tiles/T003.jpg",
+    temporalPass: "2025 // Tawang Chu Riparian Valley",
+    processingStatus: {
+      metadataExtracted: true,
+      tileGenerated: true,
+      embeddingGenerated: true,
+      faissIndexed: true,
+      availableForSearch: true
+    }
   }
 ];
 

@@ -180,7 +180,7 @@ export default function ImageToImageSearch({ onSelectTile }) {
 
   const handleViewTile = (tileId) => {
     if (onSelectTile) onSelectTile(tileId);
-    const el = document.getElementById('image-viewer');
+    const el = document.getElementById('temporal-analysis');
     if (el) el.scrollIntoView({ behavior: 'smooth' });
   };
 

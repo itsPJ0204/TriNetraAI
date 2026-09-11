@@ -10,14 +10,6 @@ export default function CandidateTilesGrid({ tiles, selectedTileId, onSelectTile
     onSelectTile(preset.tileId);
   };
 
-  const handleInspectClick = (tileId) => {
-    onSelectTile(tileId);
-    setTimeout(() => {
-      const el = document.getElementById('image-viewer');
-      if (el) el.scrollIntoView({ behavior: 'smooth' });
-    }, 50);
-  };
-
   const handleTemporalClick = (tileId) => {
     onSelectTile(tileId);
     setTimeout(() => {
@@ -154,34 +146,22 @@ export default function CandidateTilesGrid({ tiles, selectedTileId, onSelectTile
                 </div>
               </div>
 
-              <div className="flex gap-2">
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleInspectClick(tile.id);
-                  }}
-                  className={`flex-1 py-2 font-mono text-[10px] sm:text-[11px] font-bold tracking-wider uppercase border transition-colors flex items-center justify-center gap-1.5 cursor-pointer ${
-                    isSelected
-                      ? 'bg-[#00e5ff] text-[#070e1b] border-[#00e5ff]'
-                      : 'bg-[#131f33] hover:bg-[#00e5ff] hover:text-[#070e1b] text-[#00e5ff] border-[#00e5ff]/40'
-                  }`}
-                  title="Inspect tile in YOLO Optical Target Inspector"
-                >
-                  <Eye className="w-3.5 h-3.5" />
-                  <span>INSPECT</span>
-                </button>
+              <div className="pt-2 border-t border-[#1e293b]/60">
                 <button
                   type="button"
                   onClick={(e) => {
                     e.stopPropagation();
                     handleTemporalClick(tile.id);
                   }}
-                  className="flex-1 py-2 font-mono text-[10px] sm:text-[11px] font-bold tracking-wider uppercase bg-[#131f33] hover:bg-[#ef4444] hover:text-white text-[#ef4444] border border-[#ef4444]/50 transition-colors flex items-center justify-center gap-1.5 cursor-pointer shadow-[0_0_8px_rgba(239,68,68,0.2)]"
+                  className={`w-full py-2 font-mono text-[11px] font-bold tracking-wider uppercase border transition-all flex items-center justify-center gap-2 cursor-pointer ${
+                    isSelected
+                      ? 'bg-[#00e5ff] text-[#070e1b] border-[#00e5ff] shadow-[0_0_12px_rgba(0,229,255,0.3)]'
+                      : 'bg-[#131f33] hover:bg-[#00e5ff] hover:text-[#070e1b] text-[#00e5ff] border-[#00e5ff]/40'
+                  }`}
                   title="Open Temporal Analysis and Change Detection for this tile"
                 >
                   <Clock className="w-3.5 h-3.5" />
-                  <span>TEMPORAL</span>
+                  <span>[ TEMPORAL ANALYSIS &amp; COMPARE ]</span>
                 </button>
               </div>
             </div>
