@@ -1,42 +1,10 @@
-# Python environments and caches
-venv/
-.venv/
-env/
+*.keras
+???????????*.keras
+data/
+database/
 __pycache__/
-*.pyc
-.pytest_cache/
-.coverage
-htmlcov/
-
-# Environment and secrets
+venv/
+node_modules/
+*.sqlite
 .env
-.env.*
-*.env
-
-# Logs and temporary files
-*.log
-scratch/
-.tempmediaStorage/
-
-# Downloaded model checkpoints
-models/remoteclip/*
-!models/remoteclip/.gitkeep
-checkpoints/*
-!checkpoints/.gitkeep
-*.pt
-*.pth
-*.ckpt
-*.safetensors
-
-# Generated vectors and local Qdrant data
-data/embeddings/*
-!data/embeddings/.gitkeep
-index/qdrant_storage/
-qdrant_storage/
-
-# Large satellite-image datasets and generated tiles
-data/tiles/*
-!data/tiles/.gitkeep
-data/raw/
-outputs/*
-!outputs/.gitkeep
+.pytest_cache/

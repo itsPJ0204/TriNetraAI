@@ -177,11 +177,12 @@ def execute_vector_search(
         if indexed_count == 0:
             return []
 
+        fetch_limit = min(max(top_k * 2, top_k + 5), indexed_count)
         response = client.query_points(
             collection_name=COLLECTION_NAME,
             query=query_vector.tolist(),
             query_filter=query_filter,
-            limit=min(top_k, indexed_count),
+            limit=fetch_limit,
             with_payload=True,
             with_vectors=False,
         )
@@ -192,7 +193,7 @@ def execute_vector_search(
             "Could not connect to Qdrant at http://localhost:6333."
         ) from error
 
-    results: list[SearchResult] = []
+    raw_results: list[SearchResult] = []
     for point in response.points:
         payload = point.payload or {}
         raw_bounds = payload.get("bounds", {})
@@ -202,19 +203,32 @@ def execute_vector_search(
             "right": float(raw_bounds.get("right", 0.0)),
             "top": float(raw_bounds.get("top", 0.0)),
         }
-        results.append(
+        tile_date = str(payload.get("date", ""))
+        image_path = str(payload.get("image_path", ""))
+        tile_id = str(payload.get("tile_id") or f"sentinel2:{tile_date}:{image_path}")
+        raw_results.append(
             SearchResult(
                 tile_name=str(payload.get("tile_name", "")),
-                image_path=str(payload.get("image_path", "")),
+                image_path=image_path,
                 score=float(point.score),
                 crs=str(payload.get("crs", "")),
                 bounds=bounds,
                 width=int(payload.get("width", 0)),
                 height=int(payload.get("height", 0)),
-                date=str(payload.get("date", "")),
+                date=tile_date,
+                tile_id=tile_id,
             )
         )
-    return results
+
+    # Deterministic ranking: score descending, penalize narrow slivers (<16px), recent date descending, stable tile_name
+    def rank_key(res: SearchResult) -> tuple[float, int, str, str]:
+        is_sliver = 1 if (0 < res.width < 16) or (0 < res.height < 16) else 0
+        effective_score = res.score - (0.008 if is_sliver else 0.0)
+        return (-effective_score, is_sliver, res.date or "", res.tile_name)
+
+    raw_results.sort(key=rank_key)
+    return raw_results[:top_k]
+
 
 
 def image_input_to_embedding(

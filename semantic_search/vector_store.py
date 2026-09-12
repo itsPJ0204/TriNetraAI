@@ -1,7 +1,9 @@
 """Store locally generated satellite-tile embeddings in Qdrant."""
 
 import json
+import os
 from pathlib import Path
+import threading
 
 import numpy as np
 from qdrant_client import QdrantClient, models
@@ -9,11 +11,10 @@ import rasterio
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-QDRANT_URL = "http://localhost:6333"
+DEFAULT_QDRANT_URL = "http://localhost:6333"
+QDRANT_URL = os.getenv("QDRANT_URL", DEFAULT_QDRANT_URL)
 COLLECTION_NAME = "satellite_tiles"
 EMBEDDINGS_PATH = PROJECT_ROOT / "data" / "embeddings" / "image_embeddings.npy"
-import threading
-
 IMAGE_PATHS_PATH = PROJECT_ROOT / "data" / "embeddings" / "image_paths.json"
 DEFAULT_SCENE_DATE = "2026-06-27"
 
@@ -22,26 +23,20 @@ _CLIENT_CACHE: dict[str, QdrantClient] = {}
 
 
 def clear_client_cache() -> None:
-    """Clear cached Qdrant client instances (useful for testing)."""
+    """Clear cached Qdrant client instances (useful for testing or reconnecting)."""
     with _CLIENT_CACHE_LOCK:
         _CLIENT_CACHE.clear()
 
 
-def get_qdrant_client(url: str = QDRANT_URL, reload: bool = False) -> QdrantClient:
-    """Connect to the local Qdrant server, verify it responds, or fallback to embedded disk storage for offline mode."""
+def get_qdrant_client(url: str | None = None, reload: bool = False, timeout: float = 2.0) -> QdrantClient:
+    """Connect to local SQLite storage."""
     with _CLIENT_CACHE_LOCK:
-        if not reload and url in _CLIENT_CACHE:
-            return _CLIENT_CACHE[url]
+        if not reload and "local" in _CLIENT_CACHE:
+            return _CLIENT_CACHE["local"]
 
-        try:
-            client = QdrantClient(url=url, timeout=1.5)
-            client.get_collections()
-        except Exception:
-            local_path = PROJECT_ROOT / "data" / "qdrant_local"
-            local_path.mkdir(parents=True, exist_ok=True)
-            client = QdrantClient(path=str(local_path))
-
-        _CLIENT_CACHE[url] = client
+        local_path = PROJECT_ROOT / "data" / "qdrant_local"
+        client = QdrantClient(path=str(local_path))
+        _CLIENT_CACHE["local"] = client
         return client
 
 
