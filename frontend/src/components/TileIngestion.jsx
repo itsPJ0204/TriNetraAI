@@ -1245,7 +1245,7 @@ export default function TileIngestion({ onTileIngested, onViewTile, onSearchTile
                 </button>
                 <button
                   type="button"
-                  onClick={() => onViewTile && onViewTile(savedTile.id)}
+                  onClick={() => onViewTile && onViewTile(savedTile)}
                   className="py-2.5 bg-slate-800/80 hover:bg-[#00e5ff] hover:text-[#070e1b] border border-cyan-500/30 text-[#00e5ff] font-mono text-[11px] font-bold uppercase rounded-xl transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
                 >
                   <Clock className="w-3.5 h-3.5" />
@@ -1638,7 +1638,7 @@ export default function TileIngestion({ onTileIngested, onViewTile, onSearchTile
               <button
                 type="button"
                 onClick={() => {
-                  if (onViewTile) onViewTile(selectedDetailTile.id);
+                  if (onViewTile) onViewTile(selectedDetailTile);
                   setTimeout(() => {
                     const el = document.getElementById('temporal-analysis');
                     if (el) el.scrollIntoView({ behavior: 'smooth' });

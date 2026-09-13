@@ -21,7 +21,7 @@ export default function App() {
   const [activeSection, setActiveSection] = useState("hero");
   const [isAssistantOpen, setIsAssistantOpen] = useState(false);
 
-  const activeTile = tiles.find(t => t.id === selectedTileId) || (tiles.length > 0 ? tiles[0] : null);
+  const activeTile = tiles.find(t => t.id === selectedTileId) || null;
 
   const handleTileIngested = (newTile) => {
     setTiles(prev => {
@@ -35,7 +35,21 @@ export default function App() {
     setHasSearched(true);
   };
 
-  const handleViewTile = (tileId) => {
+  const handleViewTile = (tileArg) => {
+    let tileId;
+    if (typeof tileArg === 'string') {
+      tileId = tileArg;
+    } else if (tileArg && tileArg.id) {
+      tileId = tileArg.id;
+      // Inject the tile into the tiles array if it doesn't exist
+      setTiles(prev => {
+        if (!prev.find(t => t.id === tileId)) {
+          return [tileArg, ...prev];
+        }
+        return prev;
+      });
+    }
+    
     setSelectedTileId(tileId);
     setHasSearched(true);
     setActiveSection('temporal-analysis');
@@ -172,9 +186,7 @@ export default function App() {
         />
 
         {/* Section 5: Dedicated Temporal Comparison & Change Detection */}
-        {hasSearched && (
-          <TemporalAnalysis activeTile={activeTile} onSelectTile={handleSelectTile} />
-        )}
+        <TemporalAnalysis activeTile={activeTile} onSelectTile={handleSelectTile} />
 
         {/* Section 6: Tile Ingestion & SQLite Archive */}
         <TileIngestion

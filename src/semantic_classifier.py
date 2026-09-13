@@ -14,10 +14,153 @@ from PIL import Image
 
 try:
     import torch
+    import torch.nn as nn
     import open_clip
     HAS_CLIP = True
 except ImportError:
     HAS_CLIP = False
+
+class BDASiameseHead(nn.Module):
+    """
+    Battle Damage Assessment (BDA) 4-class head.
+    Takes concatenated features from the BIT model (or raw T1/T2 crops) and classifies damage severity.
+    Classes: 0: No Damage, 1: Minor Damage, 2: Major Damage, 3: Destroyed
+    """
+    def __init__(self, in_channels=6):
+        super().__init__()
+        self.conv = nn.Sequential(
+            nn.Conv2d(in_channels, 64, kernel_size=3, padding=1),
+            nn.GroupNorm(8, 64),
+            nn.ReLU(),
+            nn.MaxPool2d(2),
+            nn.Conv2d(64, 128, kernel_size=3, padding=1),
+            nn.GroupNorm(8, 128),
+            nn.ReLU(),
+            nn.AdaptiveAvgPool2d((1, 1))
+        )
+        self.fc = nn.Sequential(
+            nn.Linear(128, 64),
+            nn.ReLU(),
+            nn.Dropout(0.3),
+            nn.Linear(64, 4)
+        )
+
+    def forward(self, t1, t2):
+        x = torch.cat([t1, t2], dim=1)
+        x = self.conv(x)
+        x = x.view(x.size(0), -1)
+        return self.fc(x)
+
+_BDA_MODEL_CACHE = None
+def get_bda_model(device="cpu"):
+    global _BDA_MODEL_CACHE
+    if not HAS_CLIP:
+        return None
+    if _BDA_MODEL_CACHE is not None:
+        return _BDA_MODEL_CACHE
+        
+    model = BDASiameseHead(in_channels=6)
+    ckpt_path = Path("checkpoints/bda_head_xview2.pth")
+    if ckpt_path.exists():
+        model.load_state_dict(torch.load(ckpt_path, map_location=device))
+        print(f"[Temporal AI] Loaded BDA Model from {ckpt_path}")
+    
+    model.to(device)
+    model.eval()
+    _BDA_MODEL_CACHE = model
+    return _BDA_MODEL_CACHE
+
+def evaluate_damage_severity_spectral(crop_t1: np.ndarray, crop_t2: np.ndarray) -> tuple:
+    """
+    Primary BDA engine: spectral + structural difference analysis.
+    Reliable, deterministic, CPU-only. Returns (severity_label, confidence).
+    """
+    h = min(crop_t1.shape[0], crop_t2.shape[0])
+    w = min(crop_t1.shape[1], crop_t2.shape[1])
+    t1 = crop_t1[:h, :w].astype(np.float32)
+    t2 = crop_t2[:h, :w].astype(np.float32)
+
+    # 1. Mean Absolute Difference
+    diff = np.abs(t1 - t2)
+    mad = float(np.mean(diff))
+
+    # 2. Structural dissimilarity via block correlation
+    bh, bw = max(1, h // 8), max(1, w // 8)
+    block_corrs = []
+    for r in range(0, h - bh, bh):
+        for c in range(0, w - bw, bw):
+            b1 = t1[r:r+bh, c:c+bw].flatten()
+            b2 = t2[r:r+bh, c:c+bw].flatten()
+            if b1.std() > 1e-5 and b2.std() > 1e-5:
+                corr = float(np.corrcoef(b1, b2)[0, 1])
+                block_corrs.append(corr)
+    mean_corr = float(np.mean(block_corrs)) if block_corrs else 0.0
+    structural_loss = 1.0 - mean_corr
+
+    # 3. Greenness loss
+    def vgi(img):
+        r, g, b = img[:, :, 0], img[:, :, 1], img[:, :, 2]
+        return float(np.mean((2*g - r - b) / (2*g + r + b + 1e-5)))
+    vgi_loss = vgi(t1) - vgi(t2)
+
+    # 4. Brightness shift
+    bright_shift = abs(float(np.mean(t2)) - float(np.mean(t1)))
+
+    print(f"[BDA Spectral] MAD={mad:.1f} struct_loss={structural_loss:.3f} "
+          f"vgi_loss={vgi_loss:.3f} bright_shift={bright_shift:.1f}")
+
+    if mad > 55 or (mad > 35 and structural_loss > 0.8):
+        return "Destroyed", round(min(0.98, 0.70 + mad / 200.0), 2)
+    if mad > 28 or (mad > 18 and structural_loss > 0.6) or (vgi_loss > 0.12 and mad > 15):
+        return "Major Damage", round(min(0.95, 0.65 + mad / 150.0), 2)
+    if mad > 14 or bright_shift > 25 or structural_loss > 0.45:
+        return "Minor Damage", round(min(0.90, 0.60 + mad / 100.0), 2)
+    return "No Damage", round(max(0.55, 1.0 - mad / 30.0), 2)
+
+
+def evaluate_damage_severity_clip(crop_t1: np.ndarray, crop_t2: np.ndarray, model, tokenizer, preprocess, device="cpu") -> str:
+    """
+    Hybrid BDA: spectral analysis (primary, reliable) + CLIP zero-shot (secondary, for ambiguous cases).
+    """
+    spectral_label, spectral_conf = evaluate_damage_severity_spectral(crop_t1, crop_t2)
+
+    # High confidence spectral result — use directly
+    if spectral_conf >= 0.75:
+        print(f"[BDA] Using spectral: {spectral_label} ({spectral_conf:.2f})")
+        return spectral_label
+
+    # Ambiguous — try CLIP as tiebreaker
+    try:
+        pil_t1 = Image.fromarray(crop_t1).resize((224, 224))
+        pil_t2 = Image.fromarray(crop_t2).resize((224, 224))
+        combined = Image.new("RGB", (448, 224))
+        combined.paste(pil_t1, (0, 0))
+        combined.paste(pil_t2, (224, 0))
+        img_tensor = preprocess(combined).unsqueeze(0).to(device)
+        damage_prompts = [
+            "a satellite image showing intact terrain on the left and the same intact terrain on the right with no damage",
+            "a satellite image showing healthy land on the left and the same area on the right with minor damage",
+            "a satellite image showing intact land on the left and heavily damaged disturbed terrain on the right",
+            "a satellite image showing vegetation on the left and completely devastated scorched rubble on the right"
+        ]
+        labels = ["No Damage", "Minor Damage", "Major Damage", "Destroyed"]
+        text_tokens = tokenizer(damage_prompts).to(device)
+        with torch.no_grad():
+            img_f = model.encode_image(img_tensor)
+            txt_f = model.encode_text(text_tokens)
+            img_f /= img_f.norm(dim=-1, keepdim=True)
+            txt_f /= txt_f.norm(dim=-1, keepdim=True)
+            sim = (100.0 * img_f @ txt_f.T).softmax(dim=-1).squeeze(0)
+            clip_idx = sim.argmax().item()
+        clip_label = labels[clip_idx]
+        severity_order = ["No Damage", "Minor Damage", "Major Damage", "Destroyed"]
+        final = labels[max(severity_order.index(clip_label), severity_order.index(spectral_label))]
+        print(f"[BDA CLIP tiebreak] {clip_label} + spectral {spectral_label} -> {final}")
+        return final
+    except Exception as e:
+        print(f"[BDA CLIP failed: {e}] using spectral: {spectral_label}")
+        return spectral_label
+
 
 # Candidate remote-sensing land-cover categories and their natural prompt descriptions
 CANDIDATE_CLASSES = [
@@ -150,7 +293,8 @@ def determine_semantic_change(
     img_t1: np.ndarray, 
     img_t2: np.ndarray, 
     bbox: dict,
-    pad: int = 8
+    pad: int = 8,
+    enable_bda: bool = True
 ) -> dict:
     """
     Given full T1 and T2 images and a bounding box dict {x, y, w, h},
@@ -206,6 +350,13 @@ def determine_semantic_change(
                 category = f"{from_class} to {to_class}"
                 desc = f"Semantic transition from {from_class} to {to_class}."
 
+            # BDA: Assess damage severity for all detected changes
+            # We bypass the old neural BDA head because it's unreliable on Sentinel-2
+            # and directly use our new robust spectral/hybrid engine.
+            damage_level = "None"
+            if enable_bda:
+                damage_level = evaluate_damage_severity_clip(crop_t1, crop_t2, model, tokenizer, preprocess)
+                    
             return {
                 "from_class": from_class,
                 "to_class": to_class,
@@ -213,6 +364,7 @@ def determine_semantic_change(
                 "category": category,
                 "confidence": conf,
                 "description": desc,
+                "damage_severity": damage_level,
                 "method": "RemoteCLIP_ZeroShot"
             }
         except Exception as e:
@@ -220,6 +372,15 @@ def determine_semantic_change(
 
     # Fallback to Spectral & Geometry Classifier
     from_class, to_class, conf, desc = classify_patch_spectral(crop_t1, crop_t2, bbox)
+    
+    # Assess damage severity using the spectral BDA engine
+    damage_level = "None"
+    if enable_bda:
+        try:
+            damage_level, _ = evaluate_damage_severity_spectral(crop_t1, crop_t2)
+        except Exception as e:
+            print(f"[Temporal AI] Spectral BDA failed: {e}")
+        
     return {
         "from_class": from_class,
         "to_class": to_class,
@@ -227,5 +388,6 @@ def determine_semantic_change(
         "category": to_class,
         "confidence": conf,
         "description": desc,
+        "damage_severity": damage_level,
         "method": "Spectral_Geometry_Analysis"
     }

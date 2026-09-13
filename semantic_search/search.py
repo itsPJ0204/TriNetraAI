@@ -155,6 +155,8 @@ def execute_vector_search(
     top_k: int = 5,
     bbox: dict[str, Any] | None = None,
     geographic_bbox: dict[str, Any] | None = None,
+    year: str | None = None,
+    satellite: str | None = None,
 ) -> list[SearchResult]:
     """
     Internal execution helper: query Qdrant with a 512-dim vector and optional bounding-box filter.
@@ -163,7 +165,30 @@ def execute_vector_search(
         raise ValueError("top_k must be a positive integer.")
 
     filter_box = bbox if bbox is not None else geographic_bbox
-    query_filter = build_geographic_filter(filter_box) if filter_box is not None else None
+    
+    must_filters = []
+    if filter_box is not None:
+        must_filters.extend(build_geographic_filter(filter_box).must)
+        
+    if year:
+        # Range on date field for the specific year
+        must_filters.append(
+            models.FieldCondition(
+                key="date",
+                range=models.Range(gte=f"{year}-01-01", lt=f"{int(year)+1}-01-01")
+            )
+        )
+        
+    if satellite:
+        # MatchValue on sensor field
+        must_filters.append(
+            models.FieldCondition(
+                key="sensor",
+                match=models.MatchValue(value=satellite)
+            )
+        )
+        
+    query_filter = models.Filter(must=must_filters) if must_filters else None
 
     try:
         client = get_qdrant_client()
@@ -382,6 +407,8 @@ def search(
     bbox: dict[str, Any] | None = None,
     top_k: int = 3,
     geographic_bbox: dict[str, Any] | None = None,
+    year: str | None = None,
+    satellite: str | None = None,
 ) -> list[SearchResult]:
     """
     Public Semantic AI search interface.
@@ -416,6 +443,8 @@ def search(
         top_k=top_k,
         bbox=bbox,
         geographic_bbox=geographic_bbox,
+        year=year,
+        satellite=satellite,
     )
 
 
@@ -429,6 +458,8 @@ def search_by_image(
     geographic_bbox: dict[str, Any] | None = None,
     image_weight: float | None = None,
     text_weight: float | None = None,
+    year: str | None = None,
+    satellite: str | None = None,
 ) -> list[SearchResult]:
     """
     Search satellite tiles by query image (image-to-image) or multimodal query (image + text).
@@ -480,5 +511,7 @@ def search_by_image(
         top_k=top_k,
         bbox=bbox,
         geographic_bbox=geographic_bbox,
+        year=year,
+        satellite=satellite,
     )
 

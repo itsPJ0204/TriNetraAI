@@ -133,6 +133,9 @@ def find_sentinel2_rgb_image(raw_dir: str | Path) -> Path | None:
             *dir_path.glob("*.tif"),
             *dir_path.glob("*.tiff"),
             *dir_path.glob("*.jp2"),
+            *dir_path.glob("*.png"),
+            *dir_path.glob("*.jpg"),
+            *dir_path.glob("*.jpeg"),
         ]
     )
 

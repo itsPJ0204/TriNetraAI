@@ -99,7 +99,7 @@ export default function CandidateTilesGrid({ tiles, selectedTileId, onSelectTile
           </div>
           <h3 className="text-lg font-bold text-white mb-2">No Candidate Tiles Found</h3>
           <p className="text-sm text-slate-300 max-w-md mx-auto mb-6 leading-relaxed">
-            Execute a natural language semantic query or upload satellite tiles to retrieve and rank candidate tiles.
+            Nothing matches with the set filter. Please adjust your search query or clear the filters.
           </p>
           <button
             type="button"

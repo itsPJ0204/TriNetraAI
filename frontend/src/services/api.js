@@ -7,6 +7,20 @@
 import { SYSTEM_STATUS, INITIAL_AUDIT_LOG, INITIAL_ARCHIVE } from '../data/mockData';
 
 // Configurable API base URL (FastAPI Backend)
+
+export async function getSearchFilters() {
+  try {
+    const res = await fetch(`${API_BASE_URL}/search/filters`);
+    if (res.ok) {
+      return await res.json();
+    }
+    return { aoi: [], satellites: [], years: [] };
+  } catch (err) {
+    console.error("Failed to fetch search filters", err);
+    return { aoi: [], satellites: [], years: [] };
+  }
+}
+
 export const API_BASE_URL = import.meta.env?.VITE_API_BASE_URL || 'http://localhost:8000';
 
 /**
@@ -14,12 +28,24 @@ export const API_BASE_URL = import.meta.env?.VITE_API_BASE_URL || 'http://localh
  * @param {string} query - e.g. "dense vegetation near water bodies"
  * @param {number} topK - number of candidate tiles
  */
-export async function searchSatelliteImages(query, topK = 10) {
+export async function searchSatelliteImages(query, topK = 10, filters = {}) {
   try {
+    const payload = { query, top_k: topK };
+    if (filters.year) payload.year = filters.year;
+    if (filters.satellite) payload.satellite = filters.satellite;
+    if (filters.aoi && filters.aoi.bounds) {
+       payload.bbox = {
+           left: filters.aoi.bounds.left,
+           bottom: filters.aoi.bounds.bottom,
+           right: filters.aoi.bounds.right,
+           top: filters.aoi.bounds.top
+       };
+    }
+    
     const response = await fetch(`${API_BASE_URL}/search/text`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ query, top_k: topK })
+      body: JSON.stringify(payload)
     });
 
     if (response.ok) {
@@ -39,6 +65,15 @@ export async function searchSatelliteImages(query, topK = 10) {
           candidateCount: transformedTiles.length,
           latencyMs: 38,
           tiles: transformedTiles
+        };
+      } else if (data.results && data.results.length === 0) {
+        return {
+          success: true,
+          query,
+          resolvedSlots: {},
+          candidateCount: 0,
+          latencyMs: 12,
+          tiles: []
         };
       }
     }
@@ -191,7 +226,7 @@ export async function submitReview(tileId, decision, remarks = "") {
  * @param {string} queryPrompt
  * @param {number} topK
  */
-export async function searchByImage(imageFile, queryPrompt = "", topK = 8) {
+export async function searchByImage(imageFile, queryPrompt = "", topK = 8, filters = {}) {
   try {
     const formData = new FormData();
     if (imageFile instanceof File) {
@@ -210,6 +245,15 @@ export async function searchByImage(imageFile, queryPrompt = "", topK = 8) {
       queryParams.set('query', queryPrompt.trim());
       queryParams.set('fusion_strategy', 'weighted_sum');
       queryParams.set('alpha', '0.5');
+    }
+    
+    if (filters.year) queryParams.set('year', filters.year);
+    if (filters.satellite) queryParams.set('satellite', filters.satellite);
+    if (filters.aoi && filters.aoi.bounds) {
+        queryParams.set('minx', String(filters.aoi.bounds.left));
+        queryParams.set('miny', String(filters.aoi.bounds.bottom));
+        queryParams.set('maxx', String(filters.aoi.bounds.right));
+        queryParams.set('maxy', String(filters.aoi.bounds.top));
     }
 
     const res = await fetch(`${API_BASE_URL}/search/image?${queryParams.toString()}`, {
@@ -352,6 +396,14 @@ export async function searchByImage(imageFile, queryPrompt = "", topK = 8) {
           processingLatencyMs: 48,
           matches,
           tiles: matches
+        };
+      } else if (data.results && data.results.length === 0) {
+        return {
+          success: true,
+          queryImage: imageFile?.name || "Uploaded_Recon_Tile.png",
+          processingLatencyMs: 12,
+          matches: [],
+          tiles: []
         };
       }
     }
@@ -810,12 +862,13 @@ export async function getAvailableDates(tileId) {
     success: true,
     tileId: tileId || "sentinel2_tile_1.tif",
     dates: [
-      { id: "2025-06-07", date: "2025-06-07", year: 2025, label: "07 JUN 2025", type: "Baseline Pass", desc: "Initial archival baseline imagery (2025 acquisition)", is_baseline: true, is_current: false },
-      { id: "2026-01-18", date: "2026-01-18", year: 2026, label: "18 JAN 2026", type: "Winter Pass", desc: "Intermediate multi-spectral surveillance pass (2026 acquisition)", is_baseline: false, is_current: false },
-      { id: "2026-06-27", date: "2026-06-27", year: 2026, label: "27 JUN 2026", type: "Current Pass", desc: "Latest high-resolution target observation pass (2026 acquisition)", is_baseline: false, is_current: true }
+      { id: "2024-01-01", date: "2024-01-01", year: 2024, label: "01 JAN 2024", type: "Baseline Pass", desc: "Initial archival baseline imagery (2024 acquisition)", is_baseline: true, is_current: false },
+      { id: "2024-01-02", date: "2024-01-02", year: 2024, label: "02 JAN 2024", type: "Pass #2", desc: "Intermediate multi-spectral surveillance pass (2024 acquisition)", is_baseline: false, is_current: false },
+      { id: "2025-01-01", date: "2025-01-01", year: 2025, label: "01 JAN 2025", type: "Pass #4", desc: "Intermediate multi-spectral surveillance pass (2025 acquisition)", is_baseline: false, is_current: false },
+      { id: "2025-01-02", date: "2025-01-02", year: 2025, label: "02 JAN 2025", type: "Pass #5", desc: "Intermediate multi-spectral surveillance pass (2025 acquisition)", is_baseline: false, is_current: false }
     ],
-    firstDate: "2025-06-07",
-    latestDate: "2026-06-27"
+    firstDate: "2024-01-01",
+    latestDate: "2025-01-02"
   };
 }
 
@@ -825,24 +878,31 @@ export async function getAvailableDates(tileId) {
  * @param {string} beforeDate 
  * @param {string} afterDate 
  */
-export async function getChangeDetection(tileId, beforeDate = "2025-06-07", afterDate = "2026-06-27") {
+export async function getChangeDetection(tileId, beforeDate = "2024-01-01", afterDate = "2024-01-02", options = {}) {
   // Normalize dates
   const bDate = String(beforeDate).length === 4 ? (beforeDate === "2025" ? "2025-06-07" : beforeDate === "2026" ? "2026-01-18" : "2025-06-07") : String(beforeDate);
   const aDate = String(afterDate).length === 4 ? (afterDate === "2026" ? "2026-06-27" : "2026-06-27") : String(afterDate);
 
-  // Extract base tile filename (e.g. sentinel2_tile_1.tif)
+  // Extract base tile filename robustly
+  // tileId can be: 'sentinel2_tile_7.tif', 'T007', an id string, or a tile object field
   let tileFilename = "sentinel2_tile_1.tif";
   if (tileId) {
     const raw = String(tileId);
-    if (raw.includes("sentinel2_tile_")) {
-      const match = raw.match(/sentinel2_tile_\d+\.tif/i);
-      if (match) tileFilename = match[0].toLowerCase();
-    } else if (raw.startsWith("T0") || raw.startsWith("T")) {
+    // Direct match: already looks like a sentinel filename
+    const directMatch = raw.match(/sentinel2_tile_\d+\.tif/i);
+    if (directMatch) {
+      tileFilename = directMatch[0].toLowerCase();
+    } else {
+      // Try extracting a number from an id like 'T007', 'arch-7', 'tile-7'
       const numMatch = raw.match(/\d+/);
-      const num = numMatch ? Math.max(1, Math.min(30, parseInt(numMatch[0]))) : 1;
-      tileFilename = `sentinel2_tile_${num}.tif`;
+      if (numMatch) {
+        const num = Math.max(1, parseInt(numMatch[0], 10));
+        tileFilename = `sentinel2_tile_${num}.tif`;
+      }
     }
   }
+
+  console.log(`[BDA] Resolved tile: ${tileFilename} | T1: ${bDate} | T2: ${aDate} | BDA Enabled: ${options.enableBda !== false}`);
 
   const beforeFile = `data/tiles/sentinel2/${bDate}/${tileFilename}`;
   const afterFile = `data/tiles/sentinel2/${aDate}/${tileFilename}`;
@@ -857,8 +917,9 @@ export async function getChangeDetection(tileId, beforeDate = "2025-06-07", afte
       body: JSON.stringify({
         before_path: beforeFile,
         after_path: afterFile,
-        force_classical: false,
-        apply_qa_suppression: true,
+        force_classical: options.forceClassical || false,
+        apply_qa_suppression: options.applyQaSuppression !== false,
+        enable_bda: options.enableBda !== false,
         min_area: 100
       })
     });

@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { getSearchFilters } from '../services/api';
 import { Search, Sparkles, Cpu, CornerDownLeft, X, Layers } from 'lucide-react';
 
 const SUGGESTIONS = [
@@ -11,10 +12,20 @@ const SUGGESTIONS = [
 
 export default function SemanticSearch({ onSearch, isSearching }) {
   const [query, setQuery] = useState("");
+  const [availableFilters, setAvailableFilters] = useState({ aoi: [], satellites: [], years: [] });
+  const [selectedFilters, setSelectedFilters] = useState({ aoi: "", satellite: "", year: "" });
+
+  useEffect(() => {
+    getSearchFilters().then(data => setAvailableFilters(data));
+  }, []);
 
   const executeSearch = (targetQuery) => {
     if (!targetQuery || !targetQuery.trim()) return;
-    onSearch(targetQuery);
+    const aoiObj = availableFilters.aoi.find(a => a.id === selectedFilters.aoi);
+    onSearch(targetQuery, {
+      ...selectedFilters,
+      aoi: aoiObj || null
+    });
   };
 
   const handleSubmit = (e) => {
@@ -52,7 +63,45 @@ export default function SemanticSearch({ onSearch, isSearching }) {
         </div>
       </div>
 
+      
+      {/* Dynamic Filters */}
+      <div className="flex flex-wrap items-center gap-4 mb-4">
+        <select 
+          value={selectedFilters.aoi} 
+          onChange={e => setSelectedFilters({...selectedFilters, aoi: e.target.value})}
+          className="px-3 py-2 bg-[#06142e]/95 border border-cyan-500/30 text-slate-300 text-sm rounded-lg focus:outline-none focus:border-cyan-400"
+        >
+          <option value="">All Regions</option>
+          {availableFilters.aoi.map(a => (
+            <option key={a.id} value={a.id}>{a.label}</option>
+          ))}
+        </select>
+        
+        <select 
+          value={selectedFilters.satellite} 
+          onChange={e => setSelectedFilters({...selectedFilters, satellite: e.target.value})}
+          className="px-3 py-2 bg-[#06142e]/95 border border-cyan-500/30 text-slate-300 text-sm rounded-lg focus:outline-none focus:border-cyan-400"
+        >
+          <option value="">All Satellites</option>
+          {availableFilters.satellites.map(s => (
+            <option key={s} value={s}>{s}</option>
+          ))}
+        </select>
+
+        <select 
+          value={selectedFilters.year} 
+          onChange={e => setSelectedFilters({...selectedFilters, year: e.target.value})}
+          className="px-3 py-2 bg-[#06142e]/95 border border-cyan-500/30 text-slate-300 text-sm rounded-lg focus:outline-none focus:border-cyan-400"
+        >
+          <option value="">All Years</option>
+          {availableFilters.years.map(y => (
+            <option key={y} value={y}>{y}</option>
+          ))}
+        </select>
+      </div>
+
       {/* Redesigned Floating Glass Search Bar */}
+
       <form onSubmit={handleSubmit} className="relative mb-6">
         <div className="relative flex flex-col sm:flex-row items-center gap-2 p-2 sm:p-2.5 bg-gradient-to-b from-[#081b38]/90 via-[#06142e]/95 to-[#030a18]/95 border-2 border-cyan-400/50 shadow-[0_0_30px_rgba(0,229,255,0.2)] border border-cyan-500/30 focus-within:border-cyan-400/60 rounded-2xl sm:rounded-3xl backdrop-blur-2xl shadow-xl shadow-black/40 transition-all duration-200">
           

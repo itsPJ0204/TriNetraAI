@@ -1,4 +1,5 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import { getSearchFilters } from '../services/api';
 import { UploadCloud, Image as ImageIcon, CheckCircle2, Trash2, RefreshCw, Eye, SlidersHorizontal, Sparkles, MessageSquare, AlertCircle } from 'lucide-react';
 import { searchByImage } from '../services/api';
 
@@ -12,7 +13,13 @@ export default function ImageToImageSearch({ onSelectTile, onSearchResults }) {
   const [results, setResults] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
   const [isDragOver, setIsDragOver] = useState(false);
+  const [availableFilters, setAvailableFilters] = useState({ aoi: [], satellites: [], years: [] });
+  const [selectedFilters, setSelectedFilters] = useState({ aoi: "", satellite: "", year: "" });
   const fileInputRef = useRef(null);
+
+  useEffect(() => {
+    getSearchFilters().then(data => setAvailableFilters(data));
+  }, []);
 
   const handleFile = (file) => {
     if (!file) return;
@@ -142,7 +149,12 @@ export default function ImageToImageSearch({ onSelectTile, onSearchResults }) {
         fileToSend = new File([blob], "prompt_seed.png", { type: "image/png" });
       }
 
-      const res = await searchByImage(fileToSend, searchPrompt, 8);
+      setErrorMessage(null);
+      const aoiObj = availableFilters.aoi.find(a => a.id === selectedFilters.aoi);
+      const res = await searchByImage(fileToSend, searchPrompt, 8, {
+        ...selectedFilters,
+        aoi: aoiObj || null
+      });
 
       clearTimeout(timer2);
       clearTimeout(timer3);
@@ -353,6 +365,42 @@ export default function ImageToImageSearch({ onSelectTile, onSearchResults }) {
                     </button>
                   ))}
                 </div>
+              </div>
+
+              {/* Dropdown Filters UI */}
+              <div className="flex flex-wrap items-center gap-4 mt-4 mb-2">
+                <select 
+                  value={selectedFilters.aoi} 
+                  onChange={e => setSelectedFilters({...selectedFilters, aoi: e.target.value})}
+                  className="px-3 py-2 bg-[#06142e]/95 border border-cyan-500/30 text-slate-300 text-sm rounded-lg focus:outline-none focus:border-cyan-400 w-full sm:w-auto flex-1"
+                >
+                  <option value="">All Regions</option>
+                  {availableFilters.aoi.map(a => (
+                    <option key={a.id} value={a.id}>{a.label}</option>
+                  ))}
+                </select>
+                
+                <select 
+                  value={selectedFilters.satellite} 
+                  onChange={e => setSelectedFilters({...selectedFilters, satellite: e.target.value})}
+                  className="px-3 py-2 bg-[#06142e]/95 border border-cyan-500/30 text-slate-300 text-sm rounded-lg focus:outline-none focus:border-cyan-400 w-full sm:w-auto flex-1"
+                >
+                  <option value="">All Satellites</option>
+                  {availableFilters.satellites.map(s => (
+                    <option key={s} value={s}>{s}</option>
+                  ))}
+                </select>
+
+                <select 
+                  value={selectedFilters.year} 
+                  onChange={e => setSelectedFilters({...selectedFilters, year: e.target.value})}
+                  className="px-3 py-2 bg-[#06142e]/95 border border-cyan-500/30 text-slate-300 text-sm rounded-lg focus:outline-none focus:border-cyan-400 w-full sm:w-auto flex-1"
+                >
+                  <option value="">All Years</option>
+                  {availableFilters.years.map(y => (
+                    <option key={y} value={y}>{y}</option>
+                  ))}
+                </select>
               </div>
 
               {/* Primary Search Button (Styled matching Ingest Tile) */}

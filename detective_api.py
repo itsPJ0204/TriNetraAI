@@ -62,7 +62,8 @@ def compare_tiles(
     qa_mask_t1 = None,
     qa_mask_t2 = None,
     apply_qa_suppression: bool = True,
-    cloud_occlusion_threshold: float = 15.0
+    cloud_occlusion_threshold: float = 15.0,
+    enable_bda: bool = True
 ) -> dict:
     """
     Compares two co-registered image tiles from Time 1 and Time 2:
@@ -145,7 +146,7 @@ def compare_tiles(
         raw_mask[~joint_qa_mask] = 0
 
     # 3. Post-process & Classify Semantic Change ('What the change is')
-    analysis = process_detection(raw_mask, t1_arr, t2_arr, min_area=min_area)
+    analysis = process_detection(raw_mask, t1_arr, t2_arr, min_area=min_area, enable_bda=enable_bda)
     
     base_name = os.path.splitext(os.path.basename(tile_t2_path))[0]
     mask_file = os.path.join(output_dir, f"{base_name}_mask.png")

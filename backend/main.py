@@ -120,6 +120,8 @@ class TextSearchRequest(BaseModel):
     query: str = Field(..., min_length=1, description="Natural language search query", examples=["dense vegetation"])
     top_k: int = Field(default=5, ge=1, le=100, description="Number of results to return", examples=[5])
     bbox: BBox | None = Field(default=None, description="Optional bounding box spatial constraint")
+    year: str | None = Field(default=None, description="Optional year filter")
+    satellite: str | None = Field(default=None, description="Optional satellite filter")
 
     model_config = {
         "json_schema_extra": {
@@ -149,9 +151,12 @@ class ChangeDetectionRequest(BaseModel):
     force_classical: bool = Field(default=False, description="Force classical CV engine instead of neural BIT")
     apply_qa_suppression: bool = Field(default=True, description="Apply QA cloud/shadow suppression")
     min_area: int = Field(default=100, ge=1, description="Minimum pixel area threshold for change clusters")
+    enable_bda: bool = Field(default=True, description="Enable Battle Damage Assessment (BDA) severity evaluation")
+    damage_level: str | None = Field(default=None, description="Optional filter for Battle Damage Assessment severity (e.g. 'Destroyed', 'Major Damage')")
 
 
 class STACIngestRequest(BaseModel):
+
     bbox: list[float] = Field(..., description="[minx, miny, maxx, maxy]")
     datetime_range: str = Field(..., description="e.g. '2026-01-01/2026-06-27'")
     tile_size: int = Field(default=256, ge=64, le=1024, description="Tile dimension in pixels")
@@ -189,7 +194,113 @@ def health() -> dict[str, str]:
     return {"status": "ok"}
 
 
+
+@app.get("/search/filters")
+def get_search_filters():
+    from ingestion.db import get_connection
+    from geopy.geocoders import Nominatim
+    from geopy.exc import GeocoderTimedOut, GeocoderUnavailable
+    
+    geolocator = Nominatim(user_agent="trinetra_ai_geo_cache")
+    
+    with get_connection(DEFAULT_REGISTRY_PATH) as conn:
+        cur = conn.cursor()
+        
+        # Years
+        cur.execute("SELECT DISTINCT substr(acquisition_date, 1, 4) FROM images WHERE acquisition_date IS NOT NULL")
+        years = [row[0] for row in cur.fetchall() if row[0]]
+        years = sorted(years, reverse=True)
+        
+        # Satellites
+        cur.execute("SELECT DISTINCT filepath, filename FROM images")
+        rows = cur.fetchall()
+        satellites = set()
+        for row in rows:
+            fp_lower = (row[0] or "").lower()
+            fn_lower = (row[1] or "").lower()
+            combined = fp_lower + " " + fn_lower
+            
+            found = False
+            if "landsat" in combined or "l8" in combined:
+                satellites.add("Landsat-8")
+                found = True
+            if "sentinel2" in combined or "sentinel-2" in combined:
+                satellites.add("Sentinel-2")
+                found = True
+            if "s1" in combined or "sentinel1" in combined or "sentinel-1" in combined:
+                satellites.add("Sentinel-1")
+                found = True
+            
+            if not found:
+                satellites.add("Other")
+        
+        satellites = sorted(list(satellites))
+        
+        # Areas of Interest
+        cur.execute('''
+            CREATE TABLE IF NOT EXISTS region_cache (
+                bounds_key TEXT PRIMARY KEY,
+                minx REAL, miny REAL, maxx REAL, maxy REAL,
+                region_name TEXT
+            )
+        ''')
+        
+        cur.execute("SELECT DISTINCT minx, miny, maxx, maxy FROM images")
+        distinct_bounds = cur.fetchall()
+        
+        aoi_list = []
+        for minx, miny, maxx, maxy in distinct_bounds:
+            if minx is None or miny is None: continue
+            
+            b_key = f"{minx:.4f},{miny:.4f},{maxx:.4f},{maxy:.4f}"
+            
+            cur.execute("SELECT region_name FROM region_cache WHERE bounds_key = ?", (b_key,))
+            cached = cur.fetchone()
+            
+            if cached:
+                region_name = cached[0]
+            else:
+                center_lat = (miny + maxy) / 2.0
+                center_lon = (minx + maxx) / 2.0
+                try:
+                    location = geolocator.reverse((center_lat, center_lon), language="en", timeout=5)
+                    if location and location.raw and "address" in location.raw:
+                        addr = location.raw["address"]
+                        city = addr.get("city", addr.get("town", addr.get("village", addr.get("county", ""))))
+                        state = addr.get("state", "")
+                        
+                        # Format "City, State" nicely
+                        if city and state and city != state:
+                            region_name = f"{city}, {state}"
+                        elif state:
+                            region_name = state
+                        elif city:
+                            region_name = city
+                        else:
+                            region_name = location.address.split(",")[0].strip()
+                    else:
+                        region_name = f"Region ({center_lat:.2f}, {center_lon:.2f})"
+                except Exception:
+                    region_name = f"Region ({center_lat:.2f}, {center_lon:.2f})"
+                
+                cur.execute("INSERT INTO region_cache (bounds_key, minx, miny, maxx, maxy, region_name) VALUES (?, ?, ?, ?, ?, ?)",
+                            (b_key, minx, miny, maxx, maxy, region_name))
+                conn.commit()
+                
+            aoi_list.append({
+                "id": b_key,
+                "label": region_name,
+                "bounds": {"left": minx, "bottom": miny, "right": maxx, "top": maxy}
+            })
+            
+        return {
+            "years": years,
+            "satellites": satellites,
+            "aoi": aoi_list
+        }
+
 @app.post("/search/text")
+
 def search_text(request: TextSearchRequest) -> dict[str, Any]:
     """Natural-language semantic search across Docker Qdrant indexed satellite tiles."""
     try:
@@ -199,6 +310,8 @@ def search_text(request: TextSearchRequest) -> dict[str, Any]:
             query=request.query,
             top_k=request.top_k,
             bbox=request.bbox.as_dict() if request.bbox else None,
+            year=request.year,
+            satellite=request.satellite,
         )
         return {
             "query": request.query,
@@ -228,6 +341,8 @@ async def search_image(
     miny: Annotated[float | None, Query(description="Optional bbox bottom")] = None,
     maxx: Annotated[float | None, Query(description="Optional bbox right")] = None,
     maxy: Annotated[float | None, Query(description="Optional bbox top")] = None,
+    year: Annotated[str | None, Query(description="Optional year filter")] = None,
+    satellite: Annotated[str | None, Query(description="Optional satellite filter")] = None,
 ) -> dict[str, Any]:
     """Image-to-image or multimodal search across Docker Qdrant indexed satellite tiles."""
     try:
@@ -299,6 +414,7 @@ async def search_image(
 
 
 @app.post("/change-detection")
+@app.post("/api/changes")
 def change_detection(request: ChangeDetectionRequest) -> dict[str, Any]:
     """Bitemporal change detection using dual-engine BIT Transformer / Classical CV and QA suppression."""
     before_path = _project_file(request.before_path)
@@ -311,9 +427,23 @@ def change_detection(request: ChangeDetectionRequest) -> dict[str, Any]:
             str(after_path),
             force_classical=request.force_classical,
             apply_qa_suppression=request.apply_qa_suppression,
+            enable_bda=request.enable_bda,
             min_area=request.min_area,
             output_dir=str(PROJECT_ROOT / "outputs" / "backend"),
         )
+        
+        # Apply Battle Damage Assessment (BDA) filter if requested
+        if request.damage_level and "detected_targets" in report:
+            target_level = request.damage_level.lower()
+            filtered_targets = []
+            for target in report["detected_targets"]:
+                target_dmg = target.get("damage_severity", "none").lower()
+                if target_level in target_dmg:
+                    filtered_targets.append(target)
+            report["detected_targets"] = filtered_targets
+            report["target_count"] = len(filtered_targets)
+            report["has_change"] = len(filtered_targets) > 0
+            
         return _json_safe(report)
     except ValueError as error:
         raise HTTPException(status_code=400, detail=str(error)) from error
@@ -725,6 +855,11 @@ async def upload_and_ingest_satellite_data(
                             b = src.bounds
                             minx, miny, maxx, maxy = float(b.left), float(b.bottom), float(b.right), float(b.top)
                             crs_str = src.crs.to_string() if src.crs else "EPSG:32643"
+                            if src.crs and src.crs.to_string() != "EPSG:4326":
+                                from rasterio.warp import transform_bounds
+                                b_wgs = transform_bounds(src.crs, "EPSG:4326", b.left, b.bottom, b.right, b.top)
+                                minx, miny, maxx, maxy = float(b_wgs[0]), float(b_wgs[1]), float(b_wgs[2]), float(b_wgs[3])
+                            
                             w = src.width
                             h = src.height
                             bands = src.count
@@ -842,6 +977,11 @@ def ingest_stac(request: STACIngestRequest) -> dict[str, Any]:
                                 b = src.bounds
                                 minx, miny, maxx, maxy = float(b.left), float(b.bottom), float(b.right), float(b.top)
                                 crs_str = src.crs.to_string() if src.crs else "EPSG:4326"
+                                if src.crs and src.crs.to_string() != "EPSG:4326":
+                                    from rasterio.warp import transform_bounds
+                                    b_wgs = transform_bounds(src.crs, "EPSG:4326", b.left, b.bottom, b.right, b.top)
+                                    minx, miny, maxx, maxy = float(b_wgs[0]), float(b_wgs[1]), float(b_wgs[2]), float(b_wgs[3])
+                                
                                 w = src.width
                                 h = src.height
                                 bands = src.count
@@ -883,8 +1023,12 @@ def ingest_stac(request: STACIngestRequest) -> dict[str, Any]:
                         try:
                             with rasterio.open(p) as src:
                                 b = src.bounds
-                                minx, miny, maxx, maxy = b.left, b.bottom, b.right, b.top
+                                minx, miny, maxx, maxy = float(b.left), float(b.bottom), float(b.right), float(b.top)
                                 crs_str = src.crs.to_string() if src.crs else "EPSG:4326"
+                                if src.crs and src.crs.to_string() != "EPSG:4326":
+                                    from rasterio.warp import transform_bounds
+                                    b_wgs = transform_bounds(src.crs, "EPSG:4326", b.left, b.bottom, b.right, b.top)
+                                    minx, miny, maxx, maxy = float(b_wgs[0]), float(b_wgs[1]), float(b_wgs[2]), float(b_wgs[3])
                         except Exception:
                             minx, miny, maxx, maxy = 0.0, 0.0, 0.0, 0.0
                             crs_str = "EPSG:4326"

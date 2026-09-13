@@ -31,9 +31,10 @@ import {
 import { getChangeDetection, searchSatelliteImages, getAvailableDates, getArchive, API_BASE_URL } from '../services/api';
 
 const DEFAULT_EPOCHS = [
-  { id: "2025-06-07", label: "07 JUN 2025", type: "Baseline Pass", desc: "Initial archival baseline imagery (2025 acquisition)" },
-  { id: "2026-01-18", label: "18 JAN 2026", type: "Winter Pass", desc: "Intermediate multi-spectral surveillance pass (2026 acquisition)" },
-  { id: "2026-06-27", label: "27 JUN 2026", type: "Current Pass", desc: "Latest high-resolution target observation pass (2026 acquisition)" }
+  { id: "2024-01-01", label: "01 JAN 2024", type: "Baseline Pass", desc: "Initial archival baseline imagery (2024 acquisition)" },
+  { id: "2024-01-02", label: "02 JAN 2024", type: "Pass #2", desc: "Intermediate multi-spectral surveillance pass (2024 acquisition)" },
+  { id: "2025-01-01", label: "01 JAN 2025", type: "Pass #4", desc: "Intermediate multi-spectral surveillance pass (2025 acquisition)" },
+  { id: "2025-01-02", label: "02 JAN 2025", type: "Pass #5", desc: "Intermediate multi-spectral surveillance pass (2025 acquisition)" },
 ];
 
 const SEARCH_SUGGESTIONS = [
@@ -48,9 +49,9 @@ const SEARCH_SUGGESTIONS = [
 export default function TemporalAnalysis({ activeTile, onSelectTile }) {
   // Query search states
   const [searchQuery, setSearchQuery] = useState("");
+  const [visibleTileCount, setVisibleTileCount] = useState(6);
   const [isSearching, setIsSearching] = useState(false);
   const [rankedTiles, setRankedTiles] = useState([]);
-  const [visibleTileCount, setVisibleTileCount] = useState(6);
 
   // Dynamic acquisition epochs loaded from backend / database / disk
   const [availableEpochs, setAvailableEpochs] = useState(DEFAULT_EPOCHS);
@@ -60,9 +61,10 @@ export default function TemporalAnalysis({ activeTile, onSelectTile }) {
   const [selectedTileId, setSelectedTileId] = useState(initialTile?.id || null);
   const [selectedTileObj, setSelectedTileObj] = useState(initialTile || null);
   
-  // Real multi-date acquisition epochs (default to baseline and latest pass)
-  const [startDate, setStartDate] = useState("2025-06-07");
-  const [endDate, setEndDate] = useState("2026-06-27");
+  // Real multi-date acquisition epochs
+  // Initialize to first two default epochs so selects always have a valid value on render
+  const [startDate, setStartDate] = useState(DEFAULT_EPOCHS[0].id);
+  const [endDate, setEndDate] = useState(DEFAULT_EPOCHS[1].id);
 
   // Comparison workbench controls
   const [sliderPos, setSliderPos] = useState(50);
@@ -80,6 +82,9 @@ export default function TemporalAnalysis({ activeTile, onSelectTile }) {
   const [analysisResult, setAnalysisResult] = useState(null);
   const [isComparing, setIsComparing] = useState(false);
   const [activeTargetIndex, setActiveTargetIndex] = useState(null);
+  
+  // Processing options
+  const [enableBDA, setEnableBDA] = useState(true);
 
   const containerRef = useRef(null);
   const sliderTrackRef = useRef(null);
@@ -95,8 +100,8 @@ export default function TemporalAnalysis({ activeTile, onSelectTile }) {
     if (activeTile && activeTile.id !== selectedTileId) {
       setSelectedTileId(activeTile.id);
       setSelectedTileObj(activeTile);
-      fetchDynamicEpochs(activeTile.tileName || activeTile.id);
-      loadAnalysis(activeTile.tileName || activeTile.id, startDate, endDate);
+      // fetchDynamicEpochs will also call loadAnalysis with correct dates
+      fetchDynamicEpochs(activeTile.tileName || activeTile.file || activeTile.id);
     }
   }, [activeTile]);
 
@@ -108,11 +113,22 @@ export default function TemporalAnalysis({ activeTile, onSelectTile }) {
         setAvailableEpochs(res.dates);
 
         const dateIds = res.dates.map(d => d.id);
+        // Default T1 to first date, T2 to second date (consecutive pair)
+        // But preserve user-selected dates if they are still valid
         const validStart = dateIds.includes(startDate) ? startDate : res.dates[0].id;
-        const validEnd = dateIds.includes(endDate) ? endDate : res.dates[res.dates.length - 1].id;
+        const validEnd = dateIds.includes(endDate) && endDate !== validStart
+          ? endDate
+          : (res.dates.length > 1 ? res.dates[1].id : res.dates[0].id);
 
-        if (validStart !== startDate) setStartDate(validStart);
-        if (validEnd !== endDate) setEndDate(validEnd);
+        // Always update dates so the selects reflect the actual available options
+        setStartDate(validStart);
+        setEndDate(validEnd);
+
+        // Now run the analysis with the correctly resolved dates
+        if (tileName) {
+          // Small delay to ensure state is committed before API call
+          setTimeout(() => loadAnalysis(tileName, validStart, validEnd), 50);
+        }
       }
     } catch (err) {
       console.warn("Failed to load dynamic epochs from backend:", err);
@@ -159,10 +175,10 @@ export default function TemporalAnalysis({ activeTile, onSelectTile }) {
     performSemanticSearch(suggestion);
   };
 
-  const loadAnalysis = async (tileIdOrName, before, after) => {
+  const loadAnalysis = async (tileIdOrName, before, after, bdaEnabled = enableBDA) => {
     setIsComparing(true);
     try {
-      const res = await getChangeDetection(tileIdOrName, before, after);
+      const res = await getChangeDetection(tileIdOrName, before, after, { enableBda: bdaEnabled });
       if (res && res.success) {
         setAnalysisResult(res);
       }
@@ -211,7 +227,10 @@ export default function TemporalAnalysis({ activeTile, onSelectTile }) {
   };
 
   // Derive current tile filename & coordinates
-  const tileName = selectedTileObj?.tileName || (selectedTileId.includes("sentinel2_tile_") ? selectedTileId.match(/sentinel2_tile_\\d+\\.tif/i)?.[0] : "sentinel2_tile_1.tif") || "sentinel2_tile_1.tif";
+  // Priority: explicit tileName > file field > regex from id > fallback
+  const _tileRaw = selectedTileObj?.tileName || selectedTileObj?.file || selectedTileId || "";
+  const _tileMatch = String(_tileRaw).match(/sentinel2_tile_\d+\.tif/i);
+  const tileName = _tileMatch ? _tileMatch[0].toLowerCase() : "sentinel2_tile_1.tif";
   
   const coordStr = selectedTileObj?.coordinates
     ? (typeof selectedTileObj.coordinates === 'object' 
@@ -232,6 +251,17 @@ export default function TemporalAnalysis({ activeTile, onSelectTile }) {
   const totalDivisions = Math.max(1, availableEpochs.length - 1);
   const progressLeftPct = (minIdx / totalDivisions) * 100;
   const progressWidthPct = Math.max(2, ((maxIdx - minIdx) / totalDivisions) * 100);
+
+  // CRITICAL FIX: Guard against undefined activeTile to prevent blank screen crash
+  // We place it here to ensure all Hooks above are called consistently.
+  if (!activeTile) {
+    return (
+      <div className="w-full py-32 flex flex-col justify-center items-center" id="temporal-analysis">
+        <div className="w-12 h-12 rounded-full border-2 border-cyan-500/30 border-t-cyan-400 animate-spin mb-4"></div>
+        <div className="text-cyan-400 font-mono text-sm tracking-widest uppercase">Select a tile to initialize analysis</div>
+      </div>
+    );
+  }
 
   return (
     <section className="w-full py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-b border-cyan-500/25/40" id="temporal-analysis">
@@ -374,7 +404,7 @@ export default function TemporalAnalysis({ activeTile, onSelectTile }) {
             <div className="flex flex-col justify-end pt-3">
               <button
                 type="button"
-                onClick={() => loadAnalysis(tileName, startDate, endDate)}
+                onClick={() => loadAnalysis(tileName, startDate, endDate, enableBDA)}
                 disabled={isComparing}
                 className="px-5 py-2.5 bg-gradient-to-r from-cyan-400 via-sky-400 to-blue-500 hover:from-cyan-300 hover:to-blue-400 text-slate-950 font-black text-xs uppercase tracking-wider rounded-xl transition-all cursor-pointer flex items-center gap-1.5 shadow-[0_0_15px_rgba(0,229,255,0.3)]"
               >
@@ -382,6 +412,19 @@ export default function TemporalAnalysis({ activeTile, onSelectTile }) {
                 <span>{isComparing ? 'CALCULATING...' : 'RE-CALCULATE DELTA'}</span>
               </button>
             </div>
+          </div>
+
+          {/* Engine Options */}
+          <div className="flex items-center gap-6 mt-4">
+            <label className="flex items-center gap-2 cursor-pointer text-xs font-mono text-cyan-200">
+              <input
+                type="checkbox"
+                checked={enableBDA}
+                onChange={(e) => setEnableBDA(e.target.checked)}
+                className="w-4 h-4 accent-cyan-400 bg-black border border-cyan-500/50 rounded"
+              />
+              ENABLE DAMAGE ASSESSMENT (BDA)
+            </label>
           </div>
 
           {/* Quick Telemetry Status */}
@@ -1087,8 +1130,18 @@ export default function TemporalAnalysis({ activeTile, onSelectTile }) {
                         activeTargetIndex === i ? "border-[#f59e0b] text-[#f59e0b]" : "border-cyan-500/25 text-[#94a3b8] hover:border-[#00e5ff]"
                       }`}
                     >
-                      <span className="font-bold">#{i + 1} {tgt.change_type || `Cluster #${tgt.target_id}`}</span>
-                      <span className="text-[10px] text-white">Area: {Math.round(tgt.bbox?.area_px || 120)} px</span>
+                      <span className="font-bold flex items-center gap-2">
+                        <span>#{i + 1} {tgt.change_type || `Cluster #${tgt.target_id}`}</span>
+                        {tgt.damage_severity && tgt.damage_severity !== "None" && (
+                          <span className={`px-1.5 py-0.5 rounded text-[9px] font-black uppercase ${
+                            tgt.damage_severity === 'Destroyed' ? 'bg-red-500/20 text-red-400 border border-red-500/50' : 
+                            'bg-orange-500/20 text-orange-400 border border-orange-500/50'
+                          }`}>
+                            {tgt.damage_severity}
+                          </span>
+                        )}
+                      </span>
+                      <span className="text-[10px] text-white whitespace-nowrap ml-2">Area: {Math.round(tgt.bbox?.area_px || 120)} px</span>
                     </div>
                   ))}
                 </div>
