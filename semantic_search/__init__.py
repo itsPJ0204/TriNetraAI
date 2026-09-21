@@ -30,6 +30,11 @@ from semantic_search.search import (
     search,
     search_by_image,
 )
+from semantic_search.sentinel2 import (
+    generate_sentinel2_rgb_tiles,
+    ingest_new_sentinel2,
+    ingest_sentinel2_date,
+)
 from semantic_search.vector_store import clear_client_cache, get_qdrant_client
 
 __all__ = [
@@ -60,4 +65,7 @@ __all__ = [
     "get_query_cache_size",
     "load_remoteclip",
     "get_qdrant_client",
+    "generate_sentinel2_rgb_tiles",
+    "ingest_sentinel2_date",
+    "ingest_new_sentinel2",
 ]

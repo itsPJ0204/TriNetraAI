@@ -20,10 +20,37 @@ def _rows_to_dicts(rows: Iterable[sqlite3.Row]) -> list[dict[str, Any]]:
     return result
 
 
+def sync_db_with_disk(db_path=DEFAULT_DB_PATH) -> None:
+    """Clean up orphan records in SQLite so archive strictly reflects existing files and indexed Qdrant points."""
+    try:
+        from ingestion.db import PROJECT_ROOT
+        tiles_root = PROJECT_ROOT / "data" / "tiles" / "sentinel2"
+        if not tiles_root.is_dir():
+            return
+        valid_paths = set()
+        for d in tiles_root.iterdir():
+            if d.is_dir():
+                for tif in d.glob("*.tif"):
+                    valid_paths.add(f"data/tiles/sentinel2/{d.name}/{tif.name}")
+
+        with get_connection(db_path) as conn:
+            cur = conn.cursor()
+            cur.execute("SELECT id, filepath FROM tiles")
+            for tid, fp in cur.fetchall():
+                norm_fp = fp.replace("\\", "/")
+                if norm_fp not in valid_paths and not (PROJECT_ROOT / norm_fp).is_file():
+                    cur.execute("DELETE FROM tiles WHERE id=?", (tid,))
+            cur.execute("DELETE FROM images WHERE id NOT IN (SELECT DISTINCT image_id FROM tiles)")
+            conn.commit()
+    except Exception:
+        pass
+
+
 def get_all_tiles(db_path=DEFAULT_DB_PATH) -> list[dict[str, Any]]:
     init_db(db_path)
+    sync_db_with_disk(db_path)
     with get_connection(db_path) as conn:
-        rows = conn.execute("SELECT t.*, i.filename AS source_filename, i.acquisition_date FROM tiles t JOIN images i ON i.id=t.image_id ORDER BY t.id").fetchall()
+        rows = conn.execute("SELECT t.*, i.filename AS source_filename, i.acquisition_date FROM tiles t JOIN images i ON i.id=t.image_id ORDER BY i.acquisition_date DESC, t.id DESC").fetchall()
     return _rows_to_dicts(rows)
 
 
