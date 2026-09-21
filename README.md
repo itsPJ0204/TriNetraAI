@@ -34,17 +34,16 @@ Follow these exact steps to run TriNetra AI from scratch.
 
 ---
 
-### Step 1: Clone the Repository
+### Step 1: Clone the Complete Branch (Contains All Tiles & Code)
+
+Clone the `trinetra-ai-complete` branch directly (it contains all satellite GeoTIFF tiles, backend, frontend, and vector metadata):
 
 ```bash
-git clone https://github.com/itsPJ0204/TriNetraAI.git
+git clone -b trinetra-ai-complete --single-branch https://github.com/itsPJ0204/TriNetraAI.git
 cd TriNetraAI
 ```
 
-*(Optional: Switch to the complete branch if not on it)*:
-```bash
-git checkout trinetra-ai-complete
-```
+> **Note:** The `trinetra-ai-complete` branch contains the full stack and all pre-processed satellite imagery, so cloning this single branch ensures everything is ready immediately.
 
 ---
 
