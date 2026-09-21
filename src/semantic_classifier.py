@@ -33,7 +33,7 @@ CANDIDATE_CLASSES = [
 _CACHED_CLIP_BUNDLE = None
 
 def get_clip_bundle(device="cpu"):
-    """Loads RemoteCLIP / OpenCLIP model with caching."""
+    """Loads RemoteCLIP / OpenCLIP model with caching using unified loader if local checkpoint exists."""
     global _CACHED_CLIP_BUNDLE
     if not HAS_CLIP:
         return None, None, None
@@ -41,28 +41,20 @@ def get_clip_bundle(device="cpu"):
     if _CACHED_CLIP_BUNDLE is not None:
         return _CACHED_CLIP_BUNDLE
 
-    # Look for local RemoteCLIP checkpoint (from Rahim's Semantic AI path)
     checkpoint_candidates = [
         Path("models/remoteclip/RemoteCLIP-ViT-B-32.pt"),
         Path("../models/remoteclip/RemoteCLIP-ViT-B-32.pt"),
         Path("checkpoints/RemoteCLIP-ViT-B-32.pt"),
+        Path(__file__).resolve().parents[1] / "models" / "remoteclip" / "RemoteCLIP-ViT-B-32.pt",
     ]
     ckpt_path = next((p for p in checkpoint_candidates if p.is_file()), None)
+    if not ckpt_path:
+        # Avoid hanging on large remote network downloads during fast change classification
+        return None, None, None
 
     try:
-        if ckpt_path:
-            print(f"[Semantic AI] Loading RemoteCLIP from {ckpt_path} on {device}...")
-            model, _, preprocess = open_clip.create_model_and_transforms("ViT-B-32", pretrained=None, device=device)
-            tokenizer = open_clip.get_tokenizer("ViT-B-32")
-            checkpoint = torch.load(ckpt_path, map_location=device, weights_only=True)
-            model.load_state_dict(checkpoint, strict=True)
-        else:
-            # Fallback to standard pretrained OpenCLIP ViT-B-32 (laion2b_s34b_b79k)
-            print(f"[Semantic AI] Initializing OpenCLIP ViT-B-32 on {device}...")
-            model, _, preprocess = open_clip.create_model_and_transforms("ViT-B-32", pretrained="laion2b_s34b_b79k", device=device)
-            tokenizer = open_clip.get_tokenizer("ViT-B-32")
-
-        model.eval()
+        from semantic_search.model import load_remoteclip
+        model, tokenizer, preprocess = load_remoteclip(device=device)
         _CACHED_CLIP_BUNDLE = (model, tokenizer, preprocess)
         return _CACHED_CLIP_BUNDLE
     except Exception as e:

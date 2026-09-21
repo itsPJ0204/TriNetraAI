@@ -119,7 +119,7 @@ def get_query_cache_size() -> int:
 
 
 def text_to_embedding(query: str, use_cache: bool = True) -> np.ndarray:
-    """Convert one non-empty natural-language query into a normalized vector."""
+    """Convert one non-empty natural-language query into a normalized vector using RemoteCLIP prompt ensembling."""
     normalized = normalize_query(query)
 
     if use_cache:
@@ -132,12 +132,20 @@ def text_to_embedding(query: str, use_cache: bool = True) -> np.ndarray:
     except Exception as error:
         raise RuntimeError("Could not load the RemoteCLIP model for text search.") from error
 
-    text_tokens = tokenizer([normalized])
+    prompts = [
+        f"satellite imagery of {normalized}",
+        f"aerial view of {normalized}",
+        f"a satellite photo showing {normalized}",
+        normalized,
+    ]
+    text_tokens = tokenizer(prompts)
     with torch.inference_mode():
         features = model.encode_text(text_tokens)
         normalized_features = torch.nn.functional.normalize(features, p=2, dim=-1)
+        mean_feature = normalized_features.mean(dim=0, keepdim=True)
+        final_embedding = torch.nn.functional.normalize(mean_feature, p=2, dim=-1)
 
-    embedding = normalized_features.squeeze(0).cpu().numpy().astype(np.float32)
+    embedding = final_embedding.squeeze(0).cpu().numpy().astype(np.float32)
 
     if use_cache:
         with _QUERY_CACHE_LOCK:
@@ -150,14 +158,19 @@ def text_to_embedding(query: str, use_cache: bool = True) -> np.ndarray:
     return embedding
 
 
+SENTINEL1_COLLECTION_NAME = "sentinel1_tiles"
+
+
 def execute_vector_search(
     query_vector: np.ndarray,
     top_k: int = 5,
     bbox: dict[str, Any] | None = None,
     geographic_bbox: dict[str, Any] | None = None,
+    sensor: str = "sentinel2",
 ) -> list[SearchResult]:
     """
     Internal execution helper: query Qdrant with a 512-dim vector and optional bounding-box filter.
+    Supports routing to 'satellite_tiles' (Sentinel-2), 'sentinel1_tiles' (Sentinel-1), or 'all' (both).
     """
     if isinstance(top_k, bool) or not isinstance(top_k, int) or top_k <= 0:
         raise ValueError("top_k must be a positive integer.")
@@ -165,26 +178,80 @@ def execute_vector_search(
     filter_box = bbox if bbox is not None else geographic_bbox
     query_filter = build_geographic_filter(filter_box) if filter_box is not None else None
 
+    sensor_choice = (sensor or "sentinel2").lower().strip()
+    if sensor_choice in {"sentinel1", "s1"}:
+        target_collections = [SENTINEL1_COLLECTION_NAME]
+    elif sensor_choice in {"all", "both", "multi"}:
+        target_collections = [COLLECTION_NAME, SENTINEL1_COLLECTION_NAME]
+    else:
+        target_collections = [COLLECTION_NAME]
+
+    raw_results: list[SearchResult] = []
+
     try:
         client = get_qdrant_client()
-        if not client.collection_exists(COLLECTION_NAME):
-            raise RuntimeError(
-                "The satellite_tiles collection does not exist. "
-                "Run: python -m scripts.index_embeddings"
+        for col_name in target_collections:
+            if not client.collection_exists(col_name):
+                # If specifically requested a collection that doesn't exist, handle appropriately
+                if len(target_collections) == 1 and col_name == COLLECTION_NAME:
+                    raise RuntimeError(
+                        "The satellite_tiles collection does not exist. "
+                        "Run: python -m scripts.index_embeddings"
+                    )
+                continue
+
+            indexed_count = client.count(col_name, exact=True).count
+            if indexed_count == 0:
+                continue
+
+            fetch_limit = min(max(top_k * 10, 60), indexed_count)
+            response = client.query_points(
+                collection_name=col_name,
+                query=query_vector.tolist(),
+                query_filter=query_filter,
+                limit=fetch_limit,
+                with_payload=True,
+                with_vectors=False,
             )
 
-        indexed_count = client.count(COLLECTION_NAME, exact=True).count
-        if indexed_count == 0:
-            return []
+            col_sensor = "sentinel1" if col_name == SENTINEL1_COLLECTION_NAME else "sentinel2"
+            for point in response.points:
+                payload = point.payload or {}
+                tile_name = str(payload.get("tile_name", ""))
+                image_path = str(payload.get("image_path", ""))
 
-        response = client.query_points(
-            collection_name=COLLECTION_NAME,
-            query=query_vector.tolist(),
-            query_filter=query_filter,
-            limit=min(top_k, indexed_count),
-            with_payload=True,
-            with_vectors=False,
-        )
+                # Filter out full scene mosaics / composites - search results should only contain 256x256 tiles
+                lower_ident = f"{tile_name} {image_path}".lower()
+                if any(k in lower_ident for k in ("_full", "rgb_full", "sar_full", "full_scene", "full_composite", "composite", "mosaic")):
+                    continue
+
+                width = int(payload.get("width", 0))
+                height = int(payload.get("height", 0))
+
+                raw_bounds = payload.get("bounds", {})
+                bounds = {
+                    "left": float(raw_bounds.get("left", 0.0)),
+                    "bottom": float(raw_bounds.get("bottom", 0.0)),
+                    "right": float(raw_bounds.get("right", 0.0)),
+                    "top": float(raw_bounds.get("top", 0.0)),
+                }
+                tile_date = str(payload.get("date", ""))
+                point_sensor = str(payload.get("sensor") or col_sensor)
+                tile_id = str(payload.get("tile_id") or f"{point_sensor}:{tile_date}:{image_path}")
+                raw_results.append(
+                    SearchResult(
+                        tile_name=tile_name,
+                        image_path=image_path,
+                        score=float(point.score),
+                        crs=str(payload.get("crs", "")),
+                        bounds=bounds,
+                        width=width,
+                        height=height,
+                        date=tile_date,
+                        tile_id=tile_id,
+                        sensor=point_sensor,
+                    )
+                )
     except RuntimeError:
         raise
     except Exception as error:
@@ -192,29 +259,30 @@ def execute_vector_search(
             "Could not connect to Qdrant at http://localhost:6333."
         ) from error
 
-    results: list[SearchResult] = []
-    for point in response.points:
-        payload = point.payload or {}
-        raw_bounds = payload.get("bounds", {})
-        bounds = {
-            "left": float(raw_bounds.get("left", 0.0)),
-            "bottom": float(raw_bounds.get("bottom", 0.0)),
-            "right": float(raw_bounds.get("right", 0.0)),
-            "top": float(raw_bounds.get("top", 0.0)),
-        }
-        results.append(
-            SearchResult(
-                tile_name=str(payload.get("tile_name", "")),
-                image_path=str(payload.get("image_path", "")),
-                score=float(point.score),
-                crs=str(payload.get("crs", "")),
-                bounds=bounds,
-                width=int(payload.get("width", 0)),
-                height=int(payload.get("height", 0)),
-                date=str(payload.get("date", "")),
-            )
-        )
-    return results
+    # Penalize narrow slivers (< 32px) so full tiles outrank border cuts
+    def rank_score(res: SearchResult) -> float:
+        is_sliver = (0 < res.width < 32) or (0 < res.height < 32)
+        return res.score - (0.05 if is_sliver else 0.0)
+
+    # Sort primarily by effective score descending
+    raw_results.sort(key=lambda r: (-rank_score(r), -r.score, r.date or "", r.tile_name))
+
+    # Spatial diversification: prioritize distinct geographic tiles across time, then backfill
+    distinct_results: list[SearchResult] = []
+    seen_spatial_keys: set[str] = set()
+    remaining_results: list[SearchResult] = []
+
+    for res in raw_results:
+        spatial_key = f"{res.sensor}:{res.tile_name}"
+        if spatial_key not in seen_spatial_keys:
+            seen_spatial_keys.add(spatial_key)
+            distinct_results.append(res)
+        else:
+            remaining_results.append(res)
+
+    combined_results = distinct_results + remaining_results
+    return combined_results[:top_k]
+
 
 
 def image_input_to_embedding(
@@ -368,6 +436,7 @@ def search(
     bbox: dict[str, Any] | None = None,
     top_k: int = 3,
     geographic_bbox: dict[str, Any] | None = None,
+    sensor: str = "sentinel2",
 ) -> list[SearchResult]:
     """
     Public Semantic AI search interface.
@@ -380,13 +449,14 @@ def search(
         bbox: Optional geographic bounding box dict with 'left', 'bottom', 'right', 'top'.
         top_k: Positive integer maximum number of ranked results to return (default 3).
         geographic_bbox: Alias for bbox for backwards compatibility.
+        sensor: Satellite sensor to search: 'sentinel2' (default), 'sentinel1', or 'all'/'both'.
 
     Returns:
         List of SearchResult objects ranked by cosine similarity score.
 
     Raises:
         ValueError: If query is empty or invalid, top_k is non-positive or invalid, or bbox is invalid.
-        RuntimeError: If collection does not exist or RemoteCLIP cannot be loaded.
+        RuntimeError: If collection does not exist or model cannot be loaded.
         ConnectionError: If connection to Qdrant fails.
     """
     normalized_query = normalize_query(query)
@@ -396,12 +466,19 @@ def search(
         top_k = bbox
         bbox = None
 
-    text_embedding = text_to_embedding(normalized_query)
+    sensor_choice = (sensor or "sentinel2").lower().strip()
+    if sensor_choice in {"sentinel1", "s1"}:
+        from semantic_search.sentinel1_model import extract_sentinel1_text_embedding
+        text_embedding = extract_sentinel1_text_embedding(normalized_query)
+    else:
+        text_embedding = text_to_embedding(normalized_query)
+
     return execute_vector_search(
         query_vector=text_embedding,
         top_k=top_k,
         bbox=bbox,
         geographic_bbox=geographic_bbox,
+        sensor=sensor,
     )
 
 
@@ -415,6 +492,7 @@ def search_by_image(
     geographic_bbox: dict[str, Any] | None = None,
     image_weight: float | None = None,
     text_weight: float | None = None,
+    sensor: str = "sentinel2",
 ) -> list[SearchResult]:
     """
     Search satellite tiles by query image (image-to-image) or multimodal query (image + text).
@@ -431,6 +509,7 @@ def search_by_image(
         geographic_bbox: Alias for bbox for backwards compatibility.
         image_weight: Optional explicit image weight for multimodal fusion.
         text_weight: Optional explicit text weight for multimodal fusion.
+        sensor: Satellite sensor to search: 'sentinel2' (default), 'sentinel1', or 'all'/'both'.
 
     Returns:
         List of SearchResult objects ranked by cosine similarity score.
@@ -439,32 +518,52 @@ def search_by_image(
         ValueError: If image is None or invalid, query is invalid/empty string, top_k <= 0, or bbox is invalid.
         TypeError: If image is of an unsupported type.
         FileNotFoundError: If image file path does not exist.
-        RuntimeError: If collection does not exist or RemoteCLIP cannot be loaded.
+        RuntimeError: If collection does not exist or model cannot be loaded.
         ConnectionError: If connection to Qdrant fails.
     """
+    sensor_choice = (sensor or "sentinel2").lower().strip()
+
     # 1. Encode image
-    image_embedding = image_input_to_embedding(image)
-
-    # 2. Determine query vector: pure image or multimodal fusion
-    if query is not None:
-        normalized_query = normalize_query(query)
-        text_embedding = text_to_embedding(normalized_query)
-        query_vector = fuse_embeddings(
-            image_embedding=image_embedding,
-            text_embedding=text_embedding,
-            alpha=alpha,
-            fusion_strategy=fusion_strategy,
-            image_weight=image_weight,
-            text_weight=text_weight,
+    if sensor_choice in {"sentinel1", "s1"}:
+        from semantic_search.sentinel1_model import (
+            extract_sentinel1_image_embedding,
+            extract_sentinel1_text_embedding,
         )
+        image_embedding = extract_sentinel1_image_embedding(image)
+        if query is not None:
+            normalized_query = normalize_query(query)
+            text_embedding = extract_sentinel1_text_embedding(normalized_query)
+            query_vector = fuse_embeddings(
+                image_embedding=image_embedding,
+                text_embedding=text_embedding,
+                alpha=alpha,
+                fusion_strategy=fusion_strategy,
+                image_weight=image_weight,
+                text_weight=text_weight,
+            )
+        else:
+            query_vector = image_embedding
     else:
-        query_vector = image_embedding
+        image_embedding = image_input_to_embedding(image)
+        if query is not None:
+            normalized_query = normalize_query(query)
+            text_embedding = text_to_embedding(normalized_query)
+            query_vector = fuse_embeddings(
+                image_embedding=image_embedding,
+                text_embedding=text_embedding,
+                alpha=alpha,
+                fusion_strategy=fusion_strategy,
+                image_weight=image_weight,
+                text_weight=text_weight,
+            )
+        else:
+            query_vector = image_embedding
 
-    # 3. Execute vector search with optional bbox
+    # 2. Execute vector search with optional bbox
     return execute_vector_search(
         query_vector=query_vector,
         top_k=top_k,
         bbox=bbox,
         geographic_bbox=geographic_bbox,
+        sensor=sensor,
     )
-

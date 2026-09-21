@@ -34,9 +34,7 @@ data/embeddings/*
 index/qdrant_storage/
 qdrant_storage/
 
-# Large satellite-image datasets and generated tiles
-data/tiles/*
-!data/tiles/.gitkeep
+# Raw large satellite downloads (keep generated tiles tracked)
 data/raw/
 outputs/*
 !outputs/.gitkeep

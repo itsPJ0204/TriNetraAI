@@ -16,9 +16,16 @@ class SearchResult:
     width: int
     height: int
     date: str
+    tile_id: str | None = None
+    sensor: str = "sentinel2"
 
     def to_dict(self) -> dict[str, Any]:
         """Convert the result into a clean dictionary."""
+        effective_tile_id = (
+            self.tile_id
+            if self.tile_id
+            else f"{self.sensor}:{self.date}:{self.image_path}"
+        )
         return {
             "tile_name": self.tile_name,
             "image_path": self.image_path,
@@ -28,6 +35,8 @@ class SearchResult:
             "width": self.width,
             "height": self.height,
             "date": self.date,
+            "tile_id": effective_tile_id,
+            "sensor": self.sensor,
         }
 
     def __getitem__(self, key: str) -> Any:
