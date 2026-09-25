@@ -47,6 +47,33 @@ cd TriNetraAI
 
 ---
 
+### 🐳 Instant Setup Option: Run Everything via Docker Compose (Recommended)
+
+If you have **Docker Desktop** installed, you can launch all 3 services (Qdrant, Backend, and Frontend) in a single command without installing Python or Node.js manually:
+
+```bash
+# Build and start all 3 containers
+docker compose up --build -d
+```
+
+- **Frontend UI:** Open [http://localhost:5173](http://localhost:5173)
+- **Backend API & Swagger Docs:** [http://localhost:8000/docs](http://localhost:8000/docs)
+- **Qdrant Vector Dashboard:** [http://localhost:6333/dashboard](http://localhost:6333/dashboard)
+
+To view logs or stop containers:
+```bash
+# View backend logs
+docker logs -f trinetra-backend
+
+# Stop all containers
+docker compose down
+```
+
+---
+
+### 💻 Manual Setup Option (Step-by-Step)
+
+
 ### Step 2: Start Qdrant Vector Database (Docker)
 
 Open your terminal and run Qdrant vector database container on port `6333`:

@@ -1,0 +1,53 @@
+services:
+  # 1. Qdrant Vector Database
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: trinetra-qdrant
+    ports:
+      - "6333:6333"
+      - "6334:6334"
+    volumes:
+      - ./data/qdrant_local:/qdrant/storage
+    restart: unless-stopped
+    networks:
+      - trinetra-net
+
+  # 2. FastAPI Intelligence Backend
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    image: trinetra-backend:latest
+    container_name: trinetra-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - QDRANT_URL=http://qdrant:6333
+    volumes:
+      - ./data:/app/data
+      - ./database:/app/database
+      - ./outputs:/app/outputs
+    depends_on:
+      - qdrant
+    restart: unless-stopped
+    networks:
+      - trinetra-net
+
+  # 3. React Frontend Web Application
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    image: trinetra-frontend:latest
+    container_name: trinetra-frontend
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+    networks:
+      - trinetra-net
+
+networks:
+  trinetra-net:
+    driver: bridge
