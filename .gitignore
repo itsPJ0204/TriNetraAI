@@ -31,6 +31,7 @@ checkpoints/*
 # Generated vectors and local Qdrant data
 data/embeddings/*
 !data/embeddings/.gitkeep
+data/qdrant_local/
 index/qdrant_storage/
 qdrant_storage/
 
