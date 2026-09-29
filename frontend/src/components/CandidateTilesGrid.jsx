@@ -14,6 +14,7 @@ export default function CandidateTilesGrid({ tiles, selectedTileId, onSelectTile
   const [modalZoom, setModalZoom] = useState(1);
   const [visibleCount, setVisibleCount] = useState(6);
   const [mapTile, setMapTile] = useState(null);
+  const [selectedSensorFilter, setSelectedSensorFilter] = useState('sentinel2');
   const [selectedDateFilter, setSelectedDateFilter] = useState('ALL');
 
   // Strictly filter out any full scene composites (sentinel2_rgb_full.tif, sentinel1_sar_full.tif) so candidate results only display 256x256 sub-tiles
@@ -25,10 +26,21 @@ export default function CandidateTilesGrid({ tiles, selectedTileId, onSelectTile
     });
   }, [tiles]);
 
-  // Extract all distinct dates strictly available for the candidate tiles (YYYY-MM-DD only)
+  // Filter sub-tiles by selected satellite sensor (default: Sentinel-2 Optical)
+  const filteredBySensorTiles = useMemo(() => {
+    if (selectedSensorFilter === 'ALL') return candidateSubTiles;
+    const isTargetS1 = selectedSensorFilter === 'sentinel1';
+    return candidateSubTiles.filter(t => {
+      const lower = `${t.sensor || ''} ${t.tileName || ''} ${t.file || ''} ${t.id || ''} ${t.raw_path || ''} ${t.image_path || ''}`.toLowerCase();
+      const isS1 = lower.includes('sentinel1') || lower.includes('sentinel-1') || lower.includes('sar') || lower.includes('c-sar');
+      return isTargetS1 ? isS1 : !isS1;
+    });
+  }, [candidateSubTiles, selectedSensorFilter]);
+
+  // Extract all distinct dates strictly available for the filtered tiles (YYYY-MM-DD only)
   const availableDates = useMemo(() => {
     const dateSet = new Set();
-    candidateSubTiles.forEach(tile => {
+    filteredBySensorTiles.forEach(tile => {
       if (typeof tile.date === 'string') {
         const m = tile.date.match(/\d{4}-\d{2}-\d{2}/);
         if (m) dateSet.add(m[0]);
@@ -42,17 +54,17 @@ export default function CandidateTilesGrid({ tiles, selectedTileId, onSelectTile
       if (pathMatch) dateSet.add(pathMatch[1]);
     });
     return Array.from(dateSet).sort().reverse();
-  }, [candidateSubTiles]);
+  }, [filteredBySensorTiles]);
 
   // Filter tiles based on selected date
   const filteredTiles = useMemo(() => {
-    if (selectedDateFilter === 'ALL') return candidateSubTiles;
-    return candidateSubTiles.filter(tile => {
+    if (selectedDateFilter === 'ALL') return filteredBySensorTiles;
+    return filteredBySensorTiles.filter(tile => {
       const tileDate = String(tile.date || tile.dateIso || '');
       const raw = String(tile.image_path || tile.filepath || tile.raw_path || tile.image || tile.file || tile.id || '');
       return tileDate.includes(selectedDateFilter) || raw.includes(selectedDateFilter);
     });
-  }, [candidateSubTiles, selectedDateFilter]);
+  }, [filteredBySensorTiles, selectedDateFilter]);
 
   // Helper to dynamically resolve genuine satellite raster preview URL for active date
   const getTileImageSrc = (tile, dateOverride = selectedDateFilter) => {
@@ -200,12 +212,50 @@ export default function CandidateTilesGrid({ tiles, selectedTileId, onSelectTile
           </p>
         </div>
 
-        {/* Tiles Count Indicator */}
-        <div className="flex items-center gap-2 text-xs text-slate-300 bg-gradient-to-b from-[#081b38]/90 via-[#06142e]/95 to-[#030a18]/95 border-2 border-cyan-400/50 shadow-[0_0_30px_rgba(0,229,255,0.2)] border border-cyan-500/25 px-4 py-2 rounded-2xl self-start md:self-center backdrop-blur-md shadow-sm">
-          <Layers className="w-4 h-4 text-cyan-400" />
-          <span>
-            Showing <strong className="text-white">{Math.min(visibleCount, filteredTiles.length)}</strong> of <strong className="text-cyan-300">{filteredTiles.length}</strong> {selectedDateFilter !== 'ALL' ? 'Filtered' : ''} Tiles
-          </span>
+        {/* Satellite Constellation & Tiles Count Indicator */}
+        <div className="flex flex-wrap items-center gap-3 self-start md:self-center">
+          <div className="flex items-center bg-black/80 p-1 rounded-2xl border border-cyan-400/40 shadow-inner">
+            <button
+              type="button"
+              onClick={() => { setSelectedSensorFilter('sentinel2'); setSelectedDateFilter('ALL'); setVisibleCount(6); }}
+              className={`px-3.5 py-1.5 rounded-xl font-mono text-xs font-bold transition-all cursor-pointer ${
+                selectedSensorFilter === 'sentinel2'
+                  ? 'bg-gradient-to-r from-emerald-400 to-teal-500 text-slate-950 shadow-[0_0_15px_rgba(16,185,129,0.4)]'
+                  : 'text-slate-400 hover:text-white'
+              }`}
+            >
+              🛰️ Sentinel-2 (Optical)
+            </button>
+            <button
+              type="button"
+              onClick={() => { setSelectedSensorFilter('sentinel1'); setSelectedDateFilter('ALL'); setVisibleCount(6); }}
+              className={`px-3.5 py-1.5 rounded-xl font-mono text-xs font-bold transition-all cursor-pointer ${
+                selectedSensorFilter === 'sentinel1'
+                  ? 'bg-gradient-to-r from-cyan-400 to-blue-500 text-slate-950 shadow-[0_0_15px_rgba(0,229,255,0.4)]'
+                  : 'text-slate-400 hover:text-white'
+              }`}
+            >
+              📡 Sentinel-1 (Radar SAR)
+            </button>
+            <button
+              type="button"
+              onClick={() => { setSelectedSensorFilter('ALL'); setSelectedDateFilter('ALL'); setVisibleCount(6); }}
+              className={`px-3 py-1.5 rounded-xl font-mono text-xs font-bold transition-all cursor-pointer ${
+                selectedSensorFilter === 'ALL'
+                  ? 'bg-slate-700 text-white'
+                  : 'text-slate-400 hover:text-white'
+              }`}
+            >
+              All
+            </button>
+          </div>
+
+          <div className="flex items-center gap-2 text-xs text-slate-300 bg-gradient-to-b from-[#081b38]/90 via-[#06142e]/95 to-[#030a18]/95 border border-cyan-500/25 px-4 py-2 rounded-2xl backdrop-blur-md shadow-sm">
+            <Layers className="w-4 h-4 text-cyan-400" />
+            <span>
+              Showing <strong className="text-white">{Math.min(visibleCount, filteredTiles.length)}</strong> of <strong className="text-cyan-300">{filteredTiles.length}</strong> {selectedDateFilter !== 'ALL' ? 'Filtered' : ''} Tiles
+            </span>
+          </div>
         </div>
       </div>
 
