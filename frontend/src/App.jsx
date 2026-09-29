@@ -60,12 +60,12 @@ export default function App() {
     ? customActiveTile
     : (tiles.find(t => t.id === selectedTileId || t.file === selectedTileId) || customActiveTile || (tiles.length > 0 ? tiles[0] : null));
 
-  // Auto-populate candidate tiles from SQLite / Qdrant on initial app load
+  // Auto-populate candidate tiles from SQLite / Qdrant on initial app load (Default: Sentinel-2 MSI)
   useEffect(() => {
     let isMounted = true;
     async function loadInitialData() {
       try {
-        const res = await getArchive('all');
+        const res = await getArchive('sentinel2');
         if (isMounted && res.success && res.tiles && res.tiles.length > 0) {
           // Sub-tiles for candidate grid
           const subTiles = res.tiles.filter(t => t.imageType !== 'Full');
@@ -121,11 +121,11 @@ export default function App() {
     handleSearch(query || "");
   };
 
-  const handleSearch = async (query) => {
+  const handleSearch = async (query, sensor = "sentinel2") => {
     setIsSearching(true);
     setActiveQuery(query);
     try {
-      const result = await searchSatelliteImages(query);
+      const result = await searchSatelliteImages(query, 10, sensor);
       console.log('[TRI-APP] handleSearch result:', result?.success, 'tiles:', result?.tiles?.length, 'first:', result?.tiles?.[0]?.id);
       if (result.success && result.tiles) {
         setTiles(result.tiles);
