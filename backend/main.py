@@ -476,10 +476,10 @@ def list_tiles(
         include_s2 = sensor_choice in ("all", "both", "sentinel2", "s2", "optical", "msi")
 
         sensor_configs: list[tuple[str, str, str, str]] = []
-        if include_s1:
-            sensor_configs.append(("sentinel1", "Sentinel-1 C-SAR", "Kolkata AOI", "EPSG:4326"))
         if include_s2:
             sensor_configs.append(("sentinel2", "Sentinel-2 MSI", "Northern AOI", "EPSG:32643"))
+        if include_s1:
+            sensor_configs.append(("sentinel1", "Sentinel-1 C-SAR", "Kolkata AOI", "EPSG:4326"))
 
         all_tiles: list[dict[str, Any]] = []
 

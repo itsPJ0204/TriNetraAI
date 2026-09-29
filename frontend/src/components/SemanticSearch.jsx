@@ -1,31 +1,42 @@
 import React, { useState } from 'react';
 import { Search, Sparkles, Cpu, CornerDownLeft, X, Layers } from 'lucide-react';
 
-const SUGGESTIONS = [
-  "Large camps and tanks near rivers",
+const S2_SUGGESTIONS = [
   "Urban expansion and construction sites",
+  "Large camps and tanks near rivers",
   "Aircraft on runway aprons",
   "Dense industrial facility zones",
   "Deforestation and clearings"
 ];
 
+const S1_SUGGESTIONS = [
+  "Structural Radar Backscatter Shift",
+  "Water & Flood Inundation Extent",
+  "High-Reflectance Metal Infrastructure",
+  "Industrial Facilities & Grid Targets",
+  "Coastal & Port Radar Signatures"
+];
+
 export default function SemanticSearch({ onSearch, isSearching }) {
   const [query, setQuery] = useState("");
+  const [selectedSensor, setSelectedSensor] = useState("sentinel2");
 
-  const executeSearch = (targetQuery) => {
+  const executeSearch = (targetQuery, sensorToUse = selectedSensor) => {
     if (!targetQuery || !targetQuery.trim()) return;
-    onSearch(targetQuery);
+    onSearch(targetQuery, sensorToUse);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    executeSearch(query);
+    executeSearch(query, selectedSensor);
   };
 
   const handleSuggestionClick = (item) => {
     setQuery(item);
-    executeSearch(item);
+    executeSearch(item, selectedSensor);
   };
+
+  const suggestions = selectedSensor === 'sentinel1' ? S1_SUGGESTIONS : S2_SUGGESTIONS;
 
   return (
     <section className="w-full py-16 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto border-b border-cyan-500/25" id="semantic-search">
@@ -46,9 +57,30 @@ export default function SemanticSearch({ onSearch, isSearching }) {
           </p>
         </div>
 
-        <div className="flex items-center gap-2.5 px-3.5 py-2 bg-gradient-to-b from-[#081b38]/90 via-[#06142e]/95 to-[#030a18]/95 border-2 border-cyan-400/50 shadow-[0_0_30px_rgba(0,229,255,0.2)] border border-cyan-500/25 rounded-2xl backdrop-blur-md self-start md:self-center shadow-sm">
-          <Cpu className="w-4 h-4 text-cyan-400" />
-          <span className="text-xs text-slate-300 font-medium">RemoteCLIP ViT-B/32 &bull; Qdrant</span>
+        {/* Sensor Toggle */}
+        <div className="flex items-center bg-black/80 p-1 rounded-2xl border border-cyan-400/40 shadow-inner">
+          <button
+            type="button"
+            onClick={() => setSelectedSensor('sentinel2')}
+            className={`px-4 py-1.5 rounded-xl font-mono text-xs font-bold transition-all cursor-pointer ${
+              selectedSensor === 'sentinel2'
+                ? 'bg-gradient-to-r from-emerald-400 to-teal-500 text-slate-950 shadow-[0_0_15px_rgba(16,185,129,0.4)]'
+                : 'text-slate-400 hover:text-white'
+            }`}
+          >
+            🛰️ Sentinel-2 (Optical)
+          </button>
+          <button
+            type="button"
+            onClick={() => setSelectedSensor('sentinel1')}
+            className={`px-4 py-1.5 rounded-xl font-mono text-xs font-bold transition-all cursor-pointer ${
+              selectedSensor === 'sentinel1'
+                ? 'bg-gradient-to-r from-cyan-400 to-blue-500 text-slate-950 shadow-[0_0_15px_rgba(0,229,255,0.4)]'
+                : 'text-slate-400 hover:text-white'
+            }`}
+          >
+            📡 Sentinel-1 (Radar SAR)
+          </button>
         </div>
       </div>
 
@@ -67,7 +99,7 @@ export default function SemanticSearch({ onSearch, isSearching }) {
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search reconnaissance imagery (e.g., 'Find camps and tanks near rivers')..."
+              placeholder={selectedSensor === 'sentinel1' ? "Search Sentinel-1 radar features (e.g. 'industrial metal structures', 'water bodies')..." : "Search Sentinel-2 optical features (e.g., 'urban construction', 'river basin', 'airports')..."}
               className="w-full bg-transparent border-0 text-white placeholder-slate-400 text-sm sm:text-base font-normal focus:outline-none focus:ring-0 px-2 py-1.5"
             />
             {query && (
@@ -97,9 +129,9 @@ export default function SemanticSearch({ onSearch, isSearching }) {
       <div className="flex flex-wrap items-center gap-2 pt-1">
         <span className="text-xs text-slate-400 font-medium mr-1 flex items-center gap-1">
           <Layers className="w-3.5 h-3.5 text-cyan-400" />
-          Suggested:
+          Suggested ({selectedSensor === 'sentinel1' ? 'Radar' : 'Optical'}):
         </span>
-        {SUGGESTIONS.map((sugg, idx) => (
+        {suggestions.map((sugg, idx) => (
           <button
             key={idx}
             type="button"

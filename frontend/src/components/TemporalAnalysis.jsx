@@ -89,16 +89,16 @@ function getCleanTileFilename(tile, isS1) {
 }
 
 export default function TemporalAnalysis({ activeTile, onSelectTile }) {
-  // Determine initial sensor from activeTile if present
+  // Determine initial sensor: Default to 'sentinel2' (Optical MSI) unless activeTile is explicitly Sentinel-1
   const initialIsS1 = Boolean(
     activeTile && (
-      (activeTile.sensor && activeTile.sensor.toLowerCase().includes("sentinel-1")) ||
+      (activeTile.sensor && (activeTile.sensor.toLowerCase().includes("sentinel-1") || activeTile.sensor.toLowerCase().includes("c-sar"))) ||
       String(activeTile.id).includes("sentinel1") ||
       String(activeTile.file).includes("sentinel1")
     )
   );
 
-  // Sensor Toggle State: 'sentinel2' (MSI Optical) vs 'sentinel1' (C-SAR Radar)
+  // Sensor Toggle State: 'sentinel2' (MSI Optical) by default vs 'sentinel1' (C-SAR Radar)
   const [activeSensor, setActiveSensor] = useState(initialIsS1 ? 'sentinel1' : 'sentinel2');
 
   // Query search states
@@ -181,15 +181,34 @@ export default function TemporalAnalysis({ activeTile, onSelectTile }) {
   const sliderTrackRef = useRef(null);
   const workspaceRef = useRef(null);
 
-  // 1. Initial load: Load dynamic dates from backend for default sensor
+  // 1. Initial load: Load dynamic dates & initial tiles for Sentinel-2 default
   useEffect(() => {
-    fetchDynamicEpochs(null, activeSensor);
+    fetchDynamicEpochs(null, 'sentinel2');
+    async function loadDefaultSensorTiles() {
+      try {
+        const res = await getArchive('sentinel2');
+        if (res && res.success && res.tiles && res.tiles.length > 0) {
+          const subTiles = res.tiles.filter(t => t.imageType !== 'Full');
+          const s2Tiles = subTiles.length > 0 ? subTiles : res.tiles;
+          setRankedTiles(s2Tiles);
+          if (!activeTile) {
+            const firstTile = s2Tiles[0];
+            setSelectedTileId(firstTile.id || firstTile.file);
+            setSelectedTileObj(firstTile);
+            loadAnalysis(firstTile.file || firstTile.id, "2025-06-07", "2026-06-27", "sentinel2");
+          }
+        }
+      } catch (e) {
+        console.warn('Initial TemporalAnalysis tile load:', e);
+      }
+    }
+    loadDefaultSensorTiles();
   }, []);
 
   // Sync selected tile when activeTile changes from parent
   useEffect(() => {
     if (activeTile) {
-      const tileSensor = (activeTile.sensor && activeTile.sensor.toLowerCase().includes("sentinel-1")) ||
+      const tileSensor = (activeTile.sensor && (activeTile.sensor.toLowerCase().includes("sentinel-1") || activeTile.sensor.toLowerCase().includes("c-sar"))) ||
         String(activeTile.id).includes("sentinel1") ||
         String(activeTile.file).includes("sentinel1")
           ? "sentinel1"
@@ -234,16 +253,41 @@ export default function TemporalAnalysis({ activeTile, onSelectTile }) {
     }
   };
 
-  // Sensor Toggle Handler: Completely isolates S1 vs S2 tile processing
-  const handleSensorToggle = (newSensor) => {
+  // Sensor Toggle Handler: Completely switches and isolates S1 vs S2 tile processing & displays active sensor data
+  const handleSensorToggle = async (newSensor) => {
     if (newSensor === activeSensor) return;
     setActiveSensor(newSensor);
     const isS1 = newSensor === 'sentinel1';
-    const defaultTile = isS1 ? "sentinel1_tile_1.tif" : "sentinel2_tile_1.tif";
     const defaultStart = isS1 ? "2026-03-13" : "2025-06-07";
     const defaultEnd = isS1 ? "2026-06-17" : "2026-06-27";
 
-    const newTileObj = {
+    setStartDate(defaultStart);
+    setEndDate(defaultEnd);
+    setSearchQuery("");
+    setTemporalDateFilter('ALL');
+
+    // Fetch archive tiles for the newly selected sensor
+    try {
+      const res = await getArchive(newSensor);
+      if (res && res.success && res.tiles && res.tiles.length > 0) {
+        const subTiles = res.tiles.filter(t => t.imageType !== 'Full');
+        const sensorTiles = subTiles.length > 0 ? subTiles : res.tiles;
+        setRankedTiles(sensorTiles);
+        const topTile = sensorTiles[0];
+        setSelectedTileId(topTile.id || topTile.file);
+        setSelectedTileObj(topTile);
+        if (onSelectTile) onSelectTile(topTile);
+        const cleanFile = getCleanTileFilename(topTile, isS1);
+        fetchDynamicEpochs(cleanFile, newSensor);
+        loadAnalysis(cleanFile, defaultStart, defaultEnd, newSensor);
+        return;
+      }
+    } catch (err) {
+      console.warn("Error fetching archive for sensor switch:", err);
+    }
+
+    const defaultTile = isS1 ? "sentinel1_tile_1.tif" : "sentinel2_tile_1.tif";
+    const fallbackTileObj = {
       id: defaultTile,
       tileId: defaultTile,
       tileName: defaultTile,
@@ -254,10 +298,8 @@ export default function TemporalAnalysis({ activeTile, onSelectTile }) {
     };
 
     setSelectedTileId(defaultTile);
-    setSelectedTileObj(newTileObj);
-    setStartDate(defaultStart);
-    setEndDate(defaultEnd);
-    setRankedTiles([]);
+    setSelectedTileObj(fallbackTileObj);
+    if (onSelectTile) onSelectTile(fallbackTileObj);
     fetchDynamicEpochs(defaultTile, newSensor);
     loadAnalysis(defaultTile, defaultStart, defaultEnd, newSensor);
   };
