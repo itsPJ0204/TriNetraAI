@@ -50,7 +50,7 @@ export default function App() {
   const [selectedTileId, setSelectedTileId] = useState(null);
   const [customActiveTile, setCustomActiveTile] = useState(null);
   const [isSearching, setIsSearching] = useState(false);
-  const [hasSearched, setHasSearched] = useState(false);
+  const [hasSearched, setHasSearched] = useState(true);
   const [activeQuery, setActiveQuery] = useState("");
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isChatOpen, setIsChatOpen] = useState(false);
@@ -65,14 +65,18 @@ export default function App() {
     let isMounted = true;
     async function loadInitialData() {
       try {
-        const res = await getArchive('sentinel2');
+        const res = await getArchive('all');
         if (isMounted && res.success && res.tiles && res.tiles.length > 0) {
           // Sub-tiles for candidate grid
           const subTiles = res.tiles.filter(t => t.imageType !== 'Full');
           const initialTiles = subTiles.length > 0 ? subTiles : res.tiles;
           setTiles(initialTiles);
-          setSelectedTileId(initialTiles[0].id || initialTiles[0].file);
-          setCustomActiveTile(initialTiles[0]);
+          const firstS2 = initialTiles.find(t => {
+            const lower = `${t.sensor || ''} ${t.id || ''} ${t.file || ''}`.toLowerCase();
+            return !lower.includes('sentinel1') && !lower.includes('sentinel-1');
+          }) || initialTiles[0];
+          setSelectedTileId(firstS2.id || firstS2.file);
+          setCustomActiveTile(firstS2);
           setHasSearched(true);
         }
       } catch (err) {
