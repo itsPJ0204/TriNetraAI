@@ -62,6 +62,8 @@ def compute_file_fingerprint(filepath: Path | str) -> str:
 def extract_sensor_name(path: Path) -> str:
     """Infer satellite sensor / source from file path."""
     posix = path.as_posix().lower()
+    if "sentinel1" in posix or "sentinel-1" in posix or "s1" in posix:
+        return "sentinel1"
     if "sentinel2" in posix or "sentinel-2" in posix or "s2" in posix:
         return "sentinel2"
     if "landsat" in posix:

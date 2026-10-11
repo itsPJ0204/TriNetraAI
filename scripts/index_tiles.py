@@ -63,11 +63,12 @@ def main() -> int:
     if args.sensor in ("sentinel2", "all"):
         if verbose:
             print("\n" + "=" * 60)
-            print("🚀 Indexing Sentinel-2 Optical Tiles...")
+            print("[*] Indexing Sentinel-2 Optical Tiles...")
             print("=" * 60)
         try:
+            s2_dir = args.tiles_dir or Path("data/tiles/sentinel2")
             stats = index_satellite_tiles(
-                tiles_dir=args.tiles_dir,
+                tiles_dir=s2_dir,
                 force=args.force,
                 verbose=verbose,
             )
@@ -80,7 +81,7 @@ def main() -> int:
     if args.sensor in ("sentinel1", "all"):
         if verbose:
             print("\n" + "=" * 60)
-            print("🚀 Indexing Sentinel-1 Radar (SAR) Tiles...")
+            print("[*] Indexing Sentinel-1 Radar (SAR) Tiles...")
             print("=" * 60)
         try:
             s1_dir = args.tiles_dir or Path("data/tiles/sentinel1")
@@ -99,7 +100,7 @@ def main() -> int:
         return 1
 
     if verbose:
-        print("\n✨ All requested satellite sensor tiles successfully indexed into Qdrant!")
+        print("\n[SUCCESS] All requested satellite sensor tiles successfully indexed into Qdrant!")
     return 0
 
 

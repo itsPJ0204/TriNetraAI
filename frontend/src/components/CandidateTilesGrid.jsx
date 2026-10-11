@@ -30,12 +30,11 @@ export default function CandidateTilesGrid({ tiles, selectedTileId, onSelectTile
   const filteredBySensorTiles = useMemo(() => {
     if (selectedSensorFilter === 'ALL') return candidateSubTiles;
     const isTargetS1 = selectedSensorFilter === 'sentinel1';
-    const matches = candidateSubTiles.filter(t => {
+    return candidateSubTiles.filter(t => {
       const lower = `${t.sensor || ''} ${t.tileName || ''} ${t.file || ''} ${t.id || ''} ${t.raw_path || ''} ${t.image_path || ''}`.toLowerCase();
-      const isS1 = lower.includes('sentinel1') || lower.includes('sentinel-1') || lower.includes('c-sar');
+      const isS1 = lower.includes('sentinel1') || lower.includes('sentinel-1') || lower.includes('sar') || lower.includes('c-sar');
       return isTargetS1 ? isS1 : !isS1;
     });
-    return matches.length > 0 ? matches : candidateSubTiles;
   }, [candidateSubTiles, selectedSensorFilter]);
 
   // Extract all distinct dates strictly available for the filtered tiles (YYYY-MM-DD only)
