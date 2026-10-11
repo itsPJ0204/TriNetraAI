@@ -62,12 +62,14 @@ def find_satellite_tiles(tiles_dir: Path | str | None = None) -> list[Path]:
         search_dirs.append(Path(tiles_dir))
     else:
         # Check standard locations in priority order
-        search_dirs.extend([
-            SENTINEL2_TILES_DIRECTORY,
-            LEGACY_TILES_DIRECTORY,
-            PROJECT_ROOT / "sample_pairs",
-            PROJECT_ROOT / "patches",
-        ])
+        if SENTINEL2_TILES_DIRECTORY.is_dir():
+            search_dirs.append(SENTINEL2_TILES_DIRECTORY)
+        else:
+            search_dirs.extend([
+                LEGACY_TILES_DIRECTORY,
+                PROJECT_ROOT / "sample_pairs",
+                PROJECT_ROOT / "patches",
+            ])
 
     candidate_tiles: list[Path] = []
     for sdir in search_dirs:
@@ -77,6 +79,8 @@ def find_satellite_tiles(tiles_dir: Path | str | None = None) -> list[Path]:
                 if p.is_file() and p.suffix.lower() in {".tif", ".tiff"}
                 and p.name.lower() != "test_tile.tiff"
                 and not p.name.lower().endswith(("_full.tif", "_full.tiff"))
+                and "sentinel1" not in p.as_posix().lower()
+                and not p.name.lower().startswith("sentinel1_")
             ]
             if found:
                 candidate_tiles.extend(found)
