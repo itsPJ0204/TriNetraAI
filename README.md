@@ -1,185 +1,173 @@
-# Bhuvan Satellite Data Scientist Module
+# 🛰️ TriNetraAI — Unified Earth Observation & Satellite Intelligence Engine
 
-This module is the **data foundation** for an offline AI satellite search + temporal change-detection system.
+**Smart India Hackathon (SIH 2026)** — *Automated Natural Language & Multimodal Search, False-Alarm Suppression & Semantic Change Detective for Multi-Temporal Earth Observation Archives.*
 
-## Scope
+[![Architecture](https://img.shields.io/badge/Architecture-5--Layer%20Decoupled-00E5FF)](presentation/index.html)
+[![Semantic Search MRR](https://img.shields.io/badge/Semantic%20MRR-0.9333-10B981)](data/evaluation/retrieval_metrics.json)
+[![Temporal Model](https://img.shields.io/badge/Temporal%20AI-BIT%20Transformer-8B5CF6)](src/neural_cd.py)
+[![False Alarm Filter](https://img.shields.io/badge/QA%20Suppression-Just--In--Time%20SCL-F59E0B)](qa_mask.py)
+[![Multimodal Search](https://img.shields.io/badge/Search-Text%20%2B%20Image%20Fusion-EC4899)](scripts/search_by_image.py)
+[![Offline Ready](https://img.shields.io/badge/Deployment-100%25%20Air--Gapped%20Edge-3B82F6)](local_ingest.py)
 
-Input is only the **original Bhuvan/NRSC/ISRO GeoTIFF/COG** supplied to the project (`.tif` / `.tiff`). The pipeline does not generate fake satellite imagery.
+---
 
-It performs:
+## 🏛️ End-to-End System Architecture
 
-1. Source raster metadata extraction.
-2. 512x512 georeferenced tiling.
-3. Stable `tile_id` and `grid_key` creation.
-4. Incremental ingestion using SHA-256 so an already processed image is skipped.
-5. Complete tile registry in SQLite.
-6. CSV export as the handoff contract for the Semantic AI teammate.
-7. Spatial lookup and same-location cross-date tile pairing for Temporal AI.
+TriNetraAI operates as an on-premises, multi-modal pipeline with zero external cloud dependencies:
 
-## Team contract
-
-The Data Scientist owns:
-
-```text
-Original TIFF -> tiles -> tile_registry.sqlite + tiles_metadata.csv
+```
+                            [ RAW SATELLITE ARCHIVE ]
+                 (Sentinel-2 L2A, Landsat-9, PlanetScope, Drone)
+                                       │
+                                       ▼
+ ┌─────────────────────────────────────────────────────────────────────────────┐
+ │ LAYER 1: DATA INGESTION & SPATIAL PROVENANCE (Role 1 — Md Huzaifa Hayat)   │
+ │ • Windowed 512×512 Grid Tiling & CRS Alignment (ingestion/tiling.py)        │
+ │ • SQLite Spatial Metadata Registry (bounds, transform, timestamps, crs)     │
+ │ • Provenance Export: data/tiles_metadata.csv (Single Source of Truth)       │
+ └─────────────────────────────────────┬───────────────────────────────────────┘
+                                       │
+                    ┌──────────────────┴──────────────────┐
+                    ▼                                     ▼
+ ┌───────────────────────────────────────┐  ┌──────────────────────────────────┐
+ │ LAYER 2: MULTIMODAL SEMANTIC SEARCH   │  │ TERRAIN SIMILARITY CLUSTERING    │
+ │ (Role 2 — Rahim)                      │  │ (Role 4 — Piyush)                │
+ │ • RemoteCLIP (ViT-B/32, 512-D)        │  │ • PCA-50 + K-Means (k=5) Groups  │
+ │ • Text-to-Image & Image-to-Image Query│  │ • Similar tile discovery         │
+ │ • Qdrant Vector DB (Cosine Similarity)│  │ • clustering.py                  │
+ │ • Domain Query Expansion (search.py)  │  └──────────────────────────────────┘
+ │ • 0.9333 MRR / 86.7% Top-1 Accuracy   │
+ └──────────────────┬────────────────────┘
+                    │
+                    │ Analyst selects bitemporal pair (t1, t2) for inspection
+                    ▼
+ ┌─────────────────────────────────────────────────────────────────────────────┐
+ │ LAYER 3: JUST-IN-TIME (JIT) QA FALSE-ALARM SUPPRESSION (Role 4 — Piyush)   │
+ │ • Trigger: Executed ON-DEMAND during bitemporal ingestion of (t1, t2)       │
+ │ • SCL Band Filter: Class 3 (Shadows), Classes 8-10 (Clouds), Class 11 (Snow)│
+ │ • Dynamic Band Detection: Automatic optical cloud fallback for 3/4-band TIFs│
+ │ • Adaptive Halo Erosion: Scaled kernel removes cloud boundary penumbra      │
+ │ • Joint Valid Mask: M_valid = QA(t1) ∩ QA(t2)                               │
+ └─────────────────────────────────────┬───────────────────────────────────────┘
+                                       │
+                                       ▼
+ ┌─────────────────────────────────────────────────────────────────────────────┐
+ │ LAYER 4: TEMPORAL DETECTIVE & SEMANTIC CLASSIFIER (Role 3 — Krishna (Rishabh Kumar Sinha)) │
+ │ • Early-Exit Occlusion Guard: Skips BIT if valid ground < 15% (heavy clouds)│
+ │ • Dual-Engine Change Detection:                                             │
+ │    1. Primary: Deep Learning Bitemporal Image Transformer (BIT) (bit_core/) │
+ │    2. Fallback: High-Speed Gaussian Difference + Otsu Thresholding          │
+ │ • Cleansing: Clean_Mask = Raw_Change ∩ QA(t1) ∩ QA(t2)                      │
+ │ • Zero-Shot Semantic Transition Matrix (RemoteCLIP Classifier):             │
+ │    - Classifies WHAT changed (e.g. Vegetation → New Construction)           │
+ │ • Post-Processing: Sub-pixel BBoxes (x, y, w, h), Surface %, 40% Red Overlay│
+ └─────────────────────────────────────┬───────────────────────────────────────┘
+                                       │
+                                       ▼ Structured Domain JSON
+ ┌─────────────────────────────────────────────────────────────────────────────┐
+ │ LAYER 5: ANALYST COMMAND DASHBOARD & REVIEW QUEUE (Role 5 — Full-Stack)     │
+ │ • Unified REST Endpoints (/api/search, /api/changes, /api/similar)          │
+ │ • Leaflet.js Interactive Map & Before/After Visual Split-Slider             │
+ │ • Human-In-The-Loop: 1-Click Approve/Reject Verification Audit Log          │
+ └─────────────────────────────────────────────────────────────────────────────┘
 ```
 
-The Semantic AI teammate owns:
+---
 
-```text
-tile_id + tile_path -> RemoteCLIP/CLIP -> embedding -> vector DB
-```
+## 👥 Team Roles & Responsibilities
 
-The Temporal AI teammate owns:
+### 📊 Contributor Summary & Deliverables
 
-```text
-grid_key + date1/date2 -> before TIFF + after TIFF -> change detection
-```
+| Contributor | Official Project Role | Commits | Key Deliverables & Modules |
+| :--- | :--- | :---: | :--- |
+| **Md Huzaifa Hayat** | **Role 1: Data Engineering & Ingestion** | 1 | Satellite 512×512 windowed tiling, CRS reprojection, SQLite spatial database, CSV handoff contract. |
+| **Piyush Jain** *(Repo Owner)* | **Role 4: QA & False-Alarm AI + Backend** | 7 | SCL cloud/shadow QA masking, K-Means clustering, FastAPI backend, AI STAC agent, Building Damage Assessment (BDA). |
+| **Rahim (`rahim82`)** | **Role 2: Semantic AI & Vector Engine + DevOps** | 15 | RemoteCLIP 512-D embeddings, Qdrant vector search, multimodal image search, evaluation suite, Docker containerization. |
+| **Krishna (Rishabh Kumar Sinha)** | **Role 3: Temporal AI & Integration Lead** | 17 | Bitemporal Image Transformer (BIT), Semantic transition classifier, Junction contracts & fallbacks, unified CLI, SIH pitch deck. |
+| **Vishal Kumar Pathak** | **Role 5: Frontend & Tactical UI/UX** | 4 | Complete React/Vite/Tailwind frontend, Three.js 3D Earth, Split-slider temporal viewer, Image-to-Image UI, standalone offline dashboard. |
 
-**Vector embeddings and the vector DB are intentionally not implemented here.** This module only provides the stable tile identity, actual TIFF path, geospatial metadata, and date needed by those downstream AI modules.
+### 🛠️ Architectural Role Breakdown
 
-## Output
+| Role | Responsibility | Core Deliverables | Status |
+|:---|:---|:---|:---:|
+| **Role 1: Data Engineering** *(Md Huzaifa Hayat)* | Ingestion, 512×512 grid tiling, CRS alignment, SQLite metadata database, CSV handoff contract. | `ingestion/tiling.py`, `ingestion/db.py`, `ingestion/ingest.py`, `spatial/queries.py` | ✅ **Complete** |
+| **Role 2: Semantic AI** *(Rahim)* | Vision-Language foundation model (RemoteCLIP ViT-B/32), 512-D vector embeddings, Qdrant vector retrieval, text & **image-to-image** search, query expansion. | `semantic_search/model.py`, `semantic_search/embeddings.py`, `semantic_search/vector_store.py`, `semantic_search/search.py`, `scripts/search_by_image.py` | ✅ **Complete** |
+| **Role 3: Temporal AI** *(Krishna (Rishabh Kumar Sinha))* | Dual-Engine BIT Transformer + Classical CV fallback, Zero-Shot Semantic Transition Matrix, BBox extraction, overlays. | `detective_api.py`, `src/neural_cd.py`, `src/classical_cd.py`, `src/semantic_classifier.py`, `src/postprocessor.py` | ✅ **Complete** |
+| **Role 4: QA & False-Alarm AI** *(Piyush)* | Just-In-Time SCL cloud/shadow suppression, adaptive halo erosion, offline `s2cloudless` edge node, K-Means clustering. | `qa_mask.py`, `local_ingest.py`, `clustering.py`, `run_qa_pipeline.py` | ✅ **Complete** |
+| **Role 5: Frontend & Integration** *(Lead)* | Interactive SIH presentation deck, unified CLI, REST API endpoints, Leaflet map client, review audit trail. | `main.py`, `presentation/index.html`, `presentation/app.js`, `presentation/styles.css` | ✅ **Complete** |
 
-After ingesting an image:
+---
 
-```text
-data/
-├── tiles/
-│   └── <source_name>/
-│       ├── <source>_r00000_c00000.tif
-│       └── ...
-└── tiles_metadata.csv
+## 🚀 Quickstart & Usage
 
-database/
-└── tile_registry.sqlite
-```
-
-Each CSV/SQLite tile record contains:
-
-`tile_id, grid_key, date, source filename, actual TIFF path, bbox, width, height, pixel offsets, bands, dtype, nodata, CRS, transform`
-
-### Why `grid_key`?
-
-`grid_key` identifies the same spatial grid cell across different dates:
-
-```text
-2026-01 -> r00003_c00005
-2026-06 -> r00003_c00005
-```
-
-That lets Temporal AI pair the two actual TIFF tiles without guessing by filename.
-
-## Run
+### 1. Unified Command-Line Interface (`main.py`)
 
 ```bash
-python -m pip install -r requirements.txt
+# Initialize SQLite Spatial Registry
 python main.py init-db
-python main.py ingest /path/to/original_bhuvan_image.tif
+
+# Ingest a satellite scene into 512x512 tiles & export metadata registry
+python main.py ingest "sih_dataset/year_1/default.tif" --tile-size 512
+
+# Execute Natural Language Semantic Search (RemoteCLIP + Qdrant)
+python main.py search "dense urban residential area" --top-k 5
+
+# Compare bitemporal tiles with JIT QA False-Alarm Suppression
+python main.py compare "sample_pairs/tile_000_t1.tif" "sample_pairs/tile_000_t2.tif"
+
+# Run K-Means Terrain Clustering across tile embeddings
+python main.py cluster --k 5
 ```
 
-The ingest command prints the number of tiles and the path of `tiles_metadata.csv`.
+---
 
-Useful commands:
+### 2. Multimodal & Image-to-Image Search (Role 2)
 
 ```bash
-python main.py list-tiles
-python main.py get-tile <tile_id>
-python main.py search-bbox 80 23 82 30
-python main.py export-csv
+# 1. Image-to-Image Search (Find tiles visually matching a query image)
+python -m scripts.search_by_image sample_pairs/tile_000_t1.tif --top-k 5
+
+# 2. Multimodal Fusion Search (Image + Text Query with 50/50 weighting)
+python -m scripts.search_by_image sample_pairs/tile_000_t1.tif --query "dense vegetation" --alpha 0.5
 ```
 
-## Semantic AI handoff
+---
 
-The Semantic AI teammate can read `tiles_metadata.csv` or query `tile_registry.sqlite`.
-
-Example logic:
+### 3. Programmatic Python API
 
 ```python
-row = registry.get_tile(tile_id)
-image = load_tiff(row["filepath"])
-embedding = remote_clip.encode_image(image)
-vector_db.insert(id=row["tile_id"], vector=embedding)
+# A. Multimodal Search
+from semantic_search.search import search, search_by_image
+
+# Natural Language Search
+results = search(query="coastal harbor and shipping port", top_k=5)
+
+# Image-to-Image Similarity Search
+img_results = search_by_image(image="query_crop.png", top_k=5)
+
+# B. Temporal Change Detective with JIT QA Masking
+from detective_api import compare_tiles
+
+report = compare_tiles(
+    tile_t1_path="sample_pairs/tile_000_t1.tif",
+    tile_t2_path="sample_pairs/tile_000_t2.tif",
+    apply_qa_suppression=True,
+    min_area=100
+)
+
+print(f"Mode Used: {report['mode_used']}")
+print(f"Changes Detected: {report['target_count']}")
+for target in report['detected_targets']:
+    print(f" - BBox: {target['bbox']} | Transition: {target['semantic_transition']['transition']}")
 ```
-
-The vector DB should keep `tile_id` as its ID. When search returns a tile ID, the registry resolves it back to the actual TIFF and geographic metadata.
-
-## Tests
-
-```bash
-pytest -q
-```
-
-Tests create temporary rasters only inside the test environment; those are not project inputs or demo satellite data.
-
-## Bhuvan BAND2-BAND5 folder input
-
-If a Bhuvan download contains separate files such as `BAND2.tif`, `BAND3.tif`, `BAND4.tif`, `BAND5.tif`, keep them together in one scene/date folder. The Data Scientist module can ingest that folder directly:
-
-```bash
-python main.py init-db
-python main.py ingest-folder data/raw/2024-06 --date 2024-06-15
-python main.py list-tiles
-python main.py export-csv
-```
-
-The module validates that all four bands have matching size, CRS and transform, then writes real multi-band GeoTIFF tiles. It does **not** generate synthetic satellite imagery. Re-running the same folder is skipped using a manifest hash, so ingestion remains incremental.
-
-Expected layout:
-
-```text
-data/raw/
-├── 2024-01/
-│   ├── BAND2.tif
-│   ├── BAND3.tif
-│   ├── BAND4.tif
-│   └── BAND5.tif
-└── 2024-06/
-    ├── BAND2.tif
-    ├── BAND3.tif
-    ├── BAND4.tif
-    └── BAND5.tif
-```
-
-# TriNetraAI
-
-Welcome to the **TriNetraAI** QA & Discovery pipeline! 
-
-This repository contains the tools needed to process satellite images for change-detection, specifically focusing on filtering out false alarms (like clouds and shadows) and clustering similar regions together.
 
 ---
 
-## 🌍 The Offline Edge Pipeline (Sentinel-2)
+## 📄 Interactive Presentation & Technical Reports
 
-We have built a completely offline, **Edge Computing** pipeline. This means the system can run on a disconnected device in the field (like a rugged laptop, a drone, or a Raspberry Pi) without needing an internet connection.
-
-Here is a simple breakdown of how the edge pipeline works:
-
-### 1. The Folder Structure
-We set up a simple folder system to manage the flow of data just like a physical USB drive:
-* **`edge_data/raw_input/`**: This is where you drop your raw, unprocessed satellite images. 
-* **`edge_data/processed_output/`**: This is where the script automatically drops the cleaned images and the generated cloud masks.
-
-### 2. Simulating the Data Drop (`download_edge_data.py`)
-Since we need data to test with, this script acts as our data procurer. 
-* It connects to the internet one time to download a batch of real Sentinel-2 satellite images over New Delhi (spanning different months of the year to capture different weather conditions).
-* It pulls down the full **13-band Top-Of-Atmosphere (L1C)** data.
-* It saves these files directly into the `raw_input/` folder, acting exactly like a field operator plugging in a hard drive.
-
-### 3. The Offline Brain (`local_ingest.py`)
-This is the core script that runs on the edge device. **It requires zero internet connection.**
-* It constantly scans the `raw_input/` folder for new images.
-* When it finds an image, it loads it and extracts the 10 specific light bands required to detect clouds.
-* It runs **`s2cloudless`**, a lightweight machine learning model that runs perfectly on a standard CPU. This model looks at the pixels and figures out exactly which ones are clouds and which are clear land.
-* It saves a clean, true-color image and a mathematical "mask" (a `.npy` file) into the `processed_output/` folder.
-
-### 4. Integration with the Rest of the Team (`qa_mask.py`)
-Once `local_ingest.py` has generated the offline cloud masks, the Temporal AI teammate needs to use them.
-* We updated the main `qa_mask.py` script so that anyone on the team can simply call `get_quality_mask("edge_s2cloudless", npy_path="...")`. 
-* This allows the rest of the change-detection AI to easily read the edge-computed masks and ignore the cloudy areas, preventing fake construction alerts!
+- **Interactive Presentation Deck:** Open [`presentation/index.html`](presentation/index.html) in any browser (16:9 interactive SIH slide deck with live modals & PDF export).
+- **Master Junction Audit PDF:** [`TriNetraAI_Complete_Junction_Audit.pdf`](TriNetraAI_Complete_Junction_Audit.pdf).
+- **Defense Project Flow & 3D Web Prompt PDF:** [`TriNetraAI_Project_Flow_and_3D_Defense_Prompt.pdf`](TriNetraAI_Project_Flow_and_3D_Defense_Prompt.pdf).
 
 ---
-
-### In Summary
-1. Drop raw `.tif` files into `raw_input/`.
-2. Run `local_ingest.py` offline.
-3. Get clean images and cloud masks in `processed_output/` automatically!
+*Built with ❤️ for Smart India Hackathon 2026.*
